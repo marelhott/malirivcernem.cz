@@ -156,7 +156,11 @@ function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => v
                   </Link>
                 </motion.div>
               ))}
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
                 <Link
                   to="/kalkulacka"
                   onClick={() => {

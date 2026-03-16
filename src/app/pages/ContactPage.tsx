@@ -143,8 +143,8 @@ export default function ContactPage() {
                     </motion.div>
                   ) : (
                     <form onSubmit={handleSubmit}>
-                      <h3 className="font-[family-name:var(--font-display)] text-foreground mb-2" style={{ fontSize: "22px", fontWeight: 600 }}>Napište nám</h3>
-                      <p className="font-sans mb-8" style={{ fontSize: "14px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 600 }}>Odpovíme do 2 hodin v pracovní dny.</p>
+                      <h3 style={{ fontSize: "20px", fontWeight: 700, color: "#1a1a1a", fontFamily: "'Manrope', var(--font-sans)", marginBottom: "6px" }}>Napište nám</h3>
+                      <p style={{ fontSize: "14px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500, marginBottom: "24px" }}>Odpovíme do 2 hodin v pracovní dny.</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                         <div>
                           <label className="block text-foreground/50 font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>Jméno *</label>

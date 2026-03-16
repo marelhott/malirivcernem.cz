@@ -88,9 +88,9 @@ function HeroSection() {
               className="tracking-[-0.045em] text-[#09090b]"
               style={{ fontSize: "clamp(32px, 4vw, 56px)", fontWeight: 600, lineHeight: 1.2, fontFamily: "'Sora', sans-serif" }}
             >
-              Malujeme interiéry v Praze a okolí – rychle, čistě a bez starostí. Postaráme se o vše, od zakrytí nábytku až po finální úklid.
+              Malujeme interiéry v Praze a okolí – rychle, čistě a bez starostí.
               <br />
-              <span style={{ color: "#2563eb", fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(28px, 3.5vw, 48px)" }}>Váš byt můžeme vymalovat už za jeden den.</span>
+              <span style={{ color: "#2563eb", fontFamily: "'Sora', sans-serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(28px, 3.5vw, 36px)", lineHeight: 0.8 }}>Postaráme se o vše, od zakrytí nábytku až po finální úklid. Váš byt můžeme vymalovat už za jeden den.</span>
             </h1>
           </motion.div>
 
@@ -125,7 +125,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="mt-12 lg:hidden rounded-2xl overflow-hidden shadow-xl"
+          className="mt-12 hidden rounded-2xl overflow-hidden shadow-xl"
         >
           <img src={heroPhoto} alt="Profesionální malování bytu v Praze - malířka při práci v interiéru" className="w-full h-auto object-cover aspect-[4/3]" loading="eager" decoding="async" />
         </motion.div>
@@ -323,7 +323,7 @@ const services = [
   { title: "Malování kanceláří a komerčních prostor", desc: "Profesionální malování kanceláří a dalších pracovních prostor, i mimo pracovní dobu.", image: IMG.office, slug: "malovani-kancelari", tag: "Komerční" },
   { title: "Malování restaurací, penzionů a menších hotelů", desc: "Malování pokojů i společných prostor s minimálním omezením provozu.", image: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2F777a96af1fb9479da463a4976a62771f", slug: "komercni-objekty", tag: "Komerční" },
   { title: "Malování společných prostor domů (SVJ)", desc: "Chodby, schodiště a další prostory bytových domů – od přípravy zdí až po finální úklid.", image: IMG.commercial, slug: "malovani-svj", tag: "Odborné" },
-  { title: "Dekorativní úprava zdí", desc: "Microcement, benátský štuk, betonový efekt a desítky dalších moderních povrchových úprav. Vytvoříme zajímavé a unikátní prostředí dle vašich představ.", image: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2Fef84eec608ae45b68efe710c13fa7d1a", slug: "dekorativni-sterky", tag: "Design" },
+  { title: "Dekorativní úprava zdí", desc: "Designové úpravy stěn – betonové stěrky, limewash i originální malby", image: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2Fef84eec608ae45b68efe710c13fa7d1a", slug: "dekorativni-sterky", tag: "Design" },
 ];
 
 function ServicePreview() {
@@ -707,8 +707,8 @@ function DecorativeArtSection() {
               Dekorativní a umělecká{" "}
               <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>úprava stěn</em>
             </h2>
-            <p className="font-sans max-w-2xl mx-auto mt-4" style={{ fontSize: "15px", lineHeight: 1.72, color: "#526071", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>
-              Zde malá ochutnávka z realizací naší přidružené firmy, která se rozšířila i do oblasti klasického řemesla. Jedná se o dekorativní, uměleckou malbu na zakázku s důrazem na jedinečnost a řemeslnou dokonalost různých exkluzivních malířských technik.
+            <p className="font-sans max-w-2xl mx-auto mt-4" style={{ fontSize: "15px", lineHeight: 1.72, color: "#3d3d47", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>
+              Designové úpravy stěn – betonové stěrky, limewash i originální malby
             </p>
             <Link to="/sluzby/dekorativni-sterky" className="group inline-flex items-center gap-2 mt-6 px-7 py-3 rounded-full text-white transition-all duration-300 hover:shadow-lg hover:shadow-accent/20" style={{ background: "linear-gradient(135deg, #2563eb, #4f46e5)", fontSize: "14px", fontWeight: 700, fontFamily: "'Manrope', var(--font-sans)" }}>
               Chci vědět víc <ArrowRightIcon className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -799,9 +799,9 @@ export default function HomePage() {
       <HeroSection />
       <TrustSection />
       <StatsSection />
-      <HowItWorksSection />
       <ServicePreview />
       <PricingSection />
+      <HowItWorksSection />
       <DecorativeArtSection />
       <WhyUsSection />
       <TestimonialsSection />
