@@ -84,6 +84,22 @@ export default function ContactPage() {
     boxShadow: "none",
   } as const;
 
+  const heroTitleStyle = {
+    fontSize: "clamp(32px, 4vw, 56px)",
+    fontWeight: 600,
+    lineHeight: 1.2,
+    fontFamily: "'Sora', sans-serif",
+    letterSpacing: "-0.045em",
+  } as const;
+
+  const heroAccentStyle = {
+    color: "#2563eb",
+    fontFamily: "'Sora', sans-serif",
+    fontWeight: 400,
+    fontStyle: "italic",
+    letterSpacing: "-0.045em",
+  } as const;
+
   return (
     <>
       <section className="relative pt-32 pb-20 noise-overlay overflow-hidden" style={{ background: "linear-gradient(160deg, #ffffff 0%, #f4f8ff 50%, #ffffff 100%)" }}>
@@ -94,8 +110,8 @@ export default function ContactPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <span className="text-accent font-[family-name:var(--font-display)] tracking-widest uppercase mb-6 block" style={{ fontSize: "12px", fontWeight: 600 }}>Kontakt</span>
-            <h1 className="font-[family-name:var(--font-display)] text-foreground mb-6" style={{ fontSize: "clamp(36px, 6vw, 72px)", fontWeight: 700, lineHeight: 1.2 }}>
-              Ozvěte se <span className="bg-gradient-to-r from-[#2563eb] via-[#4f46e5] to-[#7c3aed] bg-clip-text text-transparent">nám</span>
+            <h1 className="text-foreground mb-6" style={heroTitleStyle}>
+              Ozvěte se <span style={heroAccentStyle}>nám</span>
             </h1>
             <p className="font-sans max-w-xl" style={{ fontSize: "17px", lineHeight: 1.75, color: "#526071", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>Máte dotaz, chcete nezávaznou nabídku nebo se prostě jen potřebujete poradit? Pomáháme s malováním bytů, pokojů, kanceláří, SVJ i dekorativních stěrek v Praze a okolí.</p>
           </motion.div>

@@ -63,6 +63,21 @@ const values = [
 export default function AboutPage() {
   const timelineRef = useRef<HTMLDivElement>(null);
   const timelineInView = useInView(timelineRef, { once: true, margin: "-100px" });
+  const heroTitleStyle = {
+    fontSize: "clamp(32px, 4vw, 56px)",
+    fontWeight: 600,
+    lineHeight: 1.2,
+    fontFamily: "'Sora', sans-serif",
+    letterSpacing: "-0.045em",
+  } as const;
+
+  const heroAccentStyle = {
+    color: "#2563eb",
+    fontFamily: "'Sora', sans-serif",
+    fontWeight: 400,
+    fontStyle: "italic",
+    letterSpacing: "-0.045em",
+  } as const;
 
   return (
     <>
@@ -73,9 +88,9 @@ export default function AboutPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
           <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center max-w-4xl mx-auto">
             <span className="text-accent font-[family-name:var(--font-display)] tracking-widest uppercase mb-6 block" style={{ fontSize: "12px", fontWeight: 600 }}>O nás</span>
-            <h1 className="font-[family-name:var(--font-display)] text-foreground mb-8" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 700, lineHeight: 1.1 }}>
+            <h1 className="text-foreground mb-8" style={heroTitleStyle}>
               Česká rodinná firma, která společně{" "}
-              <span className="bg-gradient-to-r from-[#2563eb] via-[#4f46e5] to-[#7c3aed] bg-clip-text text-transparent">funguje už přes 10 let</span>
+              <span style={heroAccentStyle}>funguje už přes 10 let</span>
             </h1>
             <p className="font-sans max-w-3xl mx-auto" style={{ fontSize: "15px", lineHeight: 1.82, color: "#526071", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>
               Naše firma se věnuje tradičnímu řemeslu. Zakladatel firmy, Marek, má s malbou jako takovou zkušenosti už přes 30 let. Jeho dva synové Albert a Vincent a blízcí přátelé se postupně přidali. Poctivá, manuální práce nás baví a důkazem toho je přes 1000 úspěšně dokončených zakázek.

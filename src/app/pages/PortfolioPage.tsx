@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { Link } from "react-router";
 import { ArrowUpRight, MapPin } from "lucide-react";
@@ -29,24 +29,77 @@ function Reveal({
   );
 }
 
-const filters = [
-  "Vše",
-  "Byty",
-  "Domy",
-  "Kanceláře",
-  "Chodby a schodiště",
-  "Stěrky",
-  "Hotel",
-  "Kavárna",
+const featuredSlugs = [
+  "byt-3kk-vinohrady",
+  "kancelare-it-firmy-karlin",
+  "svj-biskupcova-18",
 ];
 
 export default function PortfolioPage() {
-  const [filter, setFilter] = useState("Vše");
+  const heroTitleStyle = {
+    fontSize: "clamp(32px, 4vw, 56px)",
+    fontWeight: 600,
+    lineHeight: 1.2,
+    fontFamily: "'Sora', sans-serif",
+    letterSpacing: "-0.045em",
+  } as const;
 
-  const filtered =
-    filter === "Vše"
-      ? portfolioProjects
-      : portfolioProjects.filter((project) => project.category === filter);
+  const heroAccentStyle = {
+    display: "block",
+    marginTop: "8px",
+    color: "#2563eb",
+    fontFamily: "'Sora', sans-serif",
+    fontWeight: 400,
+    fontStyle: "italic",
+    fontSize: "clamp(28px, 3.5vw, 36px)",
+    lineHeight: 1.3,
+    letterSpacing: "-0.045em",
+  } as const;
+
+  const sectionTitleStyle = {
+    fontFamily: "'Sora', sans-serif",
+    fontSize: "clamp(32px, 5vw, 52px)",
+    fontWeight: 700,
+    lineHeight: 1.02,
+    letterSpacing: "-0.045em",
+    color: "#0f172a",
+  } as const;
+
+  const compactSectionTitleStyle = {
+    fontFamily: "'Sora', sans-serif",
+    fontSize: "clamp(28px, 4vw, 48px)",
+    fontWeight: 700,
+    lineHeight: 1.06,
+    letterSpacing: "-0.04em",
+    color: "#0f172a",
+  } as const;
+
+  const orientationLeadStyle = {
+    fontFamily: "'Sora', sans-serif",
+    fontSize: "clamp(26px, 3.2vw, 45px)",
+    fontWeight: 700,
+    lineHeight: 1.02,
+    letterSpacing: "-0.045em",
+    color: "#0f172a",
+  } as const;
+
+  const orientationAccentStyle = {
+    display: "block",
+    marginTop: "6px",
+    fontFamily: "'Sora', sans-serif",
+    fontSize: "clamp(22px, 2.8vw, 29px)",
+    fontWeight: 400,
+    fontStyle: "italic",
+    lineHeight: 1.22,
+    letterSpacing: "-0.04em",
+    color: "#2563eb",
+  } as const;
+
+  const filtered = portfolioProjects;
+
+  const featuredProjects = portfolioProjects.filter((project) =>
+    featuredSlugs.includes(project.slug),
+  );
 
   return (
     <>
@@ -79,58 +132,145 @@ export default function PortfolioPage() {
               Portfolio
             </span>
             <h1
-              className="font-[family-name:var(--font-display)] text-foreground mb-6"
-              style={{
-                fontSize: "clamp(36px, 6vw, 72px)",
-                fontWeight: 700,
-                lineHeight: 1.0,
-              }}
+              className="text-[#09090b] mb-6"
+              style={heroTitleStyle}
             >
-              Dokončené
+              Vyberte si reference
               <br />
-              <span className="bg-gradient-to-r from-[#2563eb] via-[#4f46e5] to-[#7c3aed] bg-clip-text text-transparent">
-                realizace
+              <span style={heroAccentStyle}>
+                podle typu zakázky
               </span>
             </h1>
             <p
               className="font-sans max-w-xl mb-12"
               style={{ fontSize: "17px", lineHeight: 1.75, color: "#526071", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}
             >
-              Každý projekt je jiný. Projděte si naše realizace od menších
-              bytů až po rozsáhlejší komerční zakázky a společné prostory domů.
+              Projděte si skutečné realizace podle typu prostoru, lokality a
+              rozsahu. Rychle si uděláte představu, jak podobná zakázka může
+              vypadat časově, cenově i výsledkem.
             </p>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-wrap gap-2"
-          >
-            {filters.map((item) => (
-              <button
-                key={item}
-                onClick={() => setFilter(item)}
-                className={`px-5 py-2 rounded-full transition-all duration-300 font-[family-name:var(--font-display)] ${
-                  filter === item
-                    ? "text-white shadow-lg shadow-accent/20"
-                    : "text-[#5b6877] hover:text-[#0f172a]"
-                }`}
-                style={{
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  ...(filter === item
-                    ? {
-                        background:
-                          "linear-gradient(135deg, #2563eb, #4f46e5)",
-                      }
-                    : {}),
-                }}
-              >
-                {item}
-              </button>
+          <Reveal delay={0.18} className="mt-10">
+            <div className="grid gap-4 rounded-[30px] border border-slate-200/70 bg-white/80 p-6 shadow-[0_18px_48px_rgba(15,23,42,0.04)] backdrop-blur-sm md:grid-cols-[1.1fr_0.9fr] md:items-center">
+              <div>
+                <div className="mb-3 inline-flex rounded-full bg-slate-950 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
+                  Rychlá orientace
+                </div>
+                <h2 style={orientationLeadStyle}>
+                  Hledejte podle typu prostoru.
+                  <span style={orientationAccentStyle}>
+                    Porovnejte dobu, plochu i cenu podobných realizací.
+                  </span>
+                </h2>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <Link
+                  to="/sluzby"
+                  className="group flex min-h-[132px] flex-col justify-between rounded-[26px] border border-slate-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_22px_52px_rgba(15,23,42,0.08)]"
+                >
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    Nejprve služba
+                  </span>
+                  <div className="flex items-end justify-between gap-4">
+                    <span style={compactSectionTitleStyle}>
+                      Zobrazit služby
+                    </span>
+                    <ArrowUpRight size={18} className="text-slate-700 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
+                </Link>
+                <Link
+                  to="/kalkulacka"
+                  className="group flex min-h-[132px] flex-col justify-between rounded-[26px] border border-[#2563eb]/10 bg-[linear-gradient(145deg,#1e3a8a_0%,#2563eb_65%,#4f46e5_100%)] p-5 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(37,99,235,0.24)]"
+                >
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/72">
+                    Cena předem
+                  </span>
+                  <div className="flex items-end justify-between gap-4">
+                    <span style={{ ...compactSectionTitleStyle, color: "#ffffff" }}>
+                      Spočítat cenu
+                    </span>
+                    <ArrowUpRight size={18} className="text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section
+        className="relative pb-10 noise-overlay"
+        style={{
+          background:
+            "linear-gradient(180deg, var(--s1) 0%, var(--s2) 100%)",
+        }}
+      >
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+          <Reveal>
+            <div className="mb-8 flex items-end justify-between gap-6">
+              <div>
+                <span className="mb-3 inline-flex rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">
+                  Výběr realizací
+                </span>
+                <h2 style={compactSectionTitleStyle}>
+                  Tři typy zakázek, podle kterých se lidé rozhodují nejčastěji
+                </h2>
+              </div>
+            </div>
+          </Reveal>
+
+          <div className="grid gap-5 lg:grid-cols-3">
+            {featuredProjects.map((project, index) => (
+              <Reveal key={project.slug} delay={index * 0.06}>
+                <Link
+                  to={`/realizace/${project.slug}`}
+                  className="group block overflow-hidden rounded-[26px] border border-slate-200/70 bg-white/86 shadow-[0_18px_48px_rgba(15,23,42,0.04)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.08)]"
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <ImageWithFallback
+                      src={project.cover}
+                      alt={`${project.title} - reference malování ${project.location}`}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/58 via-black/8 to-transparent" />
+                    <div className="absolute left-4 top-4 rounded-full border border-white/14 bg-black/24 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/90 backdrop-blur-sm">
+                      {project.tag}
+                    </div>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <h3 style={{ ...compactSectionTitleStyle, fontSize: "24px", lineHeight: 1.1, color: "#ffffff" }}>
+                        {project.title}
+                      </h3>
+                      <div className="mt-1 flex items-center gap-1.5 text-white/70">
+                        <MapPin size={12} strokeWidth={1.6} />
+                        <span className="text-[12px] font-medium">{project.location}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <p className="mb-4 max-w-[44ch] text-[14px] leading-6 text-slate-600">
+                      {project.desc}
+                    </p>
+                    <div className="grid grid-cols-3 gap-3 border-t border-slate-200 pt-4">
+                      <div>
+                        <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">Plocha</div>
+                        <div className="mt-1 text-[13px] font-semibold text-slate-800">{project.area}</div>
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">Doba</div>
+                        <div className="mt-1 text-[13px] font-semibold text-slate-800">{project.duration}</div>
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">Cena</div>
+                        <div className="mt-1 text-[13px] font-semibold text-[#2563eb]">{project.price}</div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -142,6 +282,22 @@ export default function PortfolioPage() {
         }}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
+          <Reveal>
+            <div className="mb-8 flex items-end justify-between gap-6">
+              <div>
+                <span className="mb-3 inline-flex rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">
+                  Všechny reference
+                </span>
+                <h2 style={sectionTitleStyle}>
+                  Kompletní přehled realizací
+                </h2>
+              </div>
+              <div className="hidden text-right md:block">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">Počet referencí</div>
+                <div className="mt-1 text-[30px] font-bold tracking-[-0.04em] text-slate-900">{filtered.length}</div>
+              </div>
+            </div>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((project, index) => (
               <Reveal key={project.slug} delay={index * 0.05}>
@@ -149,7 +305,7 @@ export default function PortfolioPage() {
                   to={`/realizace/${project.slug}`}
                   className="group block"
                 >
-                  <div className="relative overflow-hidden rounded-[12px] transition-all duration-500 hover:shadow-[0_24px_70px_rgba(37,99,235,0.08)]" style={{ background: "#e9ecf2", border: "1px solid #d8dceb" }}>
+                  <div className="relative overflow-hidden rounded-[18px] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(37,99,235,0.08)]" style={{ background: "#eef2f8", border: "1px solid #d8dceb" }}>
                     <div className="aspect-[4/3] overflow-hidden relative">
                       <ImageWithFallback
                         src={project.cover}
@@ -207,6 +363,10 @@ export default function PortfolioPage() {
                     </div>
 
                     <div className="p-5">
+                      <div className="mb-3 flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                        <span>{project.date}</span>
+                        <span>{project.relatedServiceLabel}</span>
+                      </div>
                       <p
                         className="text-foreground/50 font-sans mb-4 line-clamp-2"
                         style={{ fontSize: "13px", lineHeight: 1.6 }}
@@ -261,14 +421,14 @@ export default function PortfolioPage() {
                         </div>
                       </div>
 
-                      <div className="mt-4 pt-4 border-t border-foreground/5 flex items-center justify-center gap-2 text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="mt-4 pt-4 border-t border-foreground/5 flex items-center justify-between gap-3 text-accent">
                         <span
                           className="font-[family-name:var(--font-display)]"
                           style={{ fontSize: "12px", fontWeight: 600 }}
                         >
                           Zobrazit detail realizace
                         </span>
-                        <ArrowUpRight size={13} />
+                        <ArrowUpRight size={13} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </div>
                     </div>
                   </div>
@@ -299,6 +459,14 @@ export default function PortfolioPage() {
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
           <Reveal>
+            <div className="mb-8 text-center">
+              <span className="mb-3 inline-flex rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">
+                V číslech
+              </span>
+              <h2 style={sectionTitleStyle}>
+                Co se opakuje napříč našimi realizacemi
+              </h2>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
                 { value: "1 200+", label: "Dokončených projektů" },
@@ -336,25 +504,26 @@ export default function PortfolioPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
           <Reveal>
             <div
-              className="rounded-[12px] px-5 py-4 md:px-6 md:py-5"
+              className="rounded-[24px] px-5 py-5 md:px-6 md:py-6"
               style={{
-                background: "rgba(233,236,242,0.92)",
+                background: "rgba(244,248,255,0.96)",
                 border: "1px solid #d8dceb",
+                boxShadow: "0 16px 40px rgba(15,23,42,0.04)",
               }}
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-6">
                 <div className="min-w-0">
                   <h2
-                    className="font-[family-name:var(--font-display)] text-foreground mb-2"
-                    style={{ fontSize: "clamp(18px, 2.4vw, 24px)", fontWeight: 700, lineHeight: 1.1 }}
+                    className="text-foreground mb-2"
+                    style={{ ...compactSectionTitleStyle, fontSize: "clamp(24px, 3vw, 32px)", lineHeight: 1.08 }}
                   >
-                    Reference malování bytů, kanceláří a SVJ v Praze
+                    Chcete podobný výsledek u své zakázky?
                   </h2>
                   <p
                     className="font-sans"
                     style={{ margin: 0, fontSize: "13px", lineHeight: 1.7, color: "#526071", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}
                   >
-                    Přehled našich realizací v Praze a okolí. Pro srovnání se službami si projděte{" "}
+                    Vyberte si odpovídající službu nebo si rovnou spočítejte orientační cenu. Pro srovnání si můžete projít také{" "}
                     <Link to="/sluzby/malovani-bytu" className="text-accent underline underline-offset-4">
                       malování bytů
                     </Link>

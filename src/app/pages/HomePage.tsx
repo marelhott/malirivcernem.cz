@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 
-const heroPhoto = "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2Fde4c3a59dfe7452abff728cfc029c559?format=webp&width=2400&height=3600";
+const heroPhoto = "/hero-homepage.jpg";
 
 const IMG = {
   apartment: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2Fabc211a34f1e4518bec3c79251d04fee",
@@ -61,8 +61,14 @@ function GradientMesh({ variant = "hero" }: { variant?: string }) {
 
 /* ───────── HERO (Light bg, text left, photo right – Paintly style) ───────── */
 function HeroSection() {
+  const reassurancePoints = [
+    "Nezávazná kalkulace online",
+    "Zakrytí i finální úklid v ceně",
+    "Praha a okolí, často hotovo za 1 den",
+  ];
+
   return (
-    <section className="relative flex items-center overflow-hidden bg-background pb-8 md:pb-20" style={{ paddingTop: "92px", minHeight: "100vh" }}>
+    <section className="relative flex items-center overflow-hidden bg-background pb-8 md:pb-20" style={{ paddingTop: "92px", minHeight: "100dvh" }}>
       <div className="absolute top-[18%] left-[6%] w-[360px] h-[360px] bg-[#2563eb]/[0.08] rounded-full blur-[170px] pointer-events-none" />
       <div className="absolute bottom-[6%] left-[28%] w-[260px] h-[260px] bg-[#ec4899]/[0.06] rounded-full blur-[130px] pointer-events-none" />
       <div className="absolute top-[14%] right-[20%] w-[240px] h-[240px] bg-[#14b8a6]/[0.05] rounded-full blur-[120px] pointer-events-none" />
@@ -72,10 +78,10 @@ function HeroSection() {
         <img
           src={heroPhoto}
           alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-contain"
           loading="eager"
           decoding="async"
-          style={{ objectPosition: "center 58%" }}
+          style={{ objectPosition: "right center" }}
         />
         <div className="absolute inset-y-0 left-0 w-[48%] bg-gradient-to-r from-white via-white/92 to-transparent" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.36)_0%,rgba(255,255,255,0)_18%,rgba(255,255,255,0.04)_100%)]" />
@@ -84,24 +90,36 @@ function HeroSection() {
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 w-full pt-4 md:pt-16 pb-8 md:pb-32">
         <div className="max-w-xl lg:max-w-[52%]">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/88 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600 shadow-[0_8px_28px_rgba(15,23,42,0.06)] backdrop-blur-sm">
+              <span className="h-2 w-2 rounded-full bg-[#2563eb]" />
+              Malování bytů, domů i společných prostor v Praze
+            </div>
             <h1
               className="tracking-[-0.045em] text-[#09090b]"
               style={{ fontSize: "clamp(32px, 4vw, 56px)", fontWeight: 600, lineHeight: 1.2, fontFamily: "'Sora', sans-serif" }}
             >
               Malujeme interiéry v Praze a okolí – rychle, čistě a bez starostí.
               <br />
-              <span style={{ color: "#2563eb", fontFamily: "'Sora', sans-serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(28px, 3.5vw, 36px)", lineHeight: 0.8 }}>Postaráme se o vše, od zakrytí nábytku až po finální úklid. Váš byt můžeme vymalovat už za jeden den.</span>
+              <span style={{ display: "block", marginTop: "8px", color: "#2563eb", fontFamily: "'Sora', sans-serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(28px, 3.5vw, 36px)", lineHeight: 1.3 }}>Zakryjeme nábytek, opravíme drobné nedostatky a po práci uklidíme. Běžný byt zvládneme často za jediný den.</span>
             </h1>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }} className="mt-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }} className="mt-12 flex flex-wrap items-center gap-4">
             <Link
               to="/kalkulacka"
               className="group inline-flex items-center gap-3 px-9 py-4 rounded-full text-white transition-all duration-300 hover:shadow-xl hover:shadow-[#c9982d]/30 hover:scale-[1.02]"
               style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e3a8a 58%, #2563eb 100%)", fontSize: "15px", fontWeight: 700, boxShadow: "0 18px 38px rgba(37,99,235,.18)" }}
             >
-              Spočítat cenu
+              Spočítat cenu online
               <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+            <Link
+              to="/realizace"
+              className="group inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/88 px-7 py-4 text-slate-800 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_32px_rgba(15,23,42,0.08)]"
+              style={{ fontSize: "15px", fontWeight: 700 }}
+            >
+              Ukázky realizací
+              <ArrowUpRightIcon className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </Link>
           </motion.div>
 
@@ -121,23 +139,15 @@ function HeroSection() {
         </div>
 
         {/* Mobile hero image */}
-        <motion.div
+          <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="mt-12 hidden rounded-2xl overflow-hidden shadow-xl"
+          className="mt-12 lg:hidden rounded-[24px] overflow-hidden shadow-[0_28px_70px_rgba(15,23,42,0.16)] border border-white/70"
         >
-          <img src={heroPhoto} alt="Profesionální malování bytu v Praze - malířka při práci v interiéru" className="w-full h-auto object-cover aspect-[4/3]" loading="eager" decoding="async" />
+          <img src={heroPhoto} alt="Profesionální malování bytu v Praze - malířka při práci v interiéru" className="w-full h-auto object-contain aspect-[4/3]" loading="eager" decoding="async" />
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="flex flex-col items-center gap-2 text-foreground/30">
-          <span className="font-[family-name:var(--font-display)] tracking-widest uppercase" style={{ fontSize: "10px" }}>Scroll</span>
-          <ArrowDownIcon className="w-3.5 h-3.5" />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }
@@ -156,20 +166,20 @@ const getHeroIcon = (iconName: string) => {
 const featureCards = [
   {
     iconName: "paintbrush",
-    title: "Naše specializace jsou interiéry",
-    desc: "Malujeme byty, rodinné domy, schodiště a chodby bytových dom. Stejně tak ale zrealizujeme výmalbu komerčních prostor jako je kavárna, restaurace, kancelář, menší hotel nebo penzion.",
+    title: "Specializujeme se na interiéry",
+    desc: "Byty, domy, chodby SVJ i menší komerční prostory. Přijedeme připraveni na běžnou i náročnější zakázku.",
     color: "#2563eb",
   },
   {
     iconName: "shield",
-    title: "Nezávazná kalkulace",
-    desc: "Stačí nám pár základních informací o bytě a připravíme orientační cenu výmalby.\nPokud bude potřeba, rádi se přijedeme na byt podívat a vše s vámi probereme osobně.",
+    title: "Cenu znáte předem",
+    desc: "Přes kalkulačku získáte rychlou orientační cenu. Když je zakázka specifická, vše si potvrdíme osobně bez zbytečných překvapení.",
     color: "#7c3aed",
   },
   {
     iconName: "clock",
-    title: "Expres a víkendové termíny",
-    desc: "Potřebujete váš domov vymalovat co nejrychleji? Nechcete přerušovat provoz restaurace, kanceláře, recepce? Určete si sami termín a čas realizace BEZ PŘÍPLATKŮ.",
+    title: "Rychlý nástup i víkendy",
+    desc: "Když spěcháte, hledáme nejbližší možný termín. Umíme se přizpůsobit domácnosti i provozu firmy bez zbytečného zdržení.",
     color: "#0f766e",
   },
 ];
@@ -230,7 +240,7 @@ const statsData = [
   { label: "let zkušeností", target: 30, suffix: "+" },
   { label: "hotových projektů", target: 1000, suffix: "+" },
   { label: "spokojených klientů", target: 98, suffix: "%" },
-  { label: "oceněných služeb", target: 300, suffix: "+" },
+  { label: "reakce na poptávku", target: 24, suffix: " h" },
 ];
 
 function StatCounter({ stat }: { stat: typeof statsData[0] }) {
@@ -266,17 +276,17 @@ function StatsSection() {
 const howItWorksSteps = [
   {
     title: "Kalkulačka a objednávka",
-    desc: "Zde na webu si sami spočítáte cenu, zadáte parametry a termín a provedete jedním kliknutím objednávku. Cena za realizaci je tak předem jasně daná a vyhneme se obě strany nepříjemnému smlouvání. Objednávku okamžitě zpracujeme a reagujeme telefonátem nebo emailem. Nejpozději do 24 hodin.",
+    desc: "Vyplníte pár údajů, získáte orientační cenu a pošlete poptávku. Ozveme se vám telefonicky nebo e-mailem, obvykle do 24 hodin.",
     image: IMG.howStep1,
   },
   {
     title: "Příprava a realizace",
-    desc: "Po dohodnutí termínu a podrobností zakázky přijedeme na místo a provedeme přípravné práce, vše pečlivě zakryjeme, opavíme zdi a vymalujeme předem domluvenou barvou a postupem. Následně po sobě pečlivě uklidíme a byt odevzdáme v perfektním stavu klientovi jako nový…",
+    desc: "Dorazíme v domluvený čas, zakryjeme nábytek, opravíme drobné nedostatky zdí a provedeme samotnou výmalbu bez chaosu kolem vás.",
     image: IMG.howStep2,
   },
   {
     title: "Kontrola a fakturace",
-    desc: "Klient zkontroluje provedení zakázky, pokud není vše jak má být, okamžitě – již bezplatně – opravíme eventuální nedostatky. Následně práci klient převezme a předem domluvenou částku zaplatí, následně vystavíme fakturu. Zbývá jenom poděkovat za skvělou spolupráci:)",
+    desc: "Společně projdeme výsledek, doladíme případné detaily a až pak zakázku uzavřeme. Vše probíhá férově a s jasnou cenou.",
     image: IMG.howStep3,
   },
 ];
@@ -697,18 +707,18 @@ const decoImages = [IMG.decoArt1, IMG.decoArt2, IMG.decoArt3, IMG.decoArt4];
 
 function DecorativeArtSection() {
   return (
-    <section className="relative py-6 md:py-8 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
+    <section className="relative py-12 md:py-16 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
       <div className="absolute top-1/2 left-0 w-[500px] h-[400px] rounded-full blur-[200px] pointer-events-none" style={{ background: "var(--orb-navy)" }} />
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
         <Reveal>
           <div className="text-center mb-10">
-            <span className="text-accent font-[family-name:var(--font-display)] tracking-widest uppercase mb-4 block" style={{ fontSize: "12px", fontWeight: 600 }}>Speciální služby</span>
+            <span className="text-accent font-[family-name:var(--font-display)] tracking-widest uppercase mb-4 block" style={{ fontSize: "12px", fontWeight: 600 }}>Nadstandard</span>
             <h2 className="font-[family-name:var(--font-display)] text-foreground" style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, lineHeight: 1.1 }}>
               Dekorativní a umělecká{" "}
               <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>úprava stěn</em>
             </h2>
             <p className="font-sans max-w-2xl mx-auto mt-4" style={{ fontSize: "15px", lineHeight: 1.72, color: "#3d3d47", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>
-              Designové úpravy stěn – betonové stěrky, limewash i originální malby
+              Pokud nehledáte jen čistou výmalbu, navrhneme i výraznější dekorativní řešení pro byty, showroomy nebo reprezentativní prostory.
             </p>
             <Link to="/sluzby/dekorativni-sterky" className="group inline-flex items-center gap-2 mt-6 px-7 py-3 rounded-full text-white transition-all duration-300 hover:shadow-lg hover:shadow-accent/20" style={{ background: "linear-gradient(135deg, #2563eb, #4f46e5)", fontSize: "14px", fontWeight: 700, fontFamily: "'Manrope', var(--font-sans)" }}>
               Chci vědět víc <ArrowRightIcon className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -719,12 +729,12 @@ function DecorativeArtSection() {
         <Reveal delay={0.15}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-12">
             {decoImages.map((img, i) => (
-              <div key={i} className={`overflow-hidden rounded-xl ${i === 0 ? "row-span-2" : ""}`}>
+              <div key={i} className="overflow-hidden rounded-xl">
                 <ImageWithFallback
                   src={img}
                   alt={`Dekorativní stěrka a umělecká úprava stěny ${i + 1}`}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                  style={{ minHeight: i === 0 ? "320px" : "160px" }}
+                  style={{ height: "clamp(260px, 32vw, 520px)" }}
                   loading="lazy"
                 />
               </div>
@@ -758,6 +768,9 @@ function TestimonialsSection() {
               Co říkají <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>naši klienti</em>
             </h2>
             <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: "#1a1a1a" }} />
+            <p className="mx-auto mt-5 max-w-2xl text-[15px] font-medium leading-7 text-slate-600">
+              Lidé si nás objednávají hlavně proto, že dorazíme včas, pracujeme čistě a výsledek odpovídá tomu, co jsme slíbili.
+            </p>
           </div>
         </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
@@ -799,12 +812,12 @@ export default function HomePage() {
       <HeroSection />
       <TrustSection />
       <StatsSection />
-      <ServicePreview />
       <PricingSection />
-      <HowItWorksSection />
-      <DecorativeArtSection />
-      <WhyUsSection />
       <TestimonialsSection />
+      <HowItWorksSection />
+      <ServicePreview />
+      <WhyUsSection />
+      <DecorativeArtSection />
     </>
   );
 }

@@ -385,6 +385,21 @@ export default function CalculatorPage() {
   const inputNormal = `${inputCls} border-foreground/8 focus:border-accent/50 focus:bg-foreground/[0.04] focus:shadow-accent/5`;
   const inputGreen = `${inputCls} border-slate-400/50 border-2 focus:border-slate-400 focus:bg-foreground/[0.04] focus:shadow-slate-400/10`;
   const inputError = `${inputCls} border-red-400 bg-red-400/5 focus:border-red-400 focus:shadow-red-400/10`;
+  const heroTitleStyle = {
+    fontSize: "clamp(32px, 4vw, 56px)",
+    fontWeight: 600,
+    lineHeight: 1.2,
+    fontFamily: "'Sora', sans-serif",
+    letterSpacing: "-0.045em",
+  } as const;
+
+  const heroAccentStyle = {
+    color: "#2563eb",
+    fontFamily: "'Sora', sans-serif",
+    fontWeight: 400,
+    fontStyle: "italic",
+    letterSpacing: "-0.045em",
+  } as const;
 
   return (
     <>
@@ -400,8 +415,8 @@ export default function CalculatorPage() {
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <div className="flex items-center justify-center gap-4 mb-8">
               <CalculatorIcon className="w-6 h-6 text-foreground" />
-              <h1 className="font-[family-name:var(--font-display)] text-foreground" style={{ fontSize: "clamp(28px, 5vw, 48px)", fontWeight: 300, letterSpacing: "-0.02em" }}>
-                <b>Kalkulačka </b><span className="bg-gradient-to-r from-[#2563eb] to-[#4f46e5] bg-clip-text text-transparent" style={{ fontWeight: 700 }}>| Poptávka</span>
+              <h1 className="text-foreground" style={heroTitleStyle}>
+                Kalkulačka <span style={{ color: "#2563eb", fontWeight: 400 }}>|</span> <span style={heroAccentStyle}>Poptávka</span>
               </h1>
             </div>
             <p className="text-foreground/50 font-sans max-w-2xl mx-auto" style={{ fontSize: "16px", lineHeight: 1.7 }}>
