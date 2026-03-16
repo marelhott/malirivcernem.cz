@@ -145,19 +145,19 @@ const allServices = [
       "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2F813e356566e0424cbba8f945a4b5a0bc",
   },
   {
-    title: "Malování společných prostor domu (SVJ)",
+    title: "Společné prostory (SVJ)",
     slug: "malovani-svj",
     tag: "SVJ a domy",
     iconName: "users",
-    eyebrow: "Pro výbory SVJ a správce domů",
-    desc: "Chodby, schodiště a společné prostory řešíme tak, aby práce dávala smysl i v obydleném domě a komunikace byla jednoduchá.",
+    eyebrow: "Pro SVJ a správce domů",
+    desc: "Chodby a schodiště řešíme tak, aby práce fungovala i v obydleném domě a komunikace byla jednoduchá.",
     features: [
-      "Etapová realizace v obydlených domech",
+      "Etapová realizace v domě",
       "Hromadné slevy pro SVJ",
       "Koordinace s výborem SVJ",
     ],
     price: "Individuální",
-    priceNote: "podle velikosti domu a rozsahu oprav",
+    priceNote: "podle velikosti domu",
     cta: "Nechat si poradit",
     featured: true,
     color: "#6b8f71",
@@ -227,27 +227,27 @@ export default function ServicesPage() {
 
   const compactSectionTitleStyle = {
     fontFamily: "'Sora', sans-serif",
-    fontSize: "clamp(28px, 4vw, 48px)",
+    fontSize: "clamp(24px, 3.3vw, 40px)",
     fontWeight: 700,
-    lineHeight: 1.06,
+    lineHeight: 1.04,
     letterSpacing: "-0.04em",
     color: "#0f172a",
   } as const;
 
   const orientationLeadStyle = {
     fontFamily: "'Sora', sans-serif",
-    fontSize: "clamp(26px, 3.2vw, 45px)",
+    fontSize: "clamp(22px, 2.8vw, 36px)",
     fontWeight: 700,
-    lineHeight: 1.02,
+    lineHeight: 1.03,
     letterSpacing: "-0.045em",
     color: "#0f172a",
   } as const;
 
   const orientationAccentStyle = {
     display: "block",
-    marginTop: "6px",
+    marginTop: "10px",
     fontFamily: "'Sora', sans-serif",
-    fontSize: "clamp(22px, 2.8vw, 29px)",
+    fontSize: "clamp(18px, 2.2vw, 24px)",
     fontWeight: 400,
     fontStyle: "italic",
     lineHeight: 1.22,
@@ -304,17 +304,6 @@ export default function ServicesPage() {
               kanceláře nebo společné prostory domu, tady rychle poznáte, co je
               pro vás nejvhodnější a s jakou cenou zhruba počítat.
             </p>
-            <div className="mt-10 flex flex-wrap gap-3">
-              {quickLinks.map((link) => (
-                <a
-                  key={link.slug}
-                  href={`#${link.slug}`}
-                  className="inline-flex items-center rounded-full border border-slate-200/90 bg-white/82 px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:shadow-[0_14px_32px_rgba(15,23,42,0.06)]"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
           </motion.div>
         </div>
       </section>
@@ -328,41 +317,13 @@ export default function ServicesPage() {
         }}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
-          <Reveal>
-            <div className="mb-12 grid grid-cols-1 gap-4 rounded-[30px] border border-slate-200/70 bg-white/80 p-6 shadow-[0_18px_48px_rgba(15,23,42,0.04)] backdrop-blur-sm md:grid-cols-[1.4fr_0.8fr] md:items-center">
-              <div>
-                <div className="mb-3 inline-flex rounded-full bg-slate-950 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
-                  Rychlá orientace
-                </div>
-                <h2 style={orientationLeadStyle}>
-                  Nejdřív si vyberte typ prostoru.
-                  <span style={orientationAccentStyle}>
-                    Cena a další krok budou hned jasnější.
-                  </span>
-                </h2>
-              </div>
-              <div className="flex flex-wrap gap-3 md:justify-end">
-                <Link
-                  to="/kalkulacka"
-                  className="group inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:shadow-lg hover:shadow-accent/20"
-                  style={{ background: "linear-gradient(135deg, #2563eb, #4f46e5)" }}
-                >
-                  Spočítat cenu
-                  <ArrowRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-                <Link
-                  to="/kontakt"
-                  className="inline-flex items-center rounded-full border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_32px_rgba(15,23,42,0.06)]"
-                >
-                  Chci poradit
-                </Link>
-              </div>
-            </div>
-          </Reveal>
           <div className="flex flex-col gap-8">
             {allServices.map((s, i) => (
               <Reveal key={`${s.slug}-${i}`} delay={i * 0.06}>
                 <Link to={`/sluzby/${s.slug}`} className="group block" id={s.slug}>
+                  {(() => {
+                    const isTallImageCard = s.slug === "malovani-svj";
+                    return (
                   <div
                     className="relative overflow-hidden rounded-[30px] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(37,99,235,0.08)]"
                     style={{
@@ -373,7 +334,7 @@ export default function ServicesPage() {
                   >
                     <div className="grid grid-cols-1 lg:grid-cols-2 items-stretch">
                       <div
-                        className={`aspect-[4/3] lg:aspect-auto lg:h-full overflow-hidden relative self-stretch ${
+                        className={`aspect-[4/3] lg:aspect-auto ${isTallImageCard ? "lg:h-[540px]" : "lg:h-full"} overflow-hidden relative self-stretch ${
                           i % 2 === 1 ? "lg:order-2" : ""
                         }`}
                       >
@@ -382,6 +343,7 @@ export default function ServicesPage() {
                           alt={s.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           loading="lazy"
+                          style={isTallImageCard ? { objectPosition: "center 42%" } : undefined}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent lg:bg-none" />
                         <div
@@ -477,6 +439,8 @@ export default function ServicesPage() {
                       </div>
                     </div>
                   </div>
+                    );
+                  })()}
                 </Link>
               </Reveal>
             ))}
@@ -486,7 +450,7 @@ export default function ServicesPage() {
 
       {/* ── CTA BOTTOM ── */}
       <section
-        className="relative py-20 noise-overlay"
+        className="relative py-14 noise-overlay"
         style={{
           background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 100%)",
         }}
@@ -494,11 +458,11 @@ export default function ServicesPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
           <Reveal>
             <div
-              className="grid gap-6 rounded-[32px] border border-slate-200/70 bg-white/78 p-6 shadow-[0_20px_56px_rgba(15,23,42,0.05)] backdrop-blur-sm md:grid-cols-[1.1fr_0.9fr] md:p-8 lg:p-10"
+              className="grid gap-4 rounded-[28px] border border-slate-200/70 bg-white/78 p-5 shadow-[0_18px_44px_rgba(15,23,42,0.04)] backdrop-blur-sm md:grid-cols-[1.02fr_0.98fr] md:p-6"
             >
               <div className="flex flex-col justify-center">
                 <span
-                  className="mb-4 inline-flex w-fit rounded-full bg-slate-950 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white"
+                  className="mb-3 inline-flex w-fit rounded-full bg-slate-950 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.18em] text-white"
                 >
                   Další krok
                 </span>
@@ -510,7 +474,7 @@ export default function ServicesPage() {
                 </h2>
                 <p
                   className="max-w-[58ch] font-sans text-slate-600"
-                  style={{ fontSize: "16px", lineHeight: 1.75, fontWeight: 500 }}
+                  style={{ fontSize: "14px", lineHeight: 1.68, fontWeight: 500 }}
                 >
                   Když už víte typ prostoru, spočítejte si orientační cenu.
                   Pokud je zakázka specifičtější nebo potřebujete potvrdit postup,
@@ -520,18 +484,18 @@ export default function ServicesPage() {
               <div className="grid gap-4 md:grid-cols-1">
                 <Link
                   to="/kalkulacka"
-                  className="group flex min-h-[168px] flex-col justify-between rounded-[28px] border border-[#2563eb]/10 bg-[linear-gradient(145deg,#1e3a8a_0%,#2563eb_60%,#4f46e5_100%)] p-6 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(37,99,235,0.24)]"
+                  className="group flex min-h-[126px] flex-col justify-between rounded-[22px] border border-[#2563eb]/10 bg-[linear-gradient(145deg,#2449a5_0%,#3264ea_68%,#5a4df0_100%)] p-4 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(37,99,235,0.18)]"
                 >
                   <div>
-                    <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/72">
+                    <div className="mb-2 text-[9px] font-semibold uppercase tracking-[0.18em] text-white/70">
                       Doporučeno
                     </div>
-                    <div style={compactSectionTitleStyle}>
+                    <div style={{ ...compactSectionTitleStyle, color: "#ffffff", fontSize: "clamp(22px, 3vw, 34px)", lineHeight: 1.02 }}>
                       Spočítat orientační cenu
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-white/88">
+                    <span className="text-[12px] font-semibold text-white/84">
                       Vyplníte pár údajů a hned víte, od čeho se odpíchnout.
                     </span>
                     <ArrowRightIcon className="h-5 w-5 flex-shrink-0 transition-transform group-hover:translate-x-1" />
@@ -539,18 +503,18 @@ export default function ServicesPage() {
                 </Link>
                 <Link
                   to="/kontakt"
-                  className="group flex min-h-[168px] flex-col justify-between rounded-[28px] border border-slate-200 bg-white p-6 text-slate-900 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_22px_52px_rgba(15,23,42,0.08)]"
+                  className="group flex min-h-[126px] flex-col justify-between rounded-[22px] border border-slate-200 bg-white p-4 text-slate-900 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_18px_42px_rgba(15,23,42,0.06)]"
                 >
                   <div>
-                    <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                    <div className="mb-2 text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-500">
                       Osobní konzultace
                     </div>
-                    <div style={compactSectionTitleStyle}>
+                    <div style={{ ...compactSectionTitleStyle, fontSize: "clamp(22px, 3vw, 34px)", lineHeight: 1.02 }}>
                       Chci poradit s výběrem
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-semibold text-slate-600">
+                    <span className="text-[12px] font-semibold text-slate-600">
                       Pro složitější prostory, SVJ nebo když chcete přesnější nabídku.
                     </span>
                     <ArrowRightIcon className="h-5 w-5 flex-shrink-0 text-slate-700 transition-transform group-hover:translate-x-1" />

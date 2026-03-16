@@ -4,7 +4,7 @@ import {
   CalculatorIcon, HomeIcon, Cog6ToothIcon, CheckBadgeIcon, ChatBubbleLeftIcon,
   UserIcon, CheckIcon, XMarkIcon, PhoneIcon, EnvelopeIcon, MapPinIcon, CalendarIcon,
   PaperAirplaneIcon, SparklesIcon, CheckCircleIcon, ExclamationTriangleIcon, ArrowTopRightOnSquareIcon,
-  Square3Stack3DIcon, PaintBrushIcon, BuildingLibraryIcon, ShieldCheckIcon, TrashIcon
+  Square3Stack3DIcon, PaintBrushIcon, BuildingLibraryIcon, ShieldCheckIcon, TrashIcon, ArrowPathIcon
 } from "@heroicons/react/24/outline";
 import { emailRegex, phoneRegex, type AreaType, type CeilingHeight, type RepairType, type YesNo, type CleaningType } from "@/lib/calculatorInquiry";
 
@@ -322,6 +322,12 @@ export default function CalculatorPage() {
     return n !== "" && a !== "" && d !== "" && area > 0 && e !== "" && p !== "" && p !== "+420" && emailRegex.test(e) && phoneRegex.test(p);
   }, [form.name, form.address, form.realizationDate, form.totalArea, form.email, form.phone]);
 
+  const hasContactDetailsValid = useMemo(() => {
+    const e = form.email.trim();
+    const p = form.phone.trim();
+    return e !== "" && p !== "" && p !== "+420" && emailRegex.test(e) && phoneRegex.test(p);
+  }, [form.email, form.phone]);
+
   const validateEmail = useCallback(
     (val: string) => {
       set("email", val);
@@ -371,7 +377,7 @@ export default function CalculatorPage() {
       }
 
       setSubmitted(true);
-      setSubmitMsg({ text: "Poptávka byla úspěšně odeslána! Ozveme se vám do 24 hodin.", type: "success" });
+      setSubmitMsg({ text: "Poptávka odeslána. Potvrzení jsme poslali vám i nám do systému.", type: "success" });
     } catch {
       setSubmitMsg({ text: "Automatické odesílání není momentálně dostupné. Použijte prosím přímý kontakt:", type: "error" });
       setShowFallback(true);
@@ -411,21 +417,20 @@ export default function CalculatorPage() {
         <div className="absolute w-[600px] h-[600px] -top-[200px] left-1/3 rounded-full blur-[200px] pointer-events-none" style={{ background: "var(--orb-accent)" }} />
         <div className="absolute w-[400px] h-[400px] bottom-0 -right-[100px] rounded-full blur-[150px] pointer-events-none" style={{ background: "var(--orb-navy)" }} />
 
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10 text-center">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <div className="flex items-center justify-center gap-4 mb-8">
-              <CalculatorIcon className="w-6 h-6 text-foreground" />
-              <h1 className="text-foreground" style={heroTitleStyle}>
+            <div className="max-w-5xl">
+              <div className="mb-6">
+                <h1 className="text-foreground" style={{ ...heroTitleStyle, fontSize: "clamp(32px, 4vw, 56px)" }}>
                 Kalkulačka <span style={{ color: "#2563eb", fontWeight: 400 }}>|</span> <span style={heroAccentStyle}>Poptávka</span>
-              </h1>
+                </h1>
+              </div>
             </div>
-            <p className="text-foreground/50 font-sans max-w-2xl mx-auto" style={{ fontSize: "16px", lineHeight: 1.7 }}>
+            <p className="text-foreground/50 font-sans max-w-4xl" style={{ fontSize: "16px", lineHeight: 1.7 }}>
               Online kalkulačka malování v Praze slouží pro rychlé orientační nacenění malování bytu, pokoje, kanceláře nebo společných prostor domu.
             </p>
-            <p className="text-foreground/30 font-sans max-w-2xl mx-auto mt-3 italic" style={{ fontSize: "13px", lineHeight: 1.6 }}>
-              Ceny jsou přibližné. Přesnou cenu upřesníme vždy až osobně na místě. Pokud jste s orientační cenou spokojeni, vyplňte prosím povinné údaje a klikněte na odeslat.
-              <br />
-              Ozveme se vám nejpozději do 24 hodin a domluvíme podrobnosti.
+            <p className="text-foreground/30 font-sans max-w-4xl mt-3 italic" style={{ fontSize: "13px", lineHeight: 1.6 }}>
+              Ceny jsou přibližné. Přesnou cenu upřesníme vždy až osobně na místě. Pokud jste s orientační cenou spokojeni, vyplňte prosím povinné údaje a klikněte na odeslat. Ozveme se vám nejpozději do 24 hodin a domluvíme podrobnosti.
             </p>
           </motion.div>
         </div>
@@ -799,26 +804,26 @@ export default function CalculatorPage() {
                     submitted
                       ? "bg-emerald-600 text-white cursor-default"
                       : submitting
-                        ? "bg-foreground/30 text-foreground/50 cursor-not-allowed"
-                        : isFormValid
+                        ? "bg-[linear-gradient(135deg,var(--accent),var(--copper))] text-white cursor-wait"
+                        : hasContactDetailsValid
                           ? "text-white shadow-xl shadow-accent/20 hover:shadow-2xl hover:shadow-accent/30 hover:scale-[1.01] active:scale-[0.99]"
                           : "bg-foreground/10 text-foreground/25 cursor-not-allowed"
                   }`}
                   style={{
                     fontSize: "18px",
                     fontWeight: 500,
-                    ...(isFormValid && !submitting && !submitted ? { background: "linear-gradient(135deg, var(--accent), var(--copper))" } : {}),
+                    ...(hasContactDetailsValid && !submitting && !submitted ? { background: "linear-gradient(135deg, var(--accent), var(--copper))" } : {}),
                   }}
                 >
                   {submitted ? (
                     <>
                       <CheckCircleIcon className="w-5.5 h-5.5" />
-                      ODESLÁNO
+                      POPTÁVKA ODESLÁNA
                     </>
                   ) : submitting ? (
                     <>
-                      <SparklesIcon className="w-5.5 h-5.5 animate-spin" />
-                      ODESÍLÁM...
+                      <ArrowPathIcon className="w-5.5 h-5.5 animate-spin" />
+                      ODESÍLÁM POPTÁVKU
                     </>
                   ) : (
                     <>

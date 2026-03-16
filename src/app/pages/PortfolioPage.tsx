@@ -58,39 +58,39 @@ export default function PortfolioPage() {
 
   const sectionTitleStyle = {
     fontFamily: "'Sora', sans-serif",
-    fontSize: "clamp(32px, 5vw, 52px)",
+    fontSize: "clamp(28px, 4.2vw, 42px)",
     fontWeight: 700,
-    lineHeight: 1.02,
+    lineHeight: 1.04,
     letterSpacing: "-0.045em",
     color: "#0f172a",
   } as const;
 
   const compactSectionTitleStyle = {
     fontFamily: "'Sora', sans-serif",
-    fontSize: "clamp(28px, 4vw, 48px)",
+    fontSize: "clamp(24px, 3.3vw, 40px)",
     fontWeight: 700,
-    lineHeight: 1.06,
+    lineHeight: 1.04,
     letterSpacing: "-0.04em",
     color: "#0f172a",
   } as const;
 
   const orientationLeadStyle = {
     fontFamily: "'Sora', sans-serif",
-    fontSize: "clamp(26px, 3.2vw, 45px)",
+    fontSize: "clamp(22px, 2.8vw, 36px)",
     fontWeight: 700,
-    lineHeight: 1.02,
+    lineHeight: 1.03,
     letterSpacing: "-0.045em",
     color: "#0f172a",
   } as const;
 
   const orientationAccentStyle = {
     display: "block",
-    marginTop: "6px",
+    marginTop: "4px",
     fontFamily: "'Sora', sans-serif",
-    fontSize: "clamp(22px, 2.8vw, 29px)",
+    fontSize: "clamp(18px, 2.2vw, 24px)",
     fontWeight: 400,
     fontStyle: "italic",
-    lineHeight: 1.22,
+    lineHeight: 1.16,
     letterSpacing: "-0.04em",
     color: "#2563eb",
   } as const;
@@ -152,9 +152,9 @@ export default function PortfolioPage() {
           </motion.div>
 
           <Reveal delay={0.18} className="mt-10">
-            <div className="grid gap-4 rounded-[30px] border border-slate-200/70 bg-white/80 p-6 shadow-[0_18px_48px_rgba(15,23,42,0.04)] backdrop-blur-sm md:grid-cols-[1.1fr_0.9fr] md:items-center">
+            <div className="grid gap-4 rounded-[28px] border border-slate-200/70 bg-white/80 p-5 shadow-[0_18px_48px_rgba(15,23,42,0.04)] backdrop-blur-sm md:grid-cols-[1.05fr_0.95fr] md:items-center md:p-6">
               <div>
-                <div className="mb-3 inline-flex rounded-full bg-slate-950 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-white">
+                <div className="mb-2 inline-flex rounded-full bg-slate-950 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
                   Rychlá orientace
                 </div>
                 <h2 style={orientationLeadStyle}>
@@ -167,7 +167,7 @@ export default function PortfolioPage() {
               <div className="grid gap-3 sm:grid-cols-2">
                 <Link
                   to="/sluzby"
-                  className="group flex min-h-[132px] flex-col justify-between rounded-[26px] border border-slate-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_22px_52px_rgba(15,23,42,0.08)]"
+                  className="group flex min-h-[112px] flex-col justify-between rounded-[22px] border border-slate-200 bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_22px_52px_rgba(15,23,42,0.08)]"
                 >
                   <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
                     Nejprve služba
@@ -181,7 +181,7 @@ export default function PortfolioPage() {
                 </Link>
                 <Link
                   to="/kalkulacka"
-                  className="group flex min-h-[132px] flex-col justify-between rounded-[26px] border border-[#2563eb]/10 bg-[linear-gradient(145deg,#1e3a8a_0%,#2563eb_65%,#4f46e5_100%)] p-5 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(37,99,235,0.24)]"
+                  className="group flex min-h-[112px] flex-col justify-between rounded-[22px] border border-[#2563eb]/10 bg-[linear-gradient(145deg,#1e3a8a_0%,#2563eb_65%,#4f46e5_100%)] p-4 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(37,99,235,0.24)]"
                 >
                   <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/72">
                     Cena předem
@@ -463,7 +463,7 @@ export default function PortfolioPage() {
               <span className="mb-3 inline-flex rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">
                 V číslech
               </span>
-              <h2 style={sectionTitleStyle}>
+              <h2 style={{ ...sectionTitleStyle, fontSize: "clamp(24px, 3.4vw, 36px)", lineHeight: 1.05 }}>
                 Co se opakuje napříč našimi realizacemi
               </h2>
             </div>
