@@ -86,7 +86,7 @@ export function Footer() {
                 <div className="flex items-center gap-3 opacity-70">
                   <Clock size={14} strokeWidth={1.5} />
                   <span className="font-sans" style={{ fontSize: "14px" }}>
-                    Po–Pá: 7:00 – 18:00
+                    Po–Ne: 7:00 – 22:00
                   </span>
                 </div>
               </div>

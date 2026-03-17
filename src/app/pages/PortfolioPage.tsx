@@ -151,51 +151,6 @@ export default function PortfolioPage() {
             </p>
           </motion.div>
 
-          <Reveal delay={0.18} className="mt-10">
-            <div className="grid gap-4 rounded-[28px] border border-slate-200/70 bg-white/80 p-5 shadow-[0_18px_48px_rgba(15,23,42,0.04)] backdrop-blur-sm md:grid-cols-[1.05fr_0.95fr] md:items-center md:p-6">
-              <div>
-                <div className="mb-2 inline-flex rounded-full bg-slate-950 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
-                  Rychlá orientace
-                </div>
-                <h2 style={orientationLeadStyle}>
-                  Hledejte podle typu prostoru.
-                  <span style={orientationAccentStyle}>
-                    Porovnejte dobu, plochu i cenu podobných realizací.
-                  </span>
-                </h2>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <Link
-                  to="/sluzby"
-                  className="group flex min-h-[112px] flex-col justify-between rounded-[22px] border border-slate-200 bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-[0_22px_52px_rgba(15,23,42,0.08)]"
-                >
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                    Nejprve služba
-                  </span>
-                  <div className="flex items-end justify-between gap-4">
-                    <span style={compactSectionTitleStyle}>
-                      Zobrazit služby
-                    </span>
-                    <ArrowUpRight size={18} className="text-slate-700 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </div>
-                </Link>
-                <Link
-                  to="/kalkulacka"
-                  className="group flex min-h-[112px] flex-col justify-between rounded-[22px] border border-[#2563eb]/10 bg-[linear-gradient(145deg,#1e3a8a_0%,#2563eb_65%,#4f46e5_100%)] p-4 text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(37,99,235,0.24)]"
-                >
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/72">
-                    Cena předem
-                  </span>
-                  <div className="flex items-end justify-between gap-4">
-                    <span style={{ ...compactSectionTitleStyle, color: "#ffffff" }}>
-                      Spočítat cenu
-                    </span>
-                    <ArrowUpRight size={18} className="text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </Reveal>
         </div>
       </section>
 
@@ -213,7 +168,13 @@ export default function PortfolioPage() {
                 <span className="mb-3 inline-flex rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">
                   Výběr realizací
                 </span>
-                <h2 style={compactSectionTitleStyle}>
+                <h2
+                  style={{
+                    ...compactSectionTitleStyle,
+                    fontSize: "clamp(21px, 2.1vw, 33px)",
+                    lineHeight: 1.04,
+                  }}
+                >
                   Tři typy zakázek, podle kterých se lidé rozhodují nejčastěji
                 </h2>
               </div>

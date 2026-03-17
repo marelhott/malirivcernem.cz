@@ -243,7 +243,7 @@ function Footer({ isDark }: { isDark: boolean }) {
               </div>
               <div className="flex items-center gap-3 opacity-50">
                 <ClockIcon className="w-3.5 h-3.5" />
-                <span className="font-sans" style={{ fontSize: "14px" }}>Po–Pá: 7:00 – 18:00</span>
+                <span className="font-sans" style={{ fontSize: "14px" }}>Po–Ne: 7:00 – 22:00</span>
               </div>
             </div>
           </div>
