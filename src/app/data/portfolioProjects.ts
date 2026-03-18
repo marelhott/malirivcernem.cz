@@ -112,9 +112,10 @@ export const portfolioProjects: PortfolioProject[] = [
     cover:
       "https://images.unsplash.com/photo-1703355685639-d558d1b0f63e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBpbnRlcmlvciUyMGRlc2lnbiUyMHdvcmtzcGFjZXxlbnwxfHx8fDE3NzEyOTA0MzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
     gallery: [
+      "https://cdn.builder.io/api/v1/image/assets%2Fa385b5c79f834896bf2796ef45a153e9%2Fd7cb3aa809bd475aaa20ca24e9cb28e1",
+      "https://cdn.builder.io/api/v1/image/assets%2Fa385b5c79f834896bf2796ef45a153e9%2F39d474c72fca4fa7a3343a7e50ca6add",
       "https://images.unsplash.com/photo-1761818645915-260598d569a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcGVuJTIwcGxhbiUyMG9mZmljZSUyMGNvd29ya2luZyUyMHNwYWNlJTIwbW9kZXJufGVufDF8fHx8MTc3MTM0Mzg4M3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "https://images.unsplash.com/photo-1771147445405-153493dca398?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvZmZpY2UlMjBjb3JyaWRvciUyMGhhbGx3YXklMjBtb2Rlcm4lMjBsaWdodGluZ3xlbnwxfHx8fDE3NzEzNDM4Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "https://images.unsplash.com/photo-1574911460152-cfa027a6ea8f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZW50YWwlMjBjbGluaWMlMjBvZmZpY2UlMjBjbGVhbiUyMHdoaXRlJTIwaW50ZXJpb3J8ZW58MXx8fHwxNzcxMzQzODg5fDA&ixlib=rb-4.1.0&q=80&w=1080",
     ],
     relatedServiceSlug: "malovani-kancelari",
     relatedServiceLabel: "Malování kanceláří",
