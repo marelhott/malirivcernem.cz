@@ -188,7 +188,7 @@ export default function ServiceDetailPage() {
                       ))}
                     </div>
                   </div>
-                  <div className="flex flex-col gap-3 min-w-[220px]">
+                  <div className="flex flex-col gap-3 min-w-[220px] justify-self-center lg:col-span-full lg:flex-row lg:justify-center">
                     <Link to="/sluzby" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full transition-all duration-300" style={{ background: "rgba(255,255,255,0.82)", border: "1px solid rgba(15,23,42,0.08)", color: "#334155", fontSize: "14px", fontWeight: 700 }}>
                       Všechny služby
                     </Link>
