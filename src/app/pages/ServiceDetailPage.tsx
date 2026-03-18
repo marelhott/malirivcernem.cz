@@ -181,7 +181,7 @@ export default function ServiceDetailPage() {
                           <h3 className="mb-2" style={{ fontFamily: "'Sora', sans-serif", fontSize: "18px", fontWeight: 700, letterSpacing: "-0.03em", color: "#0f172a" }}>
                             {item.q}
                           </h3>
-                          <p className="m-0 font-sans" style={{ fontSize: "15px", lineHeight: 1.7, color: "#526071", fontWeight: 500 }}>
+                          <p className="m-0 font-sans" style={{ fontSize: "15px", lineHeight: 1.7, color: "rgba(61, 61, 71, 1)", fontWeight: 400 }}>
                             {item.a}
                           </p>
                         </article>
