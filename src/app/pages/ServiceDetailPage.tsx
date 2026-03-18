@@ -16,7 +16,7 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
 }
 
 const servicesData: Record<string, { title: string; tag: string; image: string; heroDesc: string; features: string[]; process: { step: string; desc: string; icon: typeof Send }[]; priceHint: string; cta: string }> = {
-  "malovani-bytu": { title: "Malování bytů", tag: "Rezidenční", image: "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2Fccb0003eea4f4419ae5d6485d2222ae5", heroDesc: "Kompletní malířské služby pro byty a rodinné domy. Od jednopokojových bytů po luxusní rezidence – každý prostor si zaslouží precizní péči.", features: ["Kompletní zakrytí nábytku a podlah fóliemi", "Příprava povrchů — tmelení, broušení, penetrace", "Malování stěn a stropů prémiovými barvami", "Dekorativní lemy, bordury a barevné kombinace", "Finální kontrola kvality a úklid", "Poradenství při výběru barev zdarma"], process: [{ step: "Prohlídka", desc: "Bezplatná návštěva a posouzení stavu", icon: Send }, { step: "Kalkulace", desc: "Detailní cenová nabídka do 24 hodin", icon: Calculator }, { step: "Realizace", desc: "Precizní provedení v dohodnutém termínu", icon: Paintbrush }, { step: "Předání", desc: "Kontrola, úklid a spokojenost", icon: CheckCircle2 }], priceHint: "Od 85 Kč/m²", cta: "Poptat malování bytu" },
+  "malovani-bytu": { title: "Malování bytů a domů", tag: "Rezidenční", image: "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2Fccb0003eea4f4419ae5d6485d2222ae5", heroDesc: "Kompletní malířské služby pro byty a rodinné domy. Od jednopokojových bytů po luxusní rezidence – každý prostor si zaslouží precizní péči.", features: ["Kompletní zakrytí nábytku a podlah fóliemi", "Příprava povrchů — tmelení, broušení, penetrace", "Malování stěn a stropů prémiovými barvami", "Dekorativní lemy, bordury a barevné kombinace", "Finální kontrola kvality a úklid", "Poradenství při výběru barev zdarma"], process: [{ step: "Prohlídka", desc: "Bezplatná návštěva a posouzení stavu", icon: Send }, { step: "Kalkulace", desc: "Detailní cenová nabídka do 24 hodin", icon: Calculator }, { step: "Realizace", desc: "Precizní provedení v dohodnutém termínu", icon: Paintbrush }, { step: "Předání", desc: "Kontrola, úklid a spokojenost", icon: CheckCircle2 }], priceHint: "Od 85 Kč/m²", cta: "Poptat malování bytu" },
   "malovani-pred-prodejem": { title: "Malování před prodejem nebo pronájmem", tag: "Osobní", image: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2F6f785ac818cd4504aa3ddbdcc553358c", heroDesc: "Rychlé a efektivní malování, které připraví váš byt či dům na prodej nebo nový pronájem. Vytvořenímu neutální atmosféry a zvýšíme atraktivitu nemovitosti.", features: ["Neutralizace těch intenzivních barev", "Příprava zdí na vysoké standardy", "Opravy a zatmelení vnitřních nedostatků", "Čisté a svěží prostředí pro prohlídky", "Rychlá realizace — 1–2 dny", "Zvýšíme cenu pronájmu nebo prodeje"], process: [{ step: "Obhlídka", desc: "Posouzení stavu a potřeb", icon: Send }, { step: "Strategie", desc: "Doporučení barev a časový plán", icon: Calculator }, { step: "Realizace", desc: "Rychlé a efektivní provedení", icon: Paintbrush }, { step: "Kontrola", desc: "Finální příprava na prodej/pronájem", icon: CheckCircle2 }], priceHint: "Od 80 Kč/m²", cta: "Poptat malování na prodej" },
   "malovani-kancelari": { title: "Malování kanceláří", tag: "Komerční", image: "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2F3026d95741854f52aaaf83680e170c34", heroDesc: "Profesionální malování komerčních prostor s minimálním narušením provozu. Pracujeme o víkendech i v noci.", features: ["Realizace mimo pracovní dobu", "Zero-disruption záruka", "Antigraffiti a odolné nátěry", "Korporátní barvy podle CI", "Výšková práce do 12 m", "Pojištění do 5 mil. Kč"], process: [{ step: "Konzultace", desc: "Posouzení prostor a požadavků", icon: Send }, { step: "Plán", desc: "Harmonogram s ohledem na provoz", icon: Calculator }, { step: "Realizace", desc: "Efektivní provedení", icon: Paintbrush }, { step: "Kontrola", desc: "Inspekce a dokumentace", icon: CheckCircle2 }], priceHint: "Od 75 Kč/m²", cta: "Poptat malování kanceláří" },
   "malovani-svj": { title: "Malování společných prostor domů (SVJ)", tag: "SVJ / Developers", image: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2Fb9f6d6ba78a64aac8ceef99230e436ae", heroDesc: "Společné prostory jsou tváří každého domu. Jsme odborníci na malování chodeb, schodišť a dalších prostor spravovaných SVJ a bytovými družstvy.", features: ["Etapová realizace v obydlených domech", "Bezpečnostní opatření během práce", "Hromadné slevy pro SVJ", "Koordinace s výborem SVJ", "Kompletní fotodokumentace", "Minimální hluk a prach"], process: [{ step: "Obhlídka", desc: "Bezplatná prohlídka všech prostor", icon: Send }, { step: "Nabídka", desc: "Detailní rozpočet a harmonogram", icon: Calculator }, { step: "Koordinace", desc: "Komunikace s SVJ a majiteli", icon: Paintbrush }, { step: "Realizace", desc: "Etapové provedení s minimem obtíží", icon: CheckCircle2 }], priceHint: "Individuální kalkulace", cta: "Poptat pro SVJ" },
@@ -89,13 +89,13 @@ export default function ServiceDetailPage() {
           {seoContent ? (
             <Reveal>
               <div className="mb-12 rounded-[28px] p-8 md:p-10" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,248,255,0.96))", border: "1px solid rgba(15,23,42,0.08)", boxShadow: "0 18px 48px rgba(15,23,42,0.05)" }}>
-                <h2 className="font-[family-name:var(--font-display)] text-foreground mb-5" style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 700, lineHeight: 1.1 }}>
+                <h2 className="font-[family-name:var(--font-display)] text-foreground mb-5" style={{ fontSize: "clamp(28px, 4vw, 40px)", lineHeight: 1.1 }}>
                   {seoContent.heading}
                 </h2>
-                <p className="font-sans mb-4" style={{ fontSize: "16px", lineHeight: 1.75, color: "#526071", fontWeight: 500 }}>
+                <p className="font-sans mb-4" style={{ fontSize: "16px", lineHeight: 1.75, color: "rgba(61, 61, 71, 1)", fontWeight: 400 }}>
                   {seoContent.intro}
                 </p>
-                <p className="font-sans" style={{ fontSize: "16px", lineHeight: 1.75, color: "#526071", fontWeight: 500 }}>
+                <p className="font-sans" style={{ fontSize: "16px", lineHeight: 1.75, color: "rgba(61, 61, 71, 1)", fontWeight: 400 }}>
                   {seoContent.body}
                 </p>
               </div>
@@ -181,23 +181,12 @@ export default function ServiceDetailPage() {
                           <h3 className="mb-2" style={{ fontFamily: "'Sora', sans-serif", fontSize: "18px", fontWeight: 700, letterSpacing: "-0.03em", color: "#0f172a" }}>
                             {item.q}
                           </h3>
-                          <p className="m-0 font-sans" style={{ fontSize: "15px", lineHeight: 1.7, color: "#526071", fontWeight: 500 }}>
+                          <p className="m-0 font-sans" style={{ fontSize: "15px", lineHeight: 1.7, color: "rgba(61, 61, 71, 1)", fontWeight: 400 }}>
                             {item.a}
                           </p>
                         </article>
                       ))}
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-3 min-w-[220px]">
-                    <Link to="/sluzby" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full transition-all duration-300" style={{ background: "rgba(255,255,255,0.82)", border: "1px solid rgba(15,23,42,0.08)", color: "#334155", fontSize: "14px", fontWeight: 700 }}>
-                      Všechny služby
-                    </Link>
-                    <Link to="/realizace" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full transition-all duration-300" style={{ background: "rgba(255,255,255,0.82)", border: "1px solid rgba(15,23,42,0.08)", color: "#334155", fontSize: "14px", fontWeight: 700 }}>
-                      Ukázky realizací
-                    </Link>
-                    <Link to="/kontakt" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full transition-all duration-300" style={{ background: "rgba(255,255,255,0.82)", border: "1px solid rgba(15,23,42,0.08)", color: "#334155", fontSize: "14px", fontWeight: 700 }}>
-                      Nezávazná poptávka
-                    </Link>
                   </div>
                 </div>
               </div>
