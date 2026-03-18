@@ -92,10 +92,10 @@ export default function ServiceDetailPage() {
                 <h2 className="font-[family-name:var(--font-display)] text-foreground mb-5" style={{ fontSize: "clamp(28px, 4vw, 40px)", lineHeight: 1.1 }}>
                   {seoContent.heading}
                 </h2>
-                <p className="font-sans mb-4" style={{ fontSize: "16px", lineHeight: 1.75, color: "#526071", fontWeight: 500 }}>
+                <p className="font-sans mb-4" style={{ fontSize: "16px", lineHeight: 1.75, color: "rgba(61, 61, 71, 1)", fontWeight: 400 }}>
                   {seoContent.intro}
                 </p>
-                <p className="font-sans" style={{ fontSize: "16px", lineHeight: 1.75, color: "#526071", fontWeight: 500 }}>
+                <p className="font-sans" style={{ fontSize: "16px", lineHeight: 1.75, color: "rgba(61, 61, 71, 1)", fontWeight: 400 }}>
                   {seoContent.body}
                 </p>
               </div>

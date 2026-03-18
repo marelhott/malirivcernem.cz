@@ -9,9 +9,9 @@ export const serviceSeoContent: Record<string, ServiceSeoContent> = {
   "malovani-bytu": {
     heading: "Malování bytů a pokojů v Praze bez zbytečných starostí",
     intro:
-      "Malování bytů v Praze zajišťujeme od menších garsonek po větší rodinné byty a domy. Klienti nejčastěji řeší rychlý termín, čistý průběh prací a jistotu, že cena bude předem srozumitelná.",
+      "Malování bytů v Praze zajišťujeme od menších garsonek po větší rodinné byty a domy. Klienti nejčastěji řeší rychlý termín, čistý průběh prací a jistotu, že cena bude předem srozumitelná. Součástí zakázky může být zakrytí nábytku, oprava drobných prasklin, příprava podkladu i finální úklid. Pokud hledáte malíře pokojů v Praze, začněte v naší kalkulačce a následně vše společně upřesníme podle stavu zdí a rozsahu prací.",
     body:
-      "Součástí zakázky může být zakrytí nábytku, oprava drobných prasklin, příprava podkladu i finální úklid. Pokud hledáte malíře pokojů v Praze, začněte v naší kalkulačce a následně vše společně upřesníme podle stavu zdí a rozsahu prací.",
+      "",
     faq: [
       {
         q: "Jak dlouho trvá malování bytu?",
