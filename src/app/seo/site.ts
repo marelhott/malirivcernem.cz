@@ -11,9 +11,9 @@ export const SITE = {
   country: "CZ",
   serviceAreas: ["Praha 1–10", "Praha-západ", "Praha-východ"],
   openingHours: {
-    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     opens: "07:00",
-    closes: "18:00",
+    closes: "22:00",
   },
   defaultOgImage:
     "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2Fde4c3a59dfe7452abff728cfc029c559?format=webp&width=2400&height=1260",
