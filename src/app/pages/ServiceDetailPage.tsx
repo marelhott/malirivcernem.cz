@@ -89,7 +89,7 @@ export default function ServiceDetailPage() {
           {seoContent ? (
             <Reveal>
               <div className="mb-12 rounded-[28px] p-8 md:p-10" style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,248,255,0.96))", border: "1px solid rgba(15,23,42,0.08)", boxShadow: "0 18px 48px rgba(15,23,42,0.05)" }}>
-                <h2 className="font-[family-name:var(--font-display)] text-foreground mb-5" style={{ fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 700, lineHeight: 1.1 }}>
+                <h2 className="font-[family-name:var(--font-display)] text-foreground mb-5" style={{ fontSize: "clamp(28px, 4vw, 40px)", lineHeight: 1.1 }}>
                   {seoContent.heading}
                 </h2>
                 <p className="font-sans mb-4" style={{ fontSize: "16px", lineHeight: 1.75, color: "#526071", fontWeight: 500 }}>
