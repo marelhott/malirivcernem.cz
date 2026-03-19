@@ -86,13 +86,13 @@ export default function AboutPage() {
         <div className="absolute w-[700px] h-[700px] -top-[200px] -right-[200px] rounded-full blur-[200px] animate-float-slow pointer-events-none" style={{ background: "rgba(37,99,235,0.10)" }} />
         <div className="absolute w-[400px] h-[400px] bottom-0 -left-[100px] rounded-full blur-[150px] animate-float-reverse pointer-events-none" style={{ background: "rgba(124,58,237,0.08)" }} />
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center max-w-4xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-4xl">
             <span className="text-accent font-[family-name:var(--font-display)] tracking-widest uppercase mb-6 block" style={{ fontSize: "12px", fontWeight: 600 }}>O nás</span>
             <h1 className="text-foreground mb-8" style={heroTitleStyle}>
               Česká rodinná firma, která společně{" "}
               <span style={heroAccentStyle}>funguje už přes 10 let</span>
             </h1>
-            <p className="font-sans max-w-3xl mx-auto" style={{ fontSize: "15px", lineHeight: 1.82, color: "#526071", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>
+            <p className="font-sans max-w-3xl" style={{ fontSize: "16px", lineHeight: 1.82, color: "rgba(74, 74, 74, 1)", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 400 }}>
               Naše firma se věnuje tradičnímu řemeslu. Zakladatel firmy, Marek, má s malbou jako takovou zkušenosti už přes 30 let. Jeho dva synové Albert a Vincent a blízcí přátelé se postupně přidali. Poctivá, manuální práce nás baví a důkazem toho je přes 1000 úspěšně dokončených zakázek.
             </p>
           </motion.div>

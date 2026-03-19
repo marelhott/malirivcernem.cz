@@ -688,7 +688,7 @@ function PricingSection() {
 
             <div style={{ width: "100%", display: "flex", flexDirection: "column", minHeight: "auto", justifyContent: "space-between" }} className="md:h-[570px]">
               <div>
-                <p style={{ fontSize: "16px", lineHeight: 1.72, color: "#3d3d47", fontWeight: 500, marginBottom: "30px" }}>
+                <p style={{ fontSize: "16px", lineHeight: 1.72, color: "#3d3d47", fontWeight: 400, marginBottom: "30px" }}>
                   Cena malování závisí na velikosti bytu, stavu zdí a rozsahu přípravných prací. Pro představu uvádíme orientační ceny běžných zakázek.
                 </p>
 
@@ -812,7 +812,7 @@ function TestimonialsSection() {
               Co říkají <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>naši klienti</em>
             </h2>
             <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: "#1a1a1a" }} />
-            <p className="mx-auto mt-5 max-w-2xl text-[15px] font-medium leading-7 text-slate-600">
+            <p className="mx-auto mt-5 max-w-2xl text-[15px] font-normal leading-7 text-slate-600">
               Lidé si nás objednávají hlavně proto, že dorazíme včas, pracujeme čistě a výsledek odpovídá tomu, co jsme slíbili.
             </p>
           </div>
