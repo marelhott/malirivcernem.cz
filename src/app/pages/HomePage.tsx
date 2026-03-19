@@ -70,7 +70,7 @@ function HeroSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setPhotoIndex((prev) => (prev + 1) % heroPhotos.length);
-    }, 4000);
+    }, 7000);
     return () => clearInterval(interval);
   }, []);
 
