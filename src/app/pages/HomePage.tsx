@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 
-const heroPhoto = "/hero-homepage.jpg";
+const heroPhoto = "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F0d209464affe4a17b77af276139011d8";
 
 const IMG = {
   apartment: "/YuSeW8kAj7srJw931dYFVht6BY.avif",
