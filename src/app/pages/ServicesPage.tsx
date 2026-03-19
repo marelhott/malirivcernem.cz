@@ -84,7 +84,7 @@ const allServices = [
     featured: true,
     color: "#2563eb",
     image:
-      "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2F5e3db085be04449fb327c79b0ec47e1b",
+      "/YuSeW8kAj7srJw931dYFVht6BY.avif",
   },
   {
     title: "Malování před prodejem nebo pronájmem",
@@ -123,7 +123,7 @@ const allServices = [
     featured: true,
     color: "#6b8f71",
     image:
-      "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2F3026d95741854f52aaaf83680e170c34",
+      "/1773914926989-vygeneruj-mi-normln-kancel-v-karln-bez-lid.jpg",
   },
   {
     title: "Malování penzionů, restaurací a menších hotelů",

@@ -11,8 +11,8 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 const heroPhoto = "/hero-homepage.jpg";
 
 const IMG = {
-  apartment: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2Fabc211a34f1e4518bec3c79251d04fee",
-  office: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2F747e3375b3e84ca38e9af5aff4e9bee8",
+  apartment: "/YuSeW8kAj7srJw931dYFVht6BY.avif",
+  office: "/1773914926989-vygeneruj-mi-normln-kancel-v-karln-bez-lid.jpg",
   microcement: "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2Fac74bb287f214990a9342caddd066a63",
   roller: "https://images.unsplash.com/photo-1589307693556-7286ae38293c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMHdhbGwlMjBwYWludCUyMHJvbGxlciUyMGZyZXNoJTIwY29hdHxlbnwxfHx8fDE3NzEzMjcxNjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
   commercial: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2Fb9f6d6ba78a64aac8ceef99230e436ae",
