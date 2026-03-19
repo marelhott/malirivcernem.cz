@@ -103,9 +103,6 @@ export default function ContactPage() {
   return (
     <>
       <section className="relative pt-32 pb-20 noise-overlay overflow-hidden" style={{ background: "linear-gradient(160deg, #ffffff 0%, #f4f8ff 50%, #ffffff 100%)" }}>
-        <div className="absolute inset-0 z-0 opacity-[0.06]">
-          <ImageWithFallback src="https://images.unsplash.com/photo-1698637644147-54099497b214?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxQcmFndWUlMjBvbGQlMjB0b3duJTIwYWVyaWFsJTIwcGFub3JhbWElMjBldmVuaW5nfGVufDF8fHx8MTc3MTMyOTY1Mnww&ixlib=rb-4.1.0&q=80&w=1080" alt="Praha a okolí - lokalita malířských služeb Malíři v černém" className="w-full h-full object-cover" />
-        </div>
         <div className="absolute w-[600px] h-[600px] -top-[200px] -right-[100px] rounded-full blur-[200px] pointer-events-none z-[2]" style={{ background: "rgba(37,99,235,0.10)" }} />
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
