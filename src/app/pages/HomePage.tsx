@@ -8,7 +8,11 @@ import {
 } from "@heroicons/react/24/outline";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 
-const heroPhoto = "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F663d1a1a85d24912819c4127e797b1b6?width=2560&quality=90";
+const heroPhotos = [
+  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F663d1a1a85d24912819c4127e797b1b6?width=2560&quality=90",
+  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F0d209464affe4a17b77af276139011d8?width=2560&quality=90",
+  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2Feb80b64912104529ab782b19777c2656?width=2560&quality=90",
+];
 
 const IMG = {
   apartment: "/YuSeW8kAj7srJw931dYFVht6BY.avif",
@@ -61,6 +65,15 @@ function GradientMesh({ variant = "hero" }: { variant?: string }) {
 
 /* ───────── HERO (Light bg, text left, photo right – Paintly style) ───────── */
 function HeroSection() {
+  const [photoIndex, setPhotoIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPhotoIndex((prev) => (prev + 1) % heroPhotos.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   const reassurancePoints = [
     "Nezávazná kalkulace online",
     "Zakrytí i finální úklid v ceně",
@@ -75,14 +88,26 @@ function HeroSection() {
 
       {/* Photo – full width, full height, centered */}
       <div className="absolute top-0 right-0 bottom-0 left-0 w-full hidden lg:block z-0">
-        <img
-          src={heroPhoto}
-          alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
-          className="absolute inset-0 w-full h-full object-cover"
-          loading="eager"
-          decoding="async"
-          style={{ objectPosition: "100% 50%" }}
-        />
+        <div className="relative w-full h-full overflow-hidden">
+          {heroPhotos.map((photo, index) => (
+            <motion.img
+              key={index}
+              src={photo}
+              alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
+              className="absolute inset-0 w-full h-full object-cover"
+              loading="eager"
+              decoding="async"
+              style={{ objectPosition: "100% 50%" }}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{
+                opacity: photoIndex === index ? 1 : 0,
+                x: photoIndex === index ? 0 : 100,
+              }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ duration: 0.8 }}
+            />
+          ))}
+        </div>
         <div className="absolute inset-y-0 left-0 w-[48%] bg-gradient-to-r from-white via-white/92 to-transparent" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.36)_0%,rgba(255,255,255,0)_18%,rgba(255,255,255,0.04)_100%)]" />
       </div>
@@ -143,9 +168,27 @@ function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.4 }}
-          className="mt-12 lg:hidden rounded-[24px] overflow-hidden shadow-[0_28px_70px_rgba(15,23,42,0.16)] border border-white/70"
+          className="mt-12 lg:hidden rounded-[24px] overflow-hidden shadow-[0_28px_70px_rgba(15,23,42,0.16)] border border-white/70 relative"
         >
-          <img src={heroPhoto} alt="Profesionální malování bytu v Praze - malířka při práci v interiéru" className="w-full h-full object-cover aspect-[4/3]" loading="eager" decoding="async" />
+          <div className="relative w-full aspect-[4/3] overflow-hidden">
+            {heroPhotos.map((photo, index) => (
+              <motion.img
+                key={index}
+                src={photo}
+                alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="eager"
+                decoding="async"
+                initial={{ opacity: 0, x: 100 }}
+                animate={{
+                  opacity: photoIndex === index ? 1 : 0,
+                  x: photoIndex === index ? 0 : 100,
+                }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.8 }}
+              />
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>
