@@ -92,7 +92,7 @@ export default function AboutPage() {
               Česká rodinná firma, která společně{" "}
               <span style={heroAccentStyle}>funguje už přes 10 let</span>
             </h1>
-            <p className="font-sans max-w-3xl" style={{ fontSize: "15px", lineHeight: 1.82, color: "#526071", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>
+            <p className="font-sans max-w-3xl" style={{ fontSize: "16px", lineHeight: 1.82, color: "rgba(74, 74, 74, 1)", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 400 }}>
               Naše firma se věnuje tradičnímu řemeslu. Zakladatel firmy, Marek, má s malbou jako takovou zkušenosti už přes 30 let. Jeho dva synové Albert a Vincent a blízcí přátelé se postupně přidali. Poctivá, manuální práce nás baví a důkazem toho je přes 1000 úspěšně dokončených zakázek.
             </p>
           </motion.div>
