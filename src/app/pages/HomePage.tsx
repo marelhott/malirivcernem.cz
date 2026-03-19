@@ -78,7 +78,7 @@ function HeroSection() {
         <img
           src={heroPhoto}
           alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
-          className="absolute inset-0 w-full h-full object-contain"
+          className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
           decoding="async"
           style={{ objectPosition: "right center" }}
@@ -145,7 +145,7 @@ function HeroSection() {
           transition={{ duration: 1, delay: 0.4 }}
           className="mt-12 lg:hidden rounded-[24px] overflow-hidden shadow-[0_28px_70px_rgba(15,23,42,0.16)] border border-white/70"
         >
-          <img src={heroPhoto} alt="Profesionální malování bytu v Praze - malířka při práci v interiéru" className="w-full h-auto object-contain aspect-[4/3]" loading="eager" decoding="async" />
+          <img src={heroPhoto} alt="Profesionální malování bytu v Praze - malířka při práci v interiéru" className="w-full h-full object-cover aspect-[4/3]" loading="eager" decoding="async" />
         </motion.div>
       </div>
     </section>
