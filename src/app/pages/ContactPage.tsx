@@ -113,7 +113,7 @@ export default function ContactPage() {
             <h1 className="text-foreground mb-6" style={heroTitleStyle}>
               Ozvěte se <span style={heroAccentStyle}>nám</span>
             </h1>
-            <p className="font-sans max-w-xl" style={{ fontSize: "17px", lineHeight: 1.75, color: "#526071", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>Máte dotaz, chcete nezávaznou nabídku nebo se prostě jen potřebujete poradit? Pomáháme s malováním bytů, pokojů, kanceláří, SVJ i dekorativních stěrek v Praze a okolí.</p>
+            <p className="font-sans max-w-xl" style={{ fontSize: "16px", lineHeight: 1.75, color: "rgba(74, 74, 74, 1)", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 400 }}>Máte dotaz, chcete nezávaznou nabídku nebo se prostě jen potřebujete poradit? Pomáháme s malováním bytů, pokojů, kanceláří, SVJ i dekorativních stěrek v Praze a okolí.</p>
           </motion.div>
         </div>
       </section>
