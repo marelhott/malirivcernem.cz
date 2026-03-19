@@ -78,10 +78,10 @@ function HeroSection() {
         <img
           src={heroPhoto}
           alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
-          className="absolute inset-0 w-full h-full object-contain"
+          className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
           decoding="async"
-          style={{ objectPosition: "right center" }}
+          style={{ objectPosition: "75% 50%" }}
         />
         <div className="absolute inset-y-0 left-0 w-[48%] bg-gradient-to-r from-white via-white/92 to-transparent" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.36)_0%,rgba(255,255,255,0)_18%,rgba(255,255,255,0.04)_100%)]" />
