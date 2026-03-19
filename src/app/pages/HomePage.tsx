@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 
-const heroPhoto = "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F67d2a4ca87b348bea69968ca31deaad2";
+const heroPhoto = "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F7f51b0320f5245f6a08eef1ad20b1aa2";
 
 const IMG = {
   apartment: "/YuSeW8kAj7srJw931dYFVht6BY.avif",
@@ -81,7 +81,7 @@ function HeroSection() {
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
           decoding="async"
-          style={{ objectPosition: "75% 50%" }}
+          style={{ objectPosition: "90% 50%" }}
         />
         <div className="absolute inset-y-0 left-0 w-[48%] bg-gradient-to-r from-white via-white/92 to-transparent" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.36)_0%,rgba(255,255,255,0)_18%,rgba(255,255,255,0.04)_100%)]" />
