@@ -9,9 +9,9 @@ import {
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 
 const heroPhotos = [
-  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F663d1a1a85d24912819c4127e797b1b6?width=2560&quality=90",
-  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F0d209464affe4a17b77af276139011d8?width=2560&quality=90",
-  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2Feb80b64912104529ab782b19777c2656?width=2560&quality=90",
+  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F663d1a1a85d24912819c4127e797b1b6?width=3200&quality=95",
+  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F0d209464affe4a17b77af276139011d8?width=3200&quality=95",
+  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2Feb80b64912104529ab782b19777c2656?width=3200&quality=95",
 ];
 
 const IMG = {
@@ -70,7 +70,7 @@ function HeroSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       setPhotoIndex((prev) => (prev + 1) % heroPhotos.length);
-    }, 7000);
+    }, 12000);
     return () => clearInterval(interval);
   }, []);
 
@@ -81,23 +81,23 @@ function HeroSection() {
   ];
 
   return (
-    <section className="relative flex items-center overflow-hidden bg-background pb-8 md:pb-20" style={{ paddingTop: "92px", minHeight: "100dvh" }}>
+    <section className="relative flex items-center overflow-hidden bg-background pb-0 md:pb-0" style={{ minHeight: "calc(100dvh - 180px)" }}>
       <div className="absolute top-[18%] left-[6%] w-[360px] h-[360px] bg-[#2563eb]/[0.08] rounded-full blur-[170px] pointer-events-none" />
       <div className="absolute bottom-[6%] left-[28%] w-[260px] h-[260px] bg-[#ec4899]/[0.06] rounded-full blur-[130px] pointer-events-none" />
       <div className="absolute top-[14%] right-[20%] w-[240px] h-[240px] bg-[#14b8a6]/[0.05] rounded-full blur-[120px] pointer-events-none" />
 
       {/* Photo – full width, full height, centered */}
-      <div className="absolute top-0 right-0 bottom-0 left-0 w-full hidden lg:block z-0">
+      <div className="absolute right-0 bottom-0 left-[42%] top-[92px] hidden lg:block z-0">
         <div className="relative w-full h-full overflow-hidden">
           {heroPhotos.map((photo, index) => (
             <motion.img
               key={index}
               src={photo}
               alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute top-0 right-0 h-[108%] w-auto max-w-none"
               loading="eager"
               decoding="async"
-              style={{ objectPosition: "100% 50%" }}
+              style={{ transformOrigin: "top right" }}
               initial={{ opacity: 0, x: 100 }}
               animate={{
                 opacity: photoIndex === index ? 1 : 0,
@@ -112,7 +112,7 @@ function HeroSection() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.36)_0%,rgba(255,255,255,0)_18%,rgba(255,255,255,0.04)_100%)]" />
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 w-full pt-4 md:pt-16 pb-8 md:pb-32">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 w-full mt-[76px] md:mt-[76px] pt-0 md:pt-[20px] pb-0 md:pb-6">
         <div className="max-w-xl lg:max-w-[52%]">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/88 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600 shadow-[0_8px_28px_rgba(15,23,42,0.06)] backdrop-blur-sm">
@@ -170,15 +170,16 @@ function HeroSection() {
           transition={{ duration: 1, delay: 0.4 }}
           className="mt-12 lg:hidden rounded-[24px] overflow-hidden shadow-[0_28px_70px_rgba(15,23,42,0.16)] border border-white/70 relative"
         >
-          <div className="relative w-full aspect-[4/3] overflow-hidden">
+          <div className="relative w-full aspect-[5/4] overflow-hidden bg-[linear-gradient(180deg,rgba(248,250,252,0.95)_0%,rgba(241,245,249,0.9)_100%)]">
             {heroPhotos.map((photo, index) => (
               <motion.img
                 key={index}
                 src={photo}
                 alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-contain"
                 loading="eager"
                 decoding="async"
+                style={{ objectPosition: "50% 0%" }}
                 initial={{ opacity: 0, x: 100 }}
                 animate={{
                   opacity: photoIndex === index ? 1 : 0,
