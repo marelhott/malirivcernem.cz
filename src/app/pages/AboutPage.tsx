@@ -18,27 +18,27 @@ const team = [
   {
     name: "MAREK",
     role: "Zakladatel",
-    image: "/team/marek.jpg",
+    image: "/optimized/team/marek.webp",
   },
   {
     name: "ALBERT",
     role: "Malíř",
-    image: "/team/albert.jpg",
+    image: "/optimized/team/albert.webp",
   },
   {
     name: "VINCENT",
     role: "Malíř",
-    image: "/team/vincent.jpg",
+    image: "/optimized/team/vincent.webp",
   },
   {
     name: "LENKA",
     role: "Koordinace",
-    image: "/team/lenka.jpg",
+    image: "/optimized/team/lenka.webp",
   },
   {
     name: "PAVEL",
     role: "Malíř",
-    image: "/team/pavel.jpg",
+    image: "/optimized/team/pavel.webp",
   },
 ];
 
@@ -120,6 +120,7 @@ export default function AboutPage() {
                       alt={member.name}
                       className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                       loading="lazy"
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
