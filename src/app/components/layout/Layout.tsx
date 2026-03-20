@@ -89,7 +89,9 @@ function Navbar() {
                 to={link.href}
                 className={`relative px-5 py-2.5 rounded-full transition-all duration-300 ${isActive(link.href)
                     ? "bg-black text-white"
-                    : "text-foreground/70 hover:text-foreground hover:bg-black/5"
+                    : link.href === "/kalkulacka"
+                      ? "text-accent hover:text-accent hover:bg-black/5"
+                      : "text-foreground/70 hover:text-foreground hover:bg-black/5"
                   }`}
                 style={{ fontSize: "13px", fontWeight: 600, letterSpacing: "-0.01em", fontFamily: "'Manrope', sans-serif" }}
               >
