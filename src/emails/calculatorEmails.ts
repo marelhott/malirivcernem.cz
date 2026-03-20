@@ -6,18 +6,27 @@ type EmailContent = {
   text: string;
 };
 
-function createEmailShell(title: string, intro: string, body: string) {
+const logoLightUrl = "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2F1033b565b9b2400284607f0fc2d667a4";
+
+function createEmailShell(title: string, intro: string, body: string, variant: "business" | "customer") {
+  const leftPanelBackground =
+    variant === "business"
+      ? "linear-gradient(180deg, #1d4ed8 0%, #1e3a8a 100%)"
+      : "linear-gradient(180deg, #15803d 0%, #166534 100%)";
+
   return `
     <div style="margin:0;padding:32px 18px;background:#f3f5fa;font-family:Manrope,Arial,sans-serif;color:#101014;">
       <div style="max-width:900px;margin:0 auto;">
         <div style="background:#e9ecf2;border-radius:18px;padding:24px;box-sizing:border-box;">
           <div style="display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,0.95fr);gap:28px;align-items:stretch;">
-            <div style="background:#101014;border-radius:18px;padding:28px;color:#ffffff;min-height:320px;box-sizing:border-box;">
-              <div style="display:inline-flex;align-items:center;gap:10px;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,0.1);font-size:13px;line-height:1;color:#ffffff;">Malíři v černém</div>
+            <div style="background:${leftPanelBackground};border-radius:18px;padding:28px;color:#ffffff;min-height:320px;box-sizing:border-box;">
+              <div style="display:flex;align-items:center;min-height:42px;">
+                <img src="${logoLightUrl}" alt="Malíři v černém" style="display:block;height:38px;width:auto;max-width:260px;" />
+              </div>
               <div style="margin-top:28px;">
-                <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.62);">Kalkulačka poptávky</div>
+                <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.74);">Kalkulačka poptávky</div>
                 <h1 style="margin:14px 0 0;font-size:42px;line-height:1.05;font-weight:600;letter-spacing:-0.04em;color:#ffffff;">${title}</h1>
-                <p style="margin:18px 0 0;font-size:18px;line-height:1.55;color:rgba(255,255,255,0.78);max-width:28ch;">${intro}</p>
+                <p style="margin:18px 0 0;font-size:18px;line-height:1.55;color:rgba(255,255,255,0.9);max-width:28ch;">${intro}</p>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:18px;min-width:0;">
@@ -112,7 +121,8 @@ export function createBusinessInquiryEmail(payload: CalculatorInquiryPayload): E
         ["Odesláno", data.creationTime],
       ])}
       ${renderNoteCard("Dodatečné informace", data.additionalInfo)}
-    `
+    `,
+    "business"
   );
 
   const text = `Nová poptávka z kalkulačky
@@ -182,7 +192,8 @@ export function createCustomerConfirmationEmail(payload: CalculatorInquiryPayloa
         ["E-mail", "info@malirivcernem.cz"],
         ["Telefon", "+420 732 333 550"],
       ])}
-    `
+    `,
+    "customer"
   );
 
   const text = `Dobrý den ${data.customerName},
