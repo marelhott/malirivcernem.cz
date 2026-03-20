@@ -337,11 +337,11 @@ const howItWorksSteps = [
 
 function HowItWorksSection() {
   return (
-    <section className="relative py-24 md:py-32 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
+    <section className="relative py-16 md:py-22 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
       <div className="absolute top-0 left-1/4 w-[500px] h-[400px] rounded-full blur-[200px] pointer-events-none" style={{ background: "var(--orb-olive)" }} />
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
         <Reveal>
-          <div className="text-center mb-16">
+          <div className="text-center mb-11 -mt-6 md:-mt-8">
             <span className="text-accent font-[family-name:var(--font-display)] tracking-widest uppercase mb-4 block" style={{ fontSize: "12px", fontWeight: 600 }}>Proces</span>
             <h2 className="font-[family-name:var(--font-display)] text-foreground" style={{ fontSize: "clamp(34px, 4.6vw, 58px)", fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.04em" }}>
               Jak to <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>funguje?</em>
@@ -386,7 +386,7 @@ function ServicePreview() {
       <GradientMesh variant="dark" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
         <Reveal>
-          <div className="text-center mb-16 pt-8 md:pt-12">
+          <div className="text-center mb-16 pt-2 md:pt-4 -mt-6 md:-mt-8">
             <span className="text-accent font-[family-name:var(--font-display)] tracking-widest uppercase mb-4 block" style={{ fontSize: "12px", fontWeight: 600 }}>Služby</span>
             <h2 className="font-[family-name:var(--font-display)] text-foreground" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 700, lineHeight: 1.05 }}>
               Co pro vás{" "}
@@ -545,10 +545,10 @@ function WhyUsSection() {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="relative py-24 md:py-32 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
+    <section id="faq" className="relative py-16 md:py-22 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
         <Reveal>
-          <div className="text-center mb-20">
+          <div className="text-center mb-12 -mt-6 md:-mt-8">
             <span className="text-accent font-[family-name:var(--font-display)] tracking-widest uppercase mb-4 block" style={{ fontSize: "12px", fontWeight: 600 }}>Otázky & Odpovědi</span>
             <h2 className="font-[family-name:var(--font-display)] text-foreground" style={{ fontSize: "clamp(40px, 5vw, 58px)", fontWeight: 500, lineHeight: 1.1, letterSpacing: "-0.03em" }}>
               Často se nás <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>ptáte?</em>
@@ -663,10 +663,10 @@ function PricingSection() {
   };
 
   return (
-    <section className="relative py-24 md:py-32 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
+    <section className="relative py-16 md:py-22 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
         <Reveal>
-          <div className="text-center mb-24">
+          <div className="text-center mb-16">
             <span className="text-accent font-[family-name:var(--font-display)] tracking-widest uppercase mb-4 block" style={{ fontSize: "12px", fontWeight: 600 }}>Cena</span>
             <h2 className="font-[family-name:var(--font-display)] text-foreground" style={{ fontSize: "clamp(40px, 5vw, 58px)", fontWeight: 500, lineHeight: 1.1, letterSpacing: "-0.03em" }}>
               Kolik stojí <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>malování?</em>
@@ -755,7 +755,7 @@ function DecorativeArtSection() {
       <div className="absolute top-1/2 left-0 w-[500px] h-[400px] rounded-full blur-[200px] pointer-events-none" style={{ background: "var(--orb-navy)" }} />
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
         <Reveal>
-          <div className="text-center mb-10">
+          <div className="text-center mb-10 -mt-5 md:-mt-6">
             <span className="text-accent font-[family-name:var(--font-display)] tracking-widest uppercase mb-4 block" style={{ fontSize: "12px", fontWeight: 600 }}>Nadstandard</span>
             <h2 className="font-[family-name:var(--font-display)] text-foreground" style={{ fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 700, lineHeight: 1.1 }}>
               Dekorativní a umělecká{" "}
@@ -801,12 +801,12 @@ const testimonials = [
 
 function TestimonialsSection() {
   return (
-    <section className="relative py-20 md:py-28 noise-overlay" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f6f9ff 50%, #ffffff 100%)" }}>
+    <section className="relative py-14 md:py-20 noise-overlay" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f6f9ff 50%, #ffffff 100%)" }}>
       <div className="absolute top-24 left-[12%] w-[360px] h-[240px] rounded-full blur-[140px] pointer-events-none" style={{ background: "rgba(37,99,235,0.10)" }} />
       <div className="absolute bottom-12 right-[10%] w-[320px] h-[220px] rounded-full blur-[140px] pointer-events-none" style={{ background: "rgba(124,58,237,0.08)" }} />
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
         <Reveal>
-          <div className="text-center mb-14">
+          <div className="text-center mb-10 -mt-6 md:-mt-8">
             <span className="text-accent font-[family-name:var(--font-display)] tracking-[0.18em] uppercase mb-4 block" style={{ fontSize: "12px", fontWeight: 700 }}>Reference</span>
             <h2 className="font-[family-name:var(--font-display)] text-foreground" style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 700, lineHeight: 1.02, letterSpacing: "-0.045em" }}>
               Co říkají <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>naši klienti</em>
