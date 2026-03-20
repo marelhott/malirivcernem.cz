@@ -332,16 +332,22 @@ export default function CalculatorPage() {
     (val: string) => {
       set("email", val);
       setEmailErr(val.length > 0 && !emailRegex.test(val));
+      if (val.trim() !== "" && form.phone.trim() !== "" && phoneRegex.test(form.phone) && emailRegex.test(val)) {
+        setSubmitMsg(null);
+      }
     },
-    [set]
+    [form.phone, set]
   );
 
   const validatePhone = useCallback(
     (val: string) => {
       set("phone", val);
       setPhoneErr(val.length > 0 && val !== "+420 " && !phoneRegex.test(val));
+      if (val.trim() !== "" && form.email.trim() !== "" && phoneRegex.test(val) && emailRegex.test(form.email)) {
+        setSubmitMsg(null);
+      }
     },
-    [set]
+    [form.email, set]
   );
 
   useEffect(() => {
