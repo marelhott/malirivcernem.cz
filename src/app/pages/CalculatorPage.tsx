@@ -300,10 +300,12 @@ export default function CalculatorPage() {
 
   const [emailErr, setEmailErr] = useState(false);
   const [phoneErr, setPhoneErr] = useState(false);
+  const [areaErr, setAreaErr] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitMsg, setSubmitMsg] = useState<{ text: string; type: "success" | "error" } | null>(null);
   const [showFallback, setShowFallback] = useState(false);
+  const [submitProgress, setSubmitProgress] = useState(0);
 
   const set = useCallback(
     <K extends keyof FormState>(key: K, value: FormState[K]) => setForm((prev) => ({ ...prev, [key]: value })),
@@ -312,21 +314,19 @@ export default function CalculatorPage() {
 
   const totalPrice = useMemo(() => calculatePrice(form), [form]);
 
-  const isFormValid = useMemo(() => {
-    const n = form.name.trim();
-    const a = form.address.trim();
-    const e = form.email.trim();
-    const p = form.phone.trim();
-    const d = form.realizationDate.trim();
-    const area = Number(form.totalArea) || 0;
-    return n !== "" && a !== "" && d !== "" && area > 0 && e !== "" && p !== "" && p !== "+420" && emailRegex.test(e) && phoneRegex.test(p);
-  }, [form.name, form.address, form.realizationDate, form.totalArea, form.email, form.phone]);
+  const hasAreaValid = useMemo(() => (Number(form.totalArea) || 0) > 0, [form.totalArea]);
 
   const hasContactDetailsValid = useMemo(() => {
     const e = form.email.trim();
     const p = form.phone.trim();
     return e !== "" && p !== "" && p !== "+420" && emailRegex.test(e) && phoneRegex.test(p);
   }, [form.email, form.phone]);
+
+  useEffect(() => {
+    if (hasAreaValid && areaErr) {
+      setAreaErr(false);
+    }
+  }, [hasAreaValid, areaErr]);
 
   const validateEmail = useCallback(
     (val: string) => {
@@ -344,6 +344,27 @@ export default function CalculatorPage() {
     [set]
   );
 
+  useEffect(() => {
+    if (!submitting) {
+      setSubmitProgress(submitted ? 100 : 0);
+      return;
+    }
+
+    setSubmitProgress(12);
+    const steps = [28, 46, 64, 78, 90];
+    let index = 0;
+    const timer = window.setInterval(() => {
+      setSubmitProgress((current) => {
+        if (current >= 90) return current;
+        const next = steps[index] ?? 90;
+        index += 1;
+        return next;
+      });
+    }, 220);
+
+    return () => window.clearInterval(timer);
+  }, [submitting, submitted]);
+
   /* ─── MAILTO FALLBACK ─── */
   const createMailtoLink = useCallback(() => {
     const subject = encodeURIComponent(`Poptávka malířských prací - ${form.name || "Nový zákazník"}`);
@@ -355,7 +376,16 @@ export default function CalculatorPage() {
 
   /* ─── SUBMIT ─── */
   const handleSubmit = useCallback(async () => {
-    if (!isFormValid || submitting || submitted) return;
+    if (submitting || submitted) return;
+
+    if (!hasAreaValid) {
+      setAreaErr(true);
+      setSubmitMsg({ text: "Před odesláním vyplňte prosím plochu v m².", type: "error" });
+      setShowFallback(false);
+      return;
+    }
+
+    if (!hasContactDetailsValid) return;
 
     setSubmitting(true);
     setSubmitMsg(null);
@@ -376,6 +406,7 @@ export default function CalculatorPage() {
         throw new Error(data.message || "Odeslání se nepodařilo.");
       }
 
+      setSubmitProgress(100);
       setSubmitted(true);
       setSubmitMsg({ text: "Poptávka odeslána. Potvrzení jsme poslali vám i nám do systému.", type: "success" });
     } catch {
@@ -384,7 +415,7 @@ export default function CalculatorPage() {
     } finally {
       setSubmitting(false);
     }
-  }, [form, totalPrice, isFormValid, submitting, submitted]);
+  }, [form, totalPrice, hasAreaValid, hasContactDetailsValid, submitting, submitted]);
 
   /* ─── INPUT STYLE ─── */
   const inputCls = "w-full px-4 py-3.5 rounded-xl border bg-foreground/[0.02] text-foreground font-sans transition-all duration-300 focus:outline-none focus:shadow-lg placeholder:text-foreground/20";
@@ -467,12 +498,21 @@ export default function CalculatorPage() {
                     type="number"
                     placeholder="Zadejte plochu v m²"
                     value={form.totalArea}
-                    onChange={(e) => set("totalArea", e.target.value)}
-                    className={inputGreen}
+                    onChange={(e) => {
+                      set("totalArea", e.target.value);
+                      if (e.target.value) setAreaErr(false);
+                    }}
+                    className={areaErr ? inputError : inputGreen}
                     style={{ fontSize: "15px" }}
                     min="0"
                     required
                   />
+                  {areaErr && (
+                    <div className="flex items-center gap-2 mt-2 text-red-400" style={{ fontSize: "12px" }}>
+                      <ExclamationTriangleIcon className="w-3.5 h-3.5" />
+                      <span>Pro odeslání je potřeba vyplnit plochu v m².</span>
+                    </div>
+                  )}
                 </div>
 
                 <AnimatePresence>
@@ -799,7 +839,7 @@ export default function CalculatorPage() {
               <Reveal delay={0.2}>
                 <button
                   onClick={handleSubmit}
-                  disabled={!isFormValid || submitting || submitted}
+                  disabled={!hasContactDetailsValid || submitting || submitted}
                   className={`w-full flex items-center justify-center gap-3 px-8 py-5 rounded-2xl font-[family-name:var(--font-display)] transition-all duration-300 ${
                     submitted
                       ? "bg-emerald-600 text-white cursor-default"
@@ -833,6 +873,34 @@ export default function CalculatorPage() {
                   )}
                 </button>
               </Reveal>
+
+              <AnimatePresence>
+                {submitting && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    className="overflow-hidden rounded-xl border border-accent/15 bg-accent/5 px-4 py-3"
+                  >
+                    <div className="mb-2 flex items-center justify-between gap-4">
+                      <span className="font-sans text-foreground/70" style={{ fontSize: "13px", fontWeight: 600 }}>
+                        Odesílání poptávky
+                      </span>
+                      <span className="font-sans text-accent" style={{ fontSize: "13px", fontWeight: 700 }}>
+                        {submitProgress}%
+                      </span>
+                    </div>
+                    <div className="h-2 w-full overflow-hidden rounded-full bg-foreground/10">
+                      <motion.div
+                        className="h-full rounded-full"
+                        style={{ background: "linear-gradient(90deg, var(--accent), var(--copper))" }}
+                        animate={{ width: `${submitProgress}%` }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               {/* Submit message */}
               <AnimatePresence>

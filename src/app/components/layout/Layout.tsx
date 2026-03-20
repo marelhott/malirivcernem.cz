@@ -273,14 +273,6 @@ function Footer({ isDark }: { isDark: boolean }) {
           <p className="opacity-30 font-sans" style={{ fontSize: "13px" }}>
             © 2026 Malíři v černém. Všechna práva vyhrazena.
           </p>
-          <div className="flex items-center gap-6">
-            <a href="#" className="opacity-30 hover:opacity-60 transition-opacity duration-300 font-sans" style={{ fontSize: "13px" }}>
-              Ochrana osobních údajů
-            </a>
-            <a href="#" className="opacity-30 hover:opacity-60 transition-opacity duration-300 font-sans" style={{ fontSize: "13px" }}>
-              Obchodní podmínky
-            </a>
-          </div>
         </div>
       </div>
     </footer>

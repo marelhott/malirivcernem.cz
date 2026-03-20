@@ -128,7 +128,7 @@ export function createCustomerConfirmationEmail(payload: CalculatorInquiryPayloa
       ]),
       renderSection("Kontakt", [
         ["Email", "info@malirivcernem.cz"],
-        ["Telefon", "+420 777 084 364"],
+        ["Telefon", "+420 732 333 550"],
       ]),
     ]
   );
@@ -148,7 +148,7 @@ Orientační cena: ${data.totalPrice} Kč
 
 Kontakt:
 info@malirivcernem.cz
-+420 777 084 364`;
++420 732 333 550`;
 
   return { subject, html, text };
 }

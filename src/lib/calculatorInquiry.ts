@@ -59,9 +59,6 @@ export function isCalculatorInquiryPayload(value: unknown): value is CalculatorI
 
 export function validateCalculatorInquiry(payload: CalculatorInquiryPayload): string | null {
   const area = Number(payload.totalArea) || 0;
-  if (!payload.name.trim()) return "Chybí jméno.";
-  if (!payload.address.trim()) return "Chybí adresa.";
-  if (!payload.realizationDate.trim()) return "Chybí termín realizace.";
   if (area <= 0) return "Plocha musí být větší než 0.";
   if (!payload.email.trim() || !emailRegex.test(payload.email)) return "Email není ve správném formátu.";
   if (!payload.phone.trim() || !phoneRegex.test(payload.phone)) return "Telefon není ve správném formátu.";
