@@ -679,7 +679,7 @@ function PricingSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-[60px]" style={{ alignItems: "start", fontFamily: "Manrope, sans-serif", maxWidth: "1280px", margin: "0 auto" }}>
             <div className="hidden md:block" style={{ width: "100%", height: "570px", overflow: "hidden", borderRadius: "10px" }}>
               <ImageWithFallback
-                src="https://images.pexels.com/photos/8296981/pexels-photo-8296981.jpeg"
+                src="https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2Fcba28610f57a4490a2d26303bb9db6f6"
                 alt="Online kalkulačka ceny malování bytu a pokoje v Praze"
                 className="w-full h-full object-cover"
                 loading="lazy"
