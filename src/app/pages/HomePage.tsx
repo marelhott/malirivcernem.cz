@@ -23,12 +23,12 @@ const IMG = {
   before: "https://images.unsplash.com/photo-1566503732592-748f40a6e997?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbXB0eSUyMHJvb20lMjBiZWZvcmUlMjByZW5vdmF0aW9uJTIwd2FsbHN8ZW58MXx8fHwxNzcxMzI3MTY2fDA&ixlib=rb-4.1.0&q=80&w=1080",
   after: "https://images.unsplash.com/photo-1741105820091-3d150a451cfe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjbGVhbiUyMHdoaXRlJTIwcm9vbSUyMGFmdGVyJTIwcmVub3ZhdGlvbnxlbnwxfHx8fDE3NzEzMjcxNjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
   howStep1: "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2Fe13cc55ca0b340e681ebe2d6bb1cc47a",
-  howStep2: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2F52d4aa0b37b24f659f721d9267457b33",
-  howStep3: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2F5e136471cb4b4d218ea326f9855b60aa",
+  howStep2: "https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2Fcb2bd2fa6599496e8a6ec9403b9d57d3",
+  howStep3: "https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2F0081dd0e872544d6a42580af05fa2101",
   decoArt1: "/Gemini_Generated_Image_1h9lth1h9lth1h9l.png",
   decoArt2: "/Gemini_Generated_Image_m9y7u3m9y7u3m9y7.png",
   decoArt3: "/Gemini_Generated_Image_pddpwfpddpwfpddp.png",
-  decoArt4: "/Gemini_Generated_Image_vw5debvw5debvw5d.png",
+  decoArt4: "https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2F45daeaf8447042f7babe540d7bf198f5",
   decoArt5: "https://images.unsplash.com/photo-1748075823969-0f3b0870912a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcm5hbWVudGFsJTIwd2FsbCUyMHBhaW50aW5nJTIwY2xhc3NpY2FsJTIwYXJ0JTIwaW50ZXJpb3J8ZW58MXx8fHwxNzcxMzQwODk5fDA&ixlib=rb-4.1.0&q=80&w=1080",
 };
 
@@ -679,7 +679,7 @@ function PricingSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-[60px]" style={{ alignItems: "start", fontFamily: "Manrope, sans-serif", maxWidth: "1280px", margin: "0 auto" }}>
             <div className="hidden md:block" style={{ width: "100%", height: "570px", overflow: "hidden", borderRadius: "10px" }}>
               <ImageWithFallback
-                src="https://images.pexels.com/photos/8296981/pexels-photo-8296981.jpeg"
+                src="https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2Fcba28610f57a4490a2d26303bb9db6f6"
                 alt="Online kalkulačka ceny malování bytu a pokoje v Praze"
                 className="w-full h-full object-cover"
                 loading="lazy"
@@ -762,7 +762,7 @@ function DecorativeArtSection() {
               <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>úprava stěn</em>
             </h2>
             <p className="font-sans max-w-2xl mx-auto mt-4" style={{ fontSize: "15px", lineHeight: 1.72, color: "#3d3d47", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>
-              Pokud nehledáte jen čistou výmalbu, navrhneme i výraznější dekorativní řešení pro byty, showroomy nebo reprezentativní prostory.
+              Pokud nehledáte jen čistou výmalbu, umíme pro Vás navrhnout a zrealizovat i výraznější dekorativní řešení pro byty, domy, showroomy nebo reprezentativní prostory.
             </p>
             <Link to="/sluzby/dekorativni-sterky" className="group inline-flex items-center gap-2 mt-6 px-7 py-3 rounded-full text-white transition-all duration-300 hover:shadow-lg hover:shadow-accent/20" style={{ background: "linear-gradient(135deg, #2563eb, #4f46e5)", fontSize: "14px", fontWeight: 700, fontFamily: "'Manrope', var(--font-sans)" }}>
               Chci vědět víc <ArrowRightIcon className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -812,7 +812,7 @@ function TestimonialsSection() {
               Co říkají <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>naši klienti</em>
             </h2>
             <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: "#1a1a1a" }} />
-            <p className="mx-auto mt-5 max-w-2xl text-[15px] font-normal leading-7 text-slate-600">
+            <p className="mx-auto mt-5 max-w-2xl text-[15px] font-normal leading-7 text-[#4a4a4a]">
               Lidé si nás objednávají hlavně proto, že dorazíme včas, pracujeme čistě a výsledek odpovídá tomu, co jsme slíbili.
             </p>
           </div>
@@ -820,7 +820,7 @@ function TestimonialsSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {testimonials.map((t, i) => (
             <Reveal key={i} delay={i * 0.08}>
-              <div className="p-6 md:p-7 rounded-lg" style={{ background: "#ffffff", border: "1px solid rgba(15,23,42,0.08)" }}>
+              <div className="p-6 md:p-7 rounded-lg h-full" style={{ background: "#ffffff", border: "1px solid rgba(15,23,42,0.08)" }}>
                 {/* Stars */}
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, j) => (
