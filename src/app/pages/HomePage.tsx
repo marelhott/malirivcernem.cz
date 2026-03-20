@@ -16,7 +16,7 @@ const heroPhotos = [
 
 const IMG = {
   apartment: "/YuSeW8kAj7srJw931dYFVht6BY.avif",
-  office: "/1773914926989-vygeneruj-mi-normln-kancel-v-karln-bez-lid.jpg",
+  office: "/optimized-safe/office.webp",
   microcement: "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2Fac74bb287f214990a9342caddd066a63",
   roller: "https://images.unsplash.com/photo-1589307693556-7286ae38293c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aGl0ZSUyMHdhbGwlMjBwYWludCUyMHJvbGxlciUyMGZyZXNoJTIwY29hdHxlbnwxfHx8fDE3NzEzMjcxNjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
   commercial: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2Fb9f6d6ba78a64aac8ceef99230e436ae",
@@ -25,9 +25,9 @@ const IMG = {
   howStep1: "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2Fe13cc55ca0b340e681ebe2d6bb1cc47a",
   howStep2: "https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2Fcb2bd2fa6599496e8a6ec9403b9d57d3",
   howStep3: "https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2F0081dd0e872544d6a42580af05fa2101",
-  decoArt1: "/Gemini_Generated_Image_1h9lth1h9lth1h9l.png",
-  decoArt2: "/Gemini_Generated_Image_m9y7u3m9y7u3m9y7.png",
-  decoArt3: "/Gemini_Generated_Image_pddpwfpddpwfpddp.png",
+  decoArt1: "/optimized-safe/home/deco-1.webp",
+  decoArt2: "/optimized-safe/home/deco-2.webp",
+  decoArt3: "/optimized-safe/home/deco-3.webp",
   decoArt4: "https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2F45daeaf8447042f7babe540d7bf198f5",
   decoArt5: "https://images.unsplash.com/photo-1748075823969-0f3b0870912a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcm5hbWVudGFsJTIwd2FsbCUyMHBhaW50aW5nJTIwY2xhc3NpY2FsJTIwYXJ0JTIwaW50ZXJpb3J8ZW58MXx8fHwxNzcxMzQwODk5fDA&ixlib=rb-4.1.0&q=80&w=1080",
 };

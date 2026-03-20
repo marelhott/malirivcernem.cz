@@ -18,27 +18,27 @@ const team = [
   {
     name: "MAREK",
     role: "Zakladatel",
-    image: "/team/marek.jpg",
+    image: "/optimized-safe/team/marek.webp",
   },
   {
     name: "ALBERT",
     role: "Malíř",
-    image: "/team/albert.jpg",
+    image: "/optimized-safe/team/albert.webp",
   },
   {
     name: "VINCENT",
     role: "Malíř",
-    image: "/team/vincent.jpg",
+    image: "/optimized-safe/team/vincent.webp",
   },
   {
     name: "LENKA",
     role: "Koordinace",
-    image: "/team/lenka.jpg",
+    image: "/optimized-safe/team/lenka.webp",
   },
   {
     name: "PAVEL",
     role: "Malíř",
-    image: "/team/pavel.jpg",
+    image: "/optimized-safe/team/pavel.webp",
   },
 ];
 
