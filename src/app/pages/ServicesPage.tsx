@@ -123,7 +123,7 @@ const allServices = [
     featured: true,
     color: "#6b8f71",
     image:
-      "/optimized/office.webp",
+      "/1773914926989-vygeneruj-mi-normln-kancel-v-karln-bez-lid.jpg",
   },
   {
     title: "Malování penzionů, restaurací a menších hotelů",
