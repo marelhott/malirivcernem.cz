@@ -142,7 +142,9 @@ function Navbar() {
                   onClick={() => {
                     setTimeout(() => setMobileOpen(false), 0);
                   }}
-                  className="font-[family-name:var(--font-display)] text-foreground"
+                  className={`font-[family-name:var(--font-display)] ${
+                    link.href === "/kalkulacka" ? "text-accent" : "text-foreground"
+                  }`}
                   style={{ fontSize: "36px", fontWeight: 600 }}
                 >
                   {link.label}
