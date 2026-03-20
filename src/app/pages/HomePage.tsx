@@ -24,7 +24,7 @@ const IMG = {
   after: "https://images.unsplash.com/photo-1741105820091-3d150a451cfe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjbGVhbiUyMHdoaXRlJTIwcm9vbSUyMGFmdGVyJTIwcmVub3ZhdGlvbnxlbnwxfHx8fDE3NzEzMjcxNjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
   howStep1: "https://cdn.builder.io/api/v1/image/assets%2Fa5554564c4f74e77865d4ed815b30c3c%2Fe13cc55ca0b340e681ebe2d6bb1cc47a",
   howStep2: "https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2Fcb2bd2fa6599496e8a6ec9403b9d57d3",
-  howStep3: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2F5e136471cb4b4d218ea326f9855b60aa",
+  howStep3: "https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2F0081dd0e872544d6a42580af05fa2101",
   decoArt1: "/Gemini_Generated_Image_1h9lth1h9lth1h9l.png",
   decoArt2: "/Gemini_Generated_Image_m9y7u3m9y7u3m9y7.png",
   decoArt3: "/Gemini_Generated_Image_pddpwfpddpwfpddp.png",
