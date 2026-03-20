@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { logoDarkUrl, logoLightUrl } from "../Logo";
 import { Outlet, Link, useLocation } from "react-router";
 import { motion, useSpring } from "motion/react";
 import {
-  Bars3Icon, XMarkIcon, SunIcon, MoonIcon, ArrowTopRightOnSquareIcon, PhoneIcon, EnvelopeIcon, MapPinIcon,
+  Bars3Icon, XMarkIcon, ArrowTopRightOnSquareIcon, PhoneIcon, EnvelopeIcon, MapPinIcon,
   ClockIcon, ChevronRightIcon
 } from "@heroicons/react/24/outline";
 import { Instagram, Facebook, Linkedin } from "lucide-react";
@@ -44,7 +44,7 @@ function ScrollProgress() {
   );
 }
 
-function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => void }) {
+function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -76,7 +76,7 @@ function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => v
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between h-[88px]">
           <Link to="/" className="flex items-center gap-3 group">
             <img
-              src={isDark ? logoLightUrl : logoDarkUrl}
+              src={logoDarkUrl}
               alt="Malíři v černém"
               className="h-10 md:h-12 w-auto transition-transform duration-300 group-hover:scale-105"
             />
@@ -99,13 +99,6 @@ function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => v
           </div>
 
           <div className="flex items-center gap-3">
-            <button
-              onClick={toggleTheme}
-              className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-foreground/5 transition-colors duration-300"
-            >
-              {isDark ? <SunIcon className="w-4 h-4" /> : <MoonIcon className="w-4 h-4" />}
-            </button>
-
             <Link
               to="/kalkulacka"
               className="hidden md:inline-flex items-center gap-2 px-5 h-9 rounded-full text-background transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 hover:scale-[1.02]"
@@ -180,7 +173,7 @@ function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => v
   );
 }
 
-function Footer({ isDark }: { isDark: boolean }) {
+function Footer() {
   return (
     <footer className="relative overflow-hidden noise-overlay" style={{ background: "linear-gradient(180deg, #0a0a0f 0%, #0f0f18 50%, #111120 100%)" }}>
       <div className="absolute top-0 left-1/4 w-[600px] h-[300px] bg-accent/6 rounded-full blur-[200px] pointer-events-none" />
@@ -284,32 +277,24 @@ export default function Layout({
 }: {
   children?: React.ReactNode;
 }) {
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof document !== "undefined") {
-      document.documentElement.classList.remove("dark");
-    }
-    return false;
-  });
   const location = useLocation();
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", isDark);
-  }, [isDark]);
+    document.documentElement.classList.remove("dark");
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  const toggleTheme = () => setIsDark((p) => !p);
-
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden font-sans">
       <ScrollProgress />
-      <Navbar isDark={isDark} toggleTheme={toggleTheme} />
+      <Navbar />
       <main>
         {children ?? <Outlet />}
       </main>
-      <Footer isDark={isDark} />
+      <Footer />
 
     </div>
   );

@@ -751,7 +751,7 @@ export default function CalculatorPage() {
                     {/* Phone */}
                     <div>
                       <label className="block font-sans mb-2" style={{ fontSize: "13px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 700 }}>
-                        Telefon <span className="text-red-400 italic" style={{ fontSize: "11px" }}>nutné vyplnit</span>
+                        Telefon {!form.phone.trim() || !phoneRegex.test(form.phone) ? <span className="text-red-400 italic" style={{ fontSize: "11px" }}>nutné vyplnit</span> : null}
                       </label>
                       <input
                         type="tel"
@@ -773,7 +773,7 @@ export default function CalculatorPage() {
                     {/* Email */}
                     <div>
                       <label className="block font-sans mb-2" style={{ fontSize: "13px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 700 }}>
-                        E-mail <span className="text-red-400 italic" style={{ fontSize: "11px" }}>nutné vyplnit</span>
+                        E-mail {!form.email.trim() || !emailRegex.test(form.email) ? <span className="text-red-400 italic" style={{ fontSize: "11px" }}>nutné vyplnit</span> : null}
                       </label>
                       <input
                         type="email"
