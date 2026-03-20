@@ -216,6 +216,7 @@ export const portfolioProjects: PortfolioProject[] = [
     relatedServiceSlug: "dekorativni-sterky",
     relatedServiceLabel: "Dekorativní stěrky a microcement",
   },
+  {
     id: 7,
     slug: "kavarna-misto-letna",
     title: "Kavárna Místo, Hradec Králové",
