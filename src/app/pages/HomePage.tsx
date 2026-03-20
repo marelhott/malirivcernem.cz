@@ -28,7 +28,7 @@ const IMG = {
   decoArt1: "/Gemini_Generated_Image_1h9lth1h9lth1h9l.png",
   decoArt2: "/Gemini_Generated_Image_m9y7u3m9y7u3m9y7.png",
   decoArt3: "/Gemini_Generated_Image_pddpwfpddpwfpddp.png",
-  decoArt4: "/Gemini_Generated_Image_vw5debvw5debvw5d.png",
+  decoArt4: "https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2F45daeaf8447042f7babe540d7bf198f5",
   decoArt5: "https://images.unsplash.com/photo-1748075823969-0f3b0870912a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcm5hbWVudGFsJTIwd2FsbCUyMHBhaW50aW5nJTIwY2xhc3NpY2FsJTIwYXJ0JTIwaW50ZXJpb3J8ZW58MXx8fHwxNzcxMzQwODk5fDA&ixlib=rb-4.1.0&q=80&w=1080",
 };
 
