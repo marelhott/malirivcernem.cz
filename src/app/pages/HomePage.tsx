@@ -762,7 +762,7 @@ function DecorativeArtSection() {
               <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>úprava stěn</em>
             </h2>
             <p className="font-sans max-w-2xl mx-auto mt-4" style={{ fontSize: "15px", lineHeight: 1.72, color: "#3d3d47", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>
-              Pokud nehledáte jen čistou výmalbu, navrhneme i výraznější dekorativní řešení pro byty, showroomy nebo reprezentativní prostory.
+              Pokud nehledáte jen čistou výmalbu, umíme pro Vás navrhnout a zrealizovat i výraznější dekorativní řešení pro byty, domy, showroomy nebo reprezentativní prostory.
             </p>
             <Link to="/sluzby/dekorativni-sterky" className="group inline-flex items-center gap-2 mt-6 px-7 py-3 rounded-full text-white transition-all duration-300 hover:shadow-lg hover:shadow-accent/20" style={{ background: "linear-gradient(135deg, #2563eb, #4f46e5)", fontSize: "14px", fontWeight: 700, fontFamily: "'Manrope', var(--font-sans)" }}>
               Chci vědět víc <ArrowRightIcon className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
