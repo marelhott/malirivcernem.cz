@@ -820,7 +820,7 @@ function TestimonialsSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
           {testimonials.map((t, i) => (
             <Reveal key={i} delay={i * 0.08}>
-              <div className="p-6 md:p-7 rounded-lg" style={{ background: "#ffffff", border: "1px solid rgba(15,23,42,0.08)" }}>
+              <div className="p-6 md:p-7 rounded-lg h-full" style={{ background: "#ffffff", border: "1px solid rgba(15,23,42,0.08)" }}>
                 {/* Stars */}
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, j) => (
