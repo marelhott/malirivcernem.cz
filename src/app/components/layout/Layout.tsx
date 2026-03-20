@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { logoDarkUrl, logoLightUrl } from "../Logo";
 import { Outlet, Link, useLocation } from "react-router";
-import { motion, AnimatePresence, useSpring } from "motion/react";
+import { motion, useSpring } from "motion/react";
 import {
   Bars3Icon, XMarkIcon, SunIcon, MoonIcon, ArrowTopRightOnSquareIcon, PhoneIcon, EnvelopeIcon, MapPinIcon,
   ClockIcon, ChevronRightIcon
@@ -55,7 +55,9 @@ function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => v
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  useEffect(() => { setMobileOpen(false); }, [location]);
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   const isActive = (href: string) => {
     if (href === "/") return location.pathname === "/";
@@ -117,7 +119,7 @@ function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => v
             </Link>
 
             <button
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={() => setMobileOpen((open) => !open)}
               className="lg:hidden w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-foreground/5 rounded-full transition-colors"
             >
               {mobileOpen ? <XMarkIcon className="w-5 h-5" /> : <Bars3Icon className="w-5 h-5" />}
@@ -126,59 +128,54 @@ function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: () => v
         </div>
       </motion.nav>
 
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setMobileOpen(false)}
-            className="fixed inset-0 lg:hidden"
-            style={{ background: "linear-gradient(180deg, var(--background) 0%, var(--card) 100%)", zIndex: 49, pointerEvents: "auto" }}
-          >
-            <div className="flex flex-col items-center justify-center h-full gap-6 pt-[72px] pb-20" onClick={(e) => e.stopPropagation()} style={{ pointerEvents: "auto" }}>
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                >
-                  <Link
-                    to={link.href}
-                    onClick={() => {
-                      setTimeout(() => setMobileOpen(false), 0);
-                    }}
-                    className="font-[family-name:var(--font-display)] text-foreground"
-                    style={{ fontSize: "36px", fontWeight: 600 }}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
+      {mobileOpen && (
+        <div
+          onClick={() => setMobileOpen(false)}
+          className="fixed inset-0 lg:hidden"
+          style={{ background: "linear-gradient(180deg, var(--background) 0%, var(--card) 100%)", zIndex: 49, pointerEvents: "auto" }}
+        >
+          <div className="flex flex-col items-center justify-center h-full gap-6 pt-[72px] pb-20" onClick={(e) => e.stopPropagation()} style={{ pointerEvents: "auto" }}>
+            {navLinks.map((link, i) => (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
+                key={link.href}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
               >
                 <Link
-                  to="/kalkulacka"
+                  to={link.href}
                   onClick={() => {
                     setTimeout(() => setMobileOpen(false), 0);
                   }}
-                  className="px-8 py-3 rounded-full text-background"
-                  style={{
-                    fontSize: "16px", fontWeight: 500,
-                    background: "linear-gradient(135deg, var(--foreground) 0%, #1a1a2e 100%)",
-                  }}
+                  className="font-[family-name:var(--font-display)] text-foreground"
+                  style={{ fontSize: "36px", fontWeight: 600 }}
                 >
-                  Online kalkulace
+                  {link.label}
                 </Link>
               </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            ))}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <Link
+                to="/kalkulacka"
+                onClick={() => {
+                  setTimeout(() => setMobileOpen(false), 0);
+                }}
+                className="px-8 py-3 rounded-full text-background"
+                style={{
+                  fontSize: "16px", fontWeight: 500,
+                  background: "linear-gradient(135deg, var(--foreground) 0%, #1a1a2e 100%)",
+                }}
+              >
+                Online kalkulace
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
