@@ -25,6 +25,9 @@ export default function NextSeoHead() {
       <meta name="geo.region" content="CZ-10" />
       <meta name="geo.placename" content={SITE.city} />
       <meta name="theme-color" content="#111111" />
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      <link rel="shortcut icon" href="/favicon.svg" />
+      <link rel="manifest" href="/site.webmanifest" />
       <meta name="language" content="cs" />
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="cs_CZ" />
