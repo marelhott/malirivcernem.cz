@@ -812,7 +812,7 @@ function TestimonialsSection() {
               Co říkají <em style={{ fontFamily: "'Instrument Serif', serif", fontWeight: "normal", fontStyle: "italic", color: "#2563eb" }}>naši klienti</em>
             </h2>
             <div className="w-16 h-1 mx-auto mt-4 rounded-full" style={{ background: "#1a1a1a" }} />
-            <p className="mx-auto mt-5 max-w-2xl text-[15px] font-normal leading-7 text-slate-600">
+            <p className="mx-auto mt-5 max-w-2xl text-[15px] font-normal leading-7 text-[#4a4a4a]">
               Lidé si nás objednávají hlavně proto, že dorazíme včas, pracujeme čistě a výsledek odpovídá tomu, co jsme slíbili.
             </p>
           </div>
