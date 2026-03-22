@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { logoDarkUrl, logoLightUrl } from "../Logo";
-import { Outlet, Link, useLocation } from "react-router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { motion, useSpring } from "motion/react";
 import {
   Bars3Icon, XMarkIcon, ArrowTopRightOnSquareIcon, PhoneIcon, EnvelopeIcon, MapPinIcon,
@@ -47,7 +48,8 @@ function ScrollProgress() {
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = router.pathname;
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
@@ -57,11 +59,11 @@ function Navbar() {
 
   useEffect(() => {
     setMobileOpen(false);
-  }, [location.pathname]);
+  }, [pathname]);
 
   const isActive = (href: string) => {
-    if (href === "/") return location.pathname === "/";
-    return location.pathname === href || location.pathname.startsWith(href + "/");
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(href + "/");
   };
 
   return (
@@ -74,7 +76,7 @@ function Navbar() {
           }`}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between h-[88px]">
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link href="/" className="flex items-center gap-3 group">
             <img
               src={logoDarkUrl}
               alt="Malíři v černém"
@@ -86,7 +88,7 @@ function Navbar() {
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                to={link.href}
+                href={link.href}
                 className={`relative px-5 py-2.5 rounded-full transition-all duration-300 ${isActive(link.href)
                     ? "bg-black text-white"
                     : link.href === "/kalkulacka"
@@ -102,7 +104,7 @@ function Navbar() {
 
           <div className="flex items-center gap-3">
             <Link
-              to="/kalkulacka"
+              href="/kalkulacka"
               className="hidden md:inline-flex items-center gap-2 px-5 h-9 rounded-full text-background transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 hover:scale-[1.02]"
               style={{
                 fontSize: "13px", fontWeight: 500,
@@ -138,7 +140,7 @@ function Navbar() {
                 transition={{ delay: i * 0.08 }}
               >
                 <Link
-                  to={link.href}
+                  href={link.href}
                   onClick={() => {
                     setTimeout(() => setMobileOpen(false), 0);
                   }}
@@ -157,7 +159,7 @@ function Navbar() {
               transition={{ delay: 0.5 }}
             >
               <Link
-                to="/kalkulacka"
+                href="/kalkulacka"
                 onClick={() => {
                   setTimeout(() => setMobileOpen(false), 0);
                 }}
@@ -207,7 +209,7 @@ function Footer() {
               {footerServices.map((s) => (
                 <Link
                   key={s.href}
-                  to={s.href}
+                  href={s.href}
                   className="opacity-50 hover:opacity-100 hover:text-accent transition-all duration-300 font-sans flex items-center gap-1 group"
                   style={{ fontSize: "14px" }}
                 >
@@ -255,7 +257,7 @@ function Footer() {
               ].map((link) => (
                 <Link
                   key={link.href}
-                  to={link.href}
+                  href={link.href}
                   className="opacity-50 hover:opacity-100 transition-opacity duration-300 font-sans"
                   style={{ fontSize: "14px" }}
                 >
@@ -281,7 +283,8 @@ export default function Layout({
 }: {
   children?: React.ReactNode;
 }) {
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = router.pathname;
 
   useEffect(() => {
     document.documentElement.classList.remove("dark");
@@ -289,17 +292,16 @@ export default function Layout({
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location.pathname]);
+  }, [pathname]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden font-sans">
       <ScrollProgress />
       <Navbar />
       <main>
-        {children ?? <Outlet />}
+        {children}
       </main>
       <Footer />
-
     </div>
   );
 }
