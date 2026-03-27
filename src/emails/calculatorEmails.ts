@@ -49,9 +49,11 @@ function renderInfoCard(label: string, value: string, options?: { large?: boolea
       background:${dark ? "#28282c" : "#ffffff"};
       color:${dark ? "#ffffff" : "#101014"};
       box-shadow:${dark ? "none" : "0 1px 0 rgba(16,16,20,0.04)"};
+      box-sizing:border-box;
+      width:100%;
     ">
       <div style="font-size:12px;line-height:1;text-transform:uppercase;letter-spacing:0.08em;color:${dark ? "rgba(255,255,255,0.62)" : "#6d6d78"};">${label}</div>
-      <div style="margin-top:${large ? "10px" : "8px"};font-size:${large ? "36px" : "24px"};line-height:${large ? "1.02" : "1.15"};font-weight:${large ? "600" : "500"};letter-spacing:-0.04em;color:${dark ? "#ffffff" : "#101014"};">${value}</div>
+      <div style="margin-top:${large ? "10px" : "8px"};font-size:${large ? "36px" : "24px"};line-height:${large ? "1.02" : "1.15"};font-weight:${large ? "600" : "500"};letter-spacing:-0.04em;color:${dark ? "#ffffff" : "#101014"};word-break:break-word;overflow-wrap:anywhere;">${value}</div>
     </div>
   `;
 }
@@ -97,7 +99,7 @@ export function createBusinessInquiryEmail(payload: CalculatorInquiryPayload): E
     `
       ${renderInfoCard("Orientační cena", `${data.totalPrice} Kč`, { large: true, dark: true })}
       ${renderInfoCard("Telefon", data.customerPhone, { large: true })}
-      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;">
+      <div style="display:flex;flex-direction:column;gap:16px;">
         ${renderInfoCard("Plocha", `${data.totalArea} m²`)}
         ${renderInfoCard("Adresa", data.address)}
         ${renderInfoCard("Termín", data.realizationDate)}
