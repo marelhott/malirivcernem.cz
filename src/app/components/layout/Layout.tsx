@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { logoDarkUrl, logoLightUrl } from "../Logo";
 import { Outlet, Link, useLocation } from "react-router";
-import { motion, useSpring } from "motion/react";
+import { motion, useReducedMotion, useSpring } from "motion/react";
 import {
   Bars3Icon, XMarkIcon, ArrowTopRightOnSquareIcon, PhoneIcon, EnvelopeIcon, MapPinIcon,
   ClockIcon, ChevronRightIcon
@@ -47,7 +47,10 @@ function ScrollProgress() {
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
   const location = useLocation();
+  const lockedScrollYRef = useRef<number | null>(null);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
@@ -56,8 +59,63 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1023px), (hover: none) and (pointer: coarse)");
+    const syncViewport = () => setIsMobileViewport(mediaQuery.matches);
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+    return () => mediaQuery.removeEventListener("change", syncViewport);
+  }, []);
+
+  useEffect(() => {
     setMobileOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const unlockBodyScroll = () => {
+      const lockedScrollY = lockedScrollYRef.current;
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      document.documentElement.style.overflow = "";
+      if (lockedScrollY !== null) {
+        window.scrollTo(0, lockedScrollY);
+        lockedScrollYRef.current = null;
+      }
+    };
+
+    if (!mobileOpen) {
+      unlockBodyScroll();
+      return;
+    }
+
+    const scrollY = window.scrollY;
+    lockedScrollYRef.current = scrollY;
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    document.documentElement.style.overflow = "hidden";
+
+    return () => {
+      if (lockedScrollYRef.current !== null) {
+        unlockBodyScroll();
+      }
+    };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
 
   const isActive = (href: string) => {
     if (href === "/") return location.pathname === "/";
@@ -67,11 +125,12 @@ function Navbar() {
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
+        initial={isMobileViewport || prefersReducedMotion ? false : { y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: isMobileViewport || prefersReducedMotion ? 0 : 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "glass-strong shadow-lg shadow-black/5" : "bg-transparent"
           }`}
+        style={isMobileViewport ? { background: "rgba(255,255,255,0.98)", borderBottom: "1px solid rgba(15,23,42,0.08)" } : undefined}
       >
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between h-[88px]">
           <Link to="/" className="flex items-center gap-3 group">
@@ -116,6 +175,9 @@ function Navbar() {
             <button
               onClick={() => setMobileOpen((open) => !open)}
               className="lg:hidden w-9 h-9 flex items-center justify-center cursor-pointer hover:bg-foreground/5 rounded-full transition-colors"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
+              aria-label={mobileOpen ? "Zavřít navigaci" : "Otevřít navigaci"}
             >
               {mobileOpen ? <XMarkIcon className="w-5 h-5" /> : <Bars3Icon className="w-5 h-5" />}
             </button>
@@ -126,35 +188,47 @@ function Navbar() {
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
-          className="fixed inset-0 lg:hidden"
-          style={{ background: "linear-gradient(180deg, var(--background) 0%, var(--card) 100%)", zIndex: 49, pointerEvents: "auto" }}
+          className="fixed inset-0 lg:hidden overflow-y-auto overscroll-contain"
+          style={{
+            background: "linear-gradient(180deg, var(--background) 0%, var(--card) 100%)",
+            zIndex: 49,
+            pointerEvents: "auto",
+            paddingTop: "max(88px, env(safe-area-inset-top))",
+            paddingBottom: "max(24px, env(safe-area-inset-bottom))",
+            WebkitOverflowScrolling: "touch",
+          }}
         >
-          <div className="flex flex-col items-center justify-center h-full gap-6 pt-[72px] pb-20" onClick={(e) => e.stopPropagation()} style={{ pointerEvents: "auto" }}>
+          <div
+            id="mobile-navigation"
+            className="flex min-h-full flex-col items-center justify-start gap-6 px-6 pt-10"
+            onClick={(e) => e.stopPropagation()}
+            style={{ pointerEvents: "auto" }}
+          >
             {navLinks.map((link, i) => (
               <motion.div
                 key={link.href}
-                initial={{ opacity: 0, y: 30 }}
+                initial={isMobileViewport || prefersReducedMotion ? false : { opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
+                transition={{ delay: isMobileViewport || prefersReducedMotion ? 0 : i * 0.08 }}
               >
                 <Link
                   to={link.href}
                   onClick={() => {
                     setTimeout(() => setMobileOpen(false), 0);
                   }}
-                  className={`font-[family-name:var(--font-display)] ${
+                  className={`text-center font-[family-name:var(--font-display)] ${
                     link.href === "/kalkulacka" ? "text-accent" : "text-foreground"
                   }`}
-                  style={{ fontSize: "36px", fontWeight: 600 }}
+                  style={{ fontSize: "clamp(28px, 8vw, 36px)", fontWeight: 600 }}
                 >
                   {link.label}
                 </Link>
               </motion.div>
             ))}
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={isMobileViewport || prefersReducedMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: isMobileViewport || prefersReducedMotion ? 0 : 0.5 }}
             >
               <Link
                 to="/kalkulacka"
@@ -268,7 +342,7 @@ function Footer() {
 
         <div className="border-t border-white/8 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="opacity-30 font-sans" style={{ fontSize: "13px" }}>
-            © 2026 Malíři v černém. Všechna práva vyhrazena.
+            © {new Date().getFullYear()} Malíři v černém. Všechna práva vyhrazena.
           </p>
         </div>
       </div>
@@ -282,9 +356,18 @@ export default function Layout({
   children?: React.ReactNode;
 }) {
   const location = useLocation();
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.remove("dark");
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1023px), (hover: none) and (pointer: coarse)");
+    const syncViewport = () => setIsMobileViewport(mediaQuery.matches);
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+    return () => mediaQuery.removeEventListener("change", syncViewport);
   }, []);
 
   useEffect(() => {
@@ -293,7 +376,7 @@ export default function Layout({
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden font-sans">
-      <ScrollProgress />
+      {!isMobileViewport && <ScrollProgress />}
       <Navbar />
       <main>
         {children ?? <Outlet />}
