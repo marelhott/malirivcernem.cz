@@ -4,9 +4,9 @@ import {
   CalculatorIcon, HomeIcon, Cog6ToothIcon, CheckBadgeIcon, ChatBubbleLeftIcon,
   UserIcon, CheckIcon, XMarkIcon, PhoneIcon, EnvelopeIcon, MapPinIcon, CalendarIcon,
   PaperAirplaneIcon, SparklesIcon, CheckCircleIcon, ExclamationTriangleIcon, ArrowTopRightOnSquareIcon,
-  Square3Stack3DIcon, PaintBrushIcon, BuildingLibraryIcon, ShieldCheckIcon, TrashIcon, ArrowPathIcon
+  Square3Stack3DIcon, PaintBrushIcon, ShieldCheckIcon, TrashIcon, ArrowPathIcon, ArrowsPointingOutIcon
 } from "@heroicons/react/24/outline";
-import { emailRegex, phoneRegex, type AreaType, type CeilingHeight, type RepairType, type YesNo, type CleaningType } from "@/lib/calculatorInquiry";
+import { emailRegex, phoneRegex, type AreaType, type CeilingHeight, type RepairType, type YesNo, type CleaningType, type PaintType } from "@/lib/calculatorInquiry";
 
 interface FormState {
   selectedWork: AreaType;
@@ -14,6 +14,7 @@ interface FormState {
   ceilingHeightForPrice: CeilingHeight;
   repairType: RepairType;
   material: YesNo;
+  paintType: PaintType;
   furnitureMoving: YesNo;
   covering: YesNo;
   cleaning: CleaningType;
@@ -27,6 +28,7 @@ interface FormState {
   email: string;
   address: string;
   realizationDate: string;
+  website: string;
 }
 
 const faqItems = [
@@ -57,19 +59,24 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
 
 function AnimatedPrice({ value }: { value: number }) {
   const [display, setDisplay] = useState(value);
+  const displayRef = useRef(value);
   useEffect(() => {
-    const start = display;
+    const start = displayRef.current;
     const diff = value - start;
     if (diff === 0) return;
     const duration = 500;
     const t0 = performance.now();
+    let frameId = 0;
     const tick = (now: number) => {
       const p = Math.min((now - t0) / duration, 1);
       const eased = 1 - Math.pow(1 - p, 3);
-      setDisplay(Math.round(start + diff * eased));
-      if (p < 1) requestAnimationFrame(tick);
+      const nextValue = Math.round(start + diff * eased);
+      displayRef.current = nextValue;
+      setDisplay(nextValue);
+      if (p < 1) frameId = requestAnimationFrame(tick);
     };
-    requestAnimationFrame(tick);
+    frameId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameId);
   }, [value]);
   return <><b>{display.toLocaleString("cs-CZ")}</b></>;
 }
@@ -168,42 +175,6 @@ function ServiceToggle({
   );
 }
 
-function CeilingOption({
-  selected,
-  onClick,
-  value,
-  desc,
-}: {
-  selected: boolean;
-  onClick: () => void;
-  value: string;
-  desc: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`flex flex-col items-center gap-2 p-4 rounded-xl border transition-all duration-300 ${
-        selected
-          ? "border-accent/30 bg-accent/8 shadow-lg shadow-accent/8"
-          : "border-foreground/8 bg-foreground/[0.02] hover:border-foreground/10"
-      }`}
-    >
-      <div
-        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-          selected ? "bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]" : "border border-foreground/20"
-        }`}
-      />
-      <span className="text-foreground font-[family-name:var(--font-display)]" style={{ fontSize: "16px", fontWeight: 600 }}>
-        {value}
-      </span>
-      <span className="text-foreground/35 font-sans" style={{ fontSize: "12px" }}>
-        {desc}
-      </span>
-    </button>
-  );
-}
-
 function SectionCard({
   icon: Icon,
   title,
@@ -261,16 +232,20 @@ function calculatePrice(form: FormState): number {
     else if (form.ceilingHeightForPrice === "450") total += basePrice * 0.2;
   }
 
-  // Repair type
-  if (form.repairType === "Malé") total += basePrice * 0.17;
-  else if (form.repairType === "Střední") total += basePrice * 0.35;
-  else if (form.repairType === "Velké") total += basePrice * 0.6;
+  // Paint type
+  if (form.paintType === "Tónovaná barva na bílou") total += basePrice * 0.15;
+  else if (form.paintType === "Bílá na tónovanou barvu") total += basePrice * 0.15;
 
   // Services
   if (form.material === "Ano") total += basePrice * 0.2;
   if (form.furnitureMoving === "Ano") total += basePrice * 0.12;
   if (form.covering === "Ano") total += basePrice * 0.05;
   if (form.cleaning === "Potřebuji") total += basePrice * 0.1;
+
+  // Repair type
+  if (form.repairType === "Malé") total += basePrice * 0.17;
+  else if (form.repairType === "Střední") total += basePrice * 0.35;
+  else if (form.repairType === "Velké") total += basePrice * 0.6;
 
   return Math.round(total);
 }
@@ -283,6 +258,7 @@ export default function CalculatorPage() {
     ceilingHeightForPrice: "250",
     repairType: "Malé",
     material: "Ano",
+    paintType: "Bílá na bílou",
     furnitureMoving: "Ano",
     covering: "Ano",
     cleaning: "Potřebuji",
@@ -296,6 +272,7 @@ export default function CalculatorPage() {
     email: "",
     address: "",
     realizationDate: "",
+    website: "",
   });
 
   const [emailErr, setEmailErr] = useState(false);
@@ -375,7 +352,7 @@ export default function CalculatorPage() {
   const createMailtoLink = useCallback(() => {
     const subject = encodeURIComponent(`Poptávka malířských prací - ${form.name || "Nový zákazník"}`);
     const body = encodeURIComponent(
-      `Nová poptávka malířských prací\n\nZÁKAZNÍK:\nJméno: ${form.name || "Neuvedeno"}\nEmail: ${form.email}\nTelefon: ${form.phone}\nAdresa: ${form.address || "Neuvedeno"}\nTermín: ${form.realizationDate ? new Date(form.realizationDate).toLocaleDateString("cs-CZ") : "Neuvedeno"}\n\nPROJEKT:\nTyp plochy: ${form.selectedWork === "Půdorys" ? "Podlahová plocha" : "Stěnová plocha"}\nCelková plocha: ${form.totalArea || "0"} m²\n${form.selectedWork === "Půdorys" ? `Výška stropu: ${form.ceilingHeightForPrice} cm\n` : ""}Typ opravy: ${form.repairType}\nBarva: ${form.material === "Ano" ? "Malíř zajistí" : "Vlastní"}\nPosunutí nábytku: ${form.furnitureMoving}\nZakrývání: ${form.covering}\nÚklid: ${form.cleaning}\nPočet místností: ${form.roomCount || "Neuvedeno"}\nTyp prostoru: ${form.spaceType}\nPrázdný prostor: ${form.emptySpace}\nKoberce: ${form.carpets}\n\nPŘIBLIŽNÁ CENA: ${totalPrice.toLocaleString("cs-CZ")} Kč\n\nDODATEČNÉ INFO:\n${form.additionalInfo || "Žádné"}\n\n---\nOdesláno z kalkulačky\nDatum: ${new Date().toLocaleString("cs-CZ")}`
+      `Nová poptávka malířských prací\n\nZÁKAZNÍK:\nJméno: ${form.name || "Neuvedeno"}\nEmail: ${form.email}\nTelefon: ${form.phone}\nAdresa: ${form.address || "Neuvedeno"}\nTermín: ${form.realizationDate ? new Date(form.realizationDate).toLocaleDateString("cs-CZ") : "Neuvedeno"}\n\nPROJEKT:\nTyp plochy: ${form.selectedWork === "Půdorys" ? "Podlahová plocha" : "Stěnová plocha"}\nCelková plocha: ${form.totalArea || "0"} m²\n${form.selectedWork === "Půdorys" ? `Výška stropu: ${form.ceilingHeightForPrice} cm\n` : ""}Barvu zajistí: ${form.material === "Ano" ? "Malíř" : "Zákazník"}\nTyp barvy: ${form.paintType}\nPosunutí nábytku: ${form.furnitureMoving}\nZakrývání: ${form.covering}\nÚklid: ${form.cleaning}\nTyp opravy: ${form.repairType}\nPočet místností: ${form.roomCount || "Neuvedeno"}\nTyp prostoru: ${form.spaceType}\nPrázdný prostor: ${form.emptySpace}\nKoberce: ${form.carpets}\n\nPŘIBLIŽNÁ CENA: ${totalPrice.toLocaleString("cs-CZ")} Kč\n\nDODATEČNÉ INFO:\n${form.additionalInfo || "Žádné"}\n\n---\nOdesláno z kalkulačky\nDatum: ${new Date().toLocaleString("cs-CZ")}`
     );
     return `mailto:info@malirivcernem.cz?subject=${subject}&body=${body}`;
   }, [form, totalPrice]);
@@ -530,23 +507,108 @@ export default function CalculatorPage() {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <div className="p-5 rounded-xl bg-foreground/[0.02] border border-foreground/5">
-                        <label className="block text-foreground font-[family-name:var(--font-display)] mb-4" style={{ fontSize: "14px", fontWeight: 600 }}>
+                      <div className="p-4 rounded-xl bg-foreground/[0.02] border border-foreground/5">
+                        <label className="block text-foreground font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "14px", fontWeight: 600 }}>
                           Výška stropu <span className="text-foreground/30 font-sans" style={{ fontSize: "12px", fontWeight: 400 }}>(ovlivňuje cenu)</span>
                         </label>
-                        <div className="grid grid-cols-3 gap-3">
-                          <CeilingOption selected={form.ceilingHeightForPrice === "250"} onClick={() => set("ceilingHeightForPrice", "250")} value="250 cm" desc="standardní" />
-                          <CeilingOption selected={form.ceilingHeightForPrice === "350"} onClick={() => set("ceilingHeightForPrice", "350")} value="350 cm" desc="vyšší" />
-                          <CeilingOption selected={form.ceilingHeightForPrice === "450"} onClick={() => set("ceilingHeightForPrice", "450")} value="450 cm" desc="velmi vysoký" />
-                        </div>
+                        <select
+                          value={form.ceilingHeightForPrice}
+                          onChange={(e) => set("ceilingHeightForPrice", e.target.value as CeilingHeight)}
+                          className={`${inputNormal} cursor-pointer appearance-none py-3`}
+                          style={{ fontSize: "14px" }}
+                        >
+                          <option value="250">250 cm - standardní</option>
+                          <option value="350">350 cm - vyšší</option>
+                          <option value="450">450 cm - velmi vysoký</option>
+                        </select>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </SectionCard>
 
-              {/* CARD 2: Typ opravy */}
-              <SectionCard icon={Cog6ToothIcon} title="Typ opravy" delay={0.05}>
+              {/* CARD 2: Materiál a služby */}
+              <SectionCard icon={Square3Stack3DIcon} title="Materiál a služby" subtitle="ovlivňující cenu" delay={0.05}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:items-stretch">
+                  <div className="flex flex-col gap-8 h-full">
+                    <div>
+                      <h3 className="text-foreground font-[family-name:var(--font-display)] mb-3" style={{ fontSize: "15px", fontWeight: 500 }}>
+                        <PaintBrushIcon className="w-3.5 h-3.5 inline mr-2 text-[#2563eb]" />
+                        Barvu zajistí malíř?
+                      </h3>
+                      <div className="flex flex-col gap-2.5">
+                        <ServiceToggle selected={form.material === "Ano"} onClick={() => set("material", "Ano")} label="Ano, malíř zajistí" isPositive />
+                        <ServiceToggle selected={form.material === "Ne"} onClick={() => set("material", "Ne")} label="Ne, mám vlastní" isPositive={false} />
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-foreground font-[family-name:var(--font-display)] mb-3" style={{ fontSize: "15px", fontWeight: 500 }}>
+                        <PaintBrushIcon className="w-3.5 h-3.5 inline mr-2 text-[#2563eb]" />
+                        Jakou barvou budeme malovat?
+                      </h3>
+                      <div className="flex flex-col gap-2.5">
+                        <RadioCard
+                          selected={form.paintType === "Bílá na bílou"}
+                          onClick={() => set("paintType", "Bílá na bílou")}
+                          label="Bílá na bílou"
+                          descriptions={["v ceně"]}
+                        />
+                        <RadioCard
+                          selected={form.paintType === "Tónovaná barva na bílou"}
+                          onClick={() => set("paintType", "Tónovaná barva na bílou")}
+                          label="Tónovaná barva na bílou"
+                          descriptions={["+ cena barvy + 15 %"]}
+                        />
+                        <RadioCard
+                          selected={form.paintType === "Bílá na tónovanou barvu"}
+                          onClick={() => set("paintType", "Bílá na tónovanou barvu")}
+                          label="Bílá na tónovanou barvu"
+                          descriptions={["barva v ceně + 15 %"]}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-4 md:justify-between h-full">
+                    <div>
+                      <h3 className="text-foreground font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "15px", fontWeight: 500 }}>
+                        <ArrowsPointingOutIcon className="w-3.5 h-3.5 inline mr-2 text-[#2563eb]" />
+                        Posunutí nábytku?
+                      </h3>
+                      <div className="flex flex-col gap-2.5">
+                        <ServiceToggle selected={form.furnitureMoving === "Ano"} onClick={() => set("furnitureMoving", "Ano")} label="Ano, potřebuji" isPositive />
+                        <ServiceToggle selected={form.furnitureMoving === "Ne"} onClick={() => set("furnitureMoving", "Ne")} label="Ne, vyřeším sám" isPositive={false} />
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-foreground font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "15px", fontWeight: 500 }}>
+                        <ShieldCheckIcon className="w-3.5 h-3.5 inline mr-2 text-[#2563eb]" />
+                        Zakrývání, oblepování?
+                      </h3>
+                      <div className="flex flex-col gap-2.5">
+                        <ServiceToggle selected={form.covering === "Ano"} onClick={() => set("covering", "Ano")} label="Ano, chci" isPositive />
+                        <ServiceToggle selected={form.covering === "Ne"} onClick={() => set("covering", "Ne")} label="Není potřeba" isPositive={false} />
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3 className="text-foreground font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "15px", fontWeight: 500 }}>
+                        <SparklesIcon className="w-3.5 h-3.5 inline mr-2 text-[#2563eb]" />
+                        Úklid po práci?
+                      </h3>
+                      <div className="flex flex-col gap-2.5">
+                        <ServiceToggle selected={form.cleaning === "Potřebuji"} onClick={() => set("cleaning", "Potřebuji")} label="Potřebuji" isPositive />
+                        <ServiceToggle selected={form.cleaning === "Nepotřebuji"} onClick={() => set("cleaning", "Nepotřebuji")} label="Nepotřebuji" isPositive={false} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </SectionCard>
+
+              {/* CARD 3: Typ opravy */}
+              <SectionCard icon={Cog6ToothIcon} title="Typ opravy" delay={0.1}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <RadioCard
                     selected={form.repairType === "Malé"}
@@ -572,56 +634,6 @@ export default function CalculatorPage() {
                     label="Žádné opravy"
                     descriptions={["pouze malování", "bez přípravných prací"]}
                   />
-                </div>
-              </SectionCard>
-
-              {/* CARD 3: Služby */}
-              <SectionCard icon={Square3Stack3DIcon} title="Služby" subtitle="ovlivňující cenu" delay={0.1}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* Material */}
-                  <div>
-                    <h3 className="text-foreground font-[family-name:var(--font-display)] mb-3" style={{ fontSize: "15px", fontWeight: 500 }}>
-                      <PaintBrushIcon className="w-3.5 h-3.5 inline mr-2 text-[#2563eb]" />
-                      Barvu zajistí malíř?
-                    </h3>
-                    <div className="flex flex-col gap-2.5">
-                      <ServiceToggle selected={form.material === "Ano"} onClick={() => set("material", "Ano")} label="Ano, malíř zajistí" isPositive />
-                      <ServiceToggle selected={form.material === "Ne"} onClick={() => set("material", "Ne")} label="Ne, mám vlastní" isPositive={false} />
-                    </div>
-                  </div>
-                  {/* Furniture */}
-                  <div>
-                    <h3 className="text-foreground font-[family-name:var(--font-display)] mb-3" style={{ fontSize: "15px", fontWeight: 500 }}>
-                      <BuildingLibraryIcon className="w-3.5 h-3.5 inline mr-2 text-[#2563eb]" />
-                      Posunutí nábytku?
-                    </h3>
-                    <div className="flex flex-col gap-2.5">
-                      <ServiceToggle selected={form.furnitureMoving === "Ano"} onClick={() => set("furnitureMoving", "Ano")} label="Ano, potřebuji" isPositive />
-                      <ServiceToggle selected={form.furnitureMoving === "Ne"} onClick={() => set("furnitureMoving", "Ne")} label="Ne, vyřeším sám" isPositive={false} />
-                    </div>
-                  </div>
-                  {/* Covering */}
-                  <div>
-                    <h3 className="text-foreground font-[family-name:var(--font-display)] mb-3" style={{ fontSize: "15px", fontWeight: 500 }}>
-                      <ShieldCheckIcon className="w-3.5 h-3.5 inline mr-2 text-[#2563eb]" />
-                      Zakrývání, oblepování?
-                    </h3>
-                    <div className="flex flex-col gap-2.5">
-                      <ServiceToggle selected={form.covering === "Ano"} onClick={() => set("covering", "Ano")} label="Ano, chci" isPositive />
-                      <ServiceToggle selected={form.covering === "Ne"} onClick={() => set("covering", "Ne")} label="Není potřeba" isPositive={false} />
-                    </div>
-                  </div>
-                  {/* Cleaning */}
-                  <div>
-                    <h3 className="text-foreground font-[family-name:var(--font-display)] mb-3" style={{ fontSize: "15px", fontWeight: 500 }}>
-                      <SparklesIcon className="w-3.5 h-3.5 inline mr-2 text-[#2563eb]" />
-                      Úklid po práci?
-                    </h3>
-                    <div className="flex flex-col gap-2.5">
-                      <ServiceToggle selected={form.cleaning === "Potřebuji"} onClick={() => set("cleaning", "Potřebuji")} label="Potřebuji" isPositive />
-                      <ServiceToggle selected={form.cleaning === "Nepotřebuji"} onClick={() => set("cleaning", "Nepotřebuji")} label="Nepotřebuji" isPositive={false} />
-                    </div>
-                  </div>
                 </div>
               </SectionCard>
 
@@ -714,7 +726,7 @@ export default function CalculatorPage() {
                   <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(135deg, rgba(184,168,138,0.06), rgba(192,128,80,0.06))" }} />
 
                   <div className="relative z-10">
-                    <p className="text-white/50 font-sans mb-4" style={{ fontSize: "15px", fontWeight: 300 }}>Přibližná cena</p>
+                    <p className="text-white/50 font-sans mb-4" style={{ fontSize: "15px", fontWeight: 300 }}>Orientační cena pro standardní bílý nátěr</p>
                     <div className="font-[family-name:var(--font-display)] text-white mb-3" style={{ fontSize: "clamp(48px, 8vw, 72px)", fontWeight: 300, letterSpacing: "-0.02em" }}>
                       <AnimatedPrice value={totalPrice} />
                     </div>
@@ -734,6 +746,17 @@ export default function CalculatorPage() {
                   </div>
 
                   <div className="flex flex-col gap-5">
+                    <div className="hidden" aria-hidden="true">
+                      <label htmlFor="calculator-website">Webová stránka</label>
+                      <input
+                        id="calculator-website"
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={form.website}
+                        onChange={(e) => set("website", e.target.value)}
+                      />
+                    </div>
                     {/* Name */}
                     <div>
                       <label className="block font-sans mb-2" style={{ fontSize: "13px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 700 }}>Jméno</label>
@@ -832,7 +855,7 @@ export default function CalculatorPage() {
                 >
                   <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(135deg, rgba(184,168,138,0.06), rgba(192,128,80,0.06))" }} />
                   <div className="relative z-10">
-                    <p className="text-white/50 font-sans mb-2" style={{ fontSize: "14px" }}>Přibližná cena</p>
+                    <p className="text-white/50 font-sans mb-2" style={{ fontSize: "14px" }}>Orientační cena pro standardní bílý nátěr</p>
                     <div className="font-[family-name:var(--font-display)] text-white" style={{ fontSize: "48px", fontWeight: 300 }}>
                       <AnimatedPrice value={totalPrice} />
                     </div>
@@ -978,8 +1001,7 @@ export default function CalculatorPage() {
                   <div className="flex flex-col gap-3 text-foreground/35 font-sans" style={{ fontSize: "12px", lineHeight: 1.6 }}>
                     <p className="text-foreground/60" style={{ fontWeight: 500 }}>Důležité informace:</p>
                     <p>• Podkladová penetrace není součástí kalkulace a bude zaceněna jen v případě, že bude potřeba (zjistíme až na místě)</p>
-                    <p>• V ceně každé zakázky při potvrzení nákupu barvy je v ceně Primalex Plus, všechny ostatní barvy (tónované, plně omyvatelné, disperzní apod.) budou zaceněny navíc dle domluvy.</p>
-                    <p>• Tónované barvy a jejich výmalba je součástí kalkulace až na místě s klientem.</p>
+                    <p>• Cena počítá se standardním bílým nátěrem. Tónované barvy a přemalba z tmavé na bílou nebo z bílé na tónovanou barvu mohou cenu navýšit kvůli více vrstvám a dražší míchané barvě.</p>
                     <p>• Doprava po Praze je v ceně, okolí Prahy bude zpoplatněno dle vzdálenosti.</p>
                     <p>• Speciální opravy (strhávání tapet, odstraňování skvrn, celoplošný štuk, stěrkování) jsou naceňovány navíc až na místě.</p>
                   </div>

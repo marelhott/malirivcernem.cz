@@ -3,6 +3,7 @@ export type CeilingHeight = "250" | "350" | "450";
 export type RepairType = "Malé" | "Střední" | "Velké" | "Žádné";
 export type YesNo = "Ano" | "Ne";
 export type CleaningType = "Potřebuji" | "Nepotřebuji";
+export type PaintType = "Bílá na bílou" | "Tónovaná barva na bílou" | "Bílá na tónovanou barvu";
 
 export interface CalculatorInquiryPayload {
   selectedWork: AreaType;
@@ -10,6 +11,7 @@ export interface CalculatorInquiryPayload {
   ceilingHeightForPrice: CeilingHeight;
   repairType: RepairType;
   material: YesNo;
+  paintType: PaintType;
   furnitureMoving: YesNo;
   covering: YesNo;
   cleaning: CleaningType;
@@ -24,6 +26,7 @@ export interface CalculatorInquiryPayload {
   address: string;
   realizationDate: string;
   totalPrice: number;
+  website?: string;
 }
 
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -39,6 +42,7 @@ export function isCalculatorInquiryPayload(value: unknown): value is CalculatorI
     "ceilingHeightForPrice",
     "repairType",
     "material",
+    "paintType",
     "furnitureMoving",
     "covering",
     "cleaning",
@@ -82,6 +86,7 @@ export function formatCalculatorInquiry(payload: CalculatorInquiryPayload) {
     repairType: payload.repairType,
     ceilingHeight: payload.selectedWork === "Půdorys" ? `${payload.ceilingHeightForPrice} cm` : "Neovlivňuje cenu",
     materialProvider: payload.material === "Ano" ? "Malíř zajistí barvu" : "Zákazník má vlastní barvu",
+    paintType: payload.paintType,
     furnitureMoving: payload.furnitureMoving === "Ano" ? "Ano, potřebuje" : "Ne, vyřeší sám",
     covering: payload.covering === "Ano" ? "Ano, požaduje" : "Není potřeba",
     cleaningService: payload.cleaning === "Potřebuji" ? "Ano, požaduje úklid" : "Nepotřebuje úklid",

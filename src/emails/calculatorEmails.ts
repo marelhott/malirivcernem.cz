@@ -113,6 +113,7 @@ export function createBusinessInquiryEmail(payload: CalculatorInquiryPayload): E
       ${renderGridCard("Detaily zakázky", [
         ["Výška stropu", data.ceilingHeight],
         ["Barvu zajišťuje", data.materialProvider],
+        ["Typ barvy", data.paintType],
         ["Posunutí nábytku", data.furnitureMoving],
         ["Zakrývání", data.covering],
         ["Úklid", data.cleaningService],
@@ -153,6 +154,7 @@ Typ opravy: ${data.repairType}
 DETAILY ZAKÁZKY
 Výška stropu: ${data.ceilingHeight}
 Barvu zajišťuje: ${data.materialProvider}
+Typ barvy: ${data.paintType}
 Posunutí nábytku: ${data.furnitureMoving}
 Zakrývání: ${data.covering}
 Úklid: ${data.cleaningService}
@@ -185,6 +187,7 @@ export function createCustomerConfirmationEmail(payload: CalculatorInquiryPayloa
       ${renderGridCard("Shrnutí poptávky", [
         ["Typ plochy", data.areaType],
         ["Typ opravy", data.repairType],
+        ["Typ barvy", data.paintType],
         ["Posunutí nábytku", data.furnitureMoving],
         ["Zakrývání", data.covering],
         ["Úklid", data.cleaningService],
@@ -212,6 +215,7 @@ SHRNUTÍ
 Typ plochy: ${data.areaType}
 Plocha: ${data.totalArea} m²
 Typ opravy: ${data.repairType}
+Typ barvy: ${data.paintType}
 Posunutí nábytku: ${data.furnitureMoving}
 Zakrývání: ${data.covering}
 Úklid: ${data.cleaningService}
