@@ -233,8 +233,8 @@ function calculatePrice(form: FormState): number {
   }
 
   // Paint type
-  if (form.paintType === "Tónovaná barva na bílou") total += basePrice * 0.15;
-  else if (form.paintType === "Bílá na tónovanou barvu") total += basePrice * 0.15;
+  if (form.paintType === "Tónovaná barva na bílou") total += basePrice * 0.2;
+  else if (form.paintType === "Bílá na tónovanou barvu") total += basePrice * 0.2;
 
   // Services
   if (form.material === "Ano") total += basePrice * 0.2;
@@ -558,13 +558,13 @@ export default function CalculatorPage() {
                           selected={form.paintType === "Tónovaná barva na bílou"}
                           onClick={() => set("paintType", "Tónovaná barva na bílou")}
                           label="Tónovaná barva na bílou"
-                          descriptions={["+ cena barvy + 15 %"]}
+                          descriptions={["+ cena barvy + 20 %"]}
                         />
                         <RadioCard
                           selected={form.paintType === "Bílá na tónovanou barvu"}
                           onClick={() => set("paintType", "Bílá na tónovanou barvu")}
                           label="Bílá na tónovanou barvu"
-                          descriptions={["barva v ceně + 15 %"]}
+                          descriptions={["barva v ceně + 20 %"]}
                         />
                       </div>
                     </div>
