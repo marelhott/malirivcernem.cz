@@ -131,14 +131,14 @@ function HeroSection() {
 
   return (
     <section
-      className="relative flex items-center overflow-hidden bg-background pb-0 md:pb-0"
-      style={{ minHeight: "max(640px, calc(100dvh - 180px))" }}
+      className="relative flex items-start overflow-hidden bg-background pb-0 md:pb-0"
+      style={{ minHeight: "max(520px, calc(100dvh - 320px))" }}
     >
       <div className="pointer-events-none absolute top-[18%] left-[6%] hidden h-[360px] w-[360px] rounded-full bg-[#2563eb]/[0.08] blur-[170px] md:block" />
       <div className="pointer-events-none absolute bottom-[6%] left-[28%] hidden h-[260px] w-[260px] rounded-full bg-[#ec4899]/[0.06] blur-[130px] md:block" />
       <div className="pointer-events-none absolute top-[14%] right-[20%] hidden h-[240px] w-[240px] rounded-full bg-[#14b8a6]/[0.05] blur-[120px] md:block" />
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 w-full mt-[76px] md:mt-[76px] pt-0 md:pt-[20px] pb-10 md:pb-12">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 w-full mt-[76px] md:mt-[76px] pt-0 md:pt-[12px] pb-4 md:pb-6">
         <motion.div
           initial={isMobileViewport ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
