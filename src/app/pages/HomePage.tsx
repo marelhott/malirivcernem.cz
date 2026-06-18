@@ -139,83 +139,86 @@ function HeroSection() {
       <div className="pointer-events-none absolute top-[14%] right-[20%] hidden h-[240px] w-[240px] rounded-full bg-[#14b8a6]/[0.05] blur-[120px] md:block" />
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 w-full mt-[76px] md:mt-[76px] pt-0 md:pt-[20px] pb-10 md:pb-12">
-        <div className="max-w-[980px]">
-          <motion.div initial={isMobileViewport ? false : { opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: isMobileViewport ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/88 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600 shadow-[0_8px_28px_rgba(15,23,42,0.06)] backdrop-blur-sm">
-              <span className="h-2 w-2 rounded-full bg-[#2563eb]" />
-              Malování bytů, domů i společných prostor v Praze
-            </div>
-            <h1
-              className="tracking-[-0.045em] text-[#09090b]"
-              style={{ fontSize: "clamp(32px, 4vw, 56px)", fontWeight: 600, lineHeight: 1.2, fontFamily: "'Sora', sans-serif" }}
-            >
-              Malujeme interiéry v Praze a okolí – rychle, čistě a bez starostí.
-              <br />
-              <span style={{ display: "block", marginTop: "8px", color: "#2563eb", fontFamily: "'Sora', sans-serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(28px, 3.5vw, 36px)", lineHeight: 1.3 }}>Zakryjeme nábytek, opravíme drobné nedostatky a po práci uklidíme. Běžný byt zvládneme často za jediný den.</span>
-            </h1>
-          </motion.div>
-
-          <motion.div initial={isMobileViewport ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: isMobileViewport ? 0 : 0.8, delay: isMobileViewport ? 0 : 0.3 }} className="mt-12 flex flex-wrap items-center gap-4">
-            <Link
-              to="/kalkulacka"
-              className="group inline-flex items-center gap-3 px-9 py-4 rounded-full text-white transition-all duration-300 hover:shadow-xl hover:shadow-[#c9982d]/30 hover:scale-[1.02]"
-              style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e3a8a 58%, #2563eb 100%)", fontSize: "15px", fontWeight: 700, boxShadow: "0 18px 38px rgba(37,99,235,.18)" }}
-            >
-              Spočítat cenu online
-              <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </Link>
-            <Link
-              to="/realizace"
-              className="group inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/88 px-7 py-4 text-slate-800 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_32px_rgba(15,23,42,0.08)]"
-              style={{ fontSize: "15px", fontWeight: 700 }}
-            >
-              Ukázky realizací
-              <ArrowUpRightIcon className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </Link>
-          </motion.div>
-
-          <motion.div initial={isMobileViewport ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: isMobileViewport ? 0 : 0.8, delay: isMobileViewport ? 0 : 0.7 }} className="mt-12 flex items-center gap-2 flex-wrap">
-            <span className="text-foreground/55 font-sans" style={{ fontSize: "12px", fontFamily: "'Manrope', var(--font-sans)" }}>
-              nebo nás kontaktujte přímo:
-            </span>
-            <a
-              href="tel:+420732333550"
-              className="inline-flex items-center gap-2 text-foreground font-[family-name:var(--font-display)] hover:text-accent transition-colors duration-300"
-              style={{ fontSize: "17px", fontWeight: 700, fontFamily: "'Manrope', var(--font-sans)" }}
-            >
-              <PhoneIcon className="w-4 h-4 text-accent" />
-              +420 732 333 550
-            </a>
-          </motion.div>
-        </div>
-
         <motion.div
-          initial={isMobileViewport ? false : { opacity: 0, y: 32 }}
+          initial={isMobileViewport ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: isMobileViewport ? 0 : 0.9, delay: isMobileViewport ? 0 : 0.45, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-10 md:mt-12"
+          transition={{ duration: isMobileViewport ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="relative overflow-hidden rounded-[28px] md:rounded-[36px] border border-white/45 shadow-[0_28px_80px_rgba(15,23,42,0.14)]"
         >
-          <div className="relative overflow-hidden rounded-[26px] md:rounded-[32px] border border-white/55 shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
-            <div className="relative aspect-[5/4] sm:aspect-[16/11] lg:aspect-[16/8]">
-              {heroPhotos.map((photo, index) => (
-                <motion.img
-                  key={index}
-                  src={photo}
-                  alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
-                  className="absolute inset-0 h-full w-full object-cover"
-                  loading={index === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                  fetchPriority={index === 0 ? "high" : "low"}
-                  initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.03 }}
-                  animate={{
-                    opacity: photoIndex === index ? 1 : 0,
-                    scale: prefersReducedMotion ? 1 : photoIndex === index ? 1 : 1.03,
-                  }}
-                  exit={prefersReducedMotion ? undefined : { opacity: 0 }}
-                  transition={{ duration: 0.8 }}
-                />
-              ))}
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,rgba(255,255,255,0)_18%,rgba(15,23,42,0.08)_100%)]" />
+          <div className="relative min-h-[620px] md:min-h-[720px]">
+            {heroPhotos.map((photo, index) => (
+              <motion.img
+                key={index}
+                src={photo}
+                alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
+                className="absolute inset-0 h-full w-full object-cover"
+                loading={index === 0 ? "eager" : "lazy"}
+                decoding="async"
+                fetchPriority={index === 0 ? "high" : "low"}
+                initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.03 }}
+                animate={{
+                  opacity: photoIndex === index ? 1 : 0,
+                  scale: prefersReducedMotion ? 1 : photoIndex === index ? 1 : 1.03,
+                }}
+                exit={prefersReducedMotion ? undefined : { opacity: 0 }}
+                transition={{ duration: 0.8 }}
+              />
+            ))}
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.90)_0%,rgba(255,255,255,0.82)_28%,rgba(255,255,255,0.18)_58%,rgba(15,23,42,0.12)_100%)] md:bg-[linear-gradient(90deg,rgba(255,255,255,0.92)_0%,rgba(255,255,255,0.84)_34%,rgba(255,255,255,0.22)_62%,rgba(15,23,42,0.14)_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.10)_0%,rgba(255,255,255,0)_18%,rgba(15,23,42,0.08)_100%)]" />
+
+            <div className="relative z-10 flex min-h-[620px] md:min-h-[720px] items-end md:items-center">
+              <div className="w-full max-w-[760px] px-6 py-8 sm:px-8 md:px-12 md:py-12 lg:px-14">
+                <motion.div initial={isMobileViewport ? false : { opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: isMobileViewport ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}>
+                  <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/88 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600 shadow-[0_8px_28px_rgba(15,23,42,0.06)] backdrop-blur-sm">
+                    <span className="h-2 w-2 rounded-full bg-[#2563eb]" />
+                    Malování bytů, domů i společných prostor v Praze
+                  </div>
+                  <h1
+                    className="tracking-[-0.045em] text-[#09090b]"
+                    style={{ fontSize: "clamp(32px, 4vw, 64px)", fontWeight: 600, lineHeight: 1.12, fontFamily: "'Sora', sans-serif" }}
+                  >
+                    Malujeme interiéry v Praze a okolí – rychle, čistě a bez starostí.
+                    <br />
+                    <span style={{ display: "block", marginTop: "12px", color: "#2563eb", fontFamily: "'Sora', sans-serif", fontWeight: 400, fontStyle: "italic", fontSize: "clamp(24px, 3vw, 36px)", lineHeight: 1.22 }}>
+                      Zakryjeme nábytek, opravíme drobné nedostatky a po práci uklidíme. Běžný byt zvládneme často za jediný den.
+                    </span>
+                  </h1>
+                </motion.div>
+
+                <motion.div initial={isMobileViewport ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: isMobileViewport ? 0 : 0.8, delay: isMobileViewport ? 0 : 0.3 }} className="mt-10 flex flex-wrap items-center gap-4">
+                  <Link
+                    to="/kalkulacka"
+                    className="group inline-flex items-center gap-3 px-9 py-4 rounded-full text-white transition-all duration-300 hover:shadow-xl hover:shadow-[#c9982d]/30 hover:scale-[1.02]"
+                    style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e3a8a 58%, #2563eb 100%)", fontSize: "15px", fontWeight: 700, boxShadow: "0 18px 38px rgba(37,99,235,.18)" }}
+                  >
+                    Spočítat cenu online
+                    <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                  <Link
+                    to="/realizace"
+                    className="group inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/88 px-7 py-4 text-slate-800 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_32px_rgba(15,23,42,0.08)]"
+                    style={{ fontSize: "15px", fontWeight: 700 }}
+                  >
+                    Ukázky realizací
+                    <ArrowUpRightIcon className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </Link>
+                </motion.div>
+
+                <motion.div initial={isMobileViewport ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: isMobileViewport ? 0 : 0.8, delay: isMobileViewport ? 0 : 0.7 }} className="mt-10 flex items-center gap-2 flex-wrap">
+                  <span className="text-foreground/55 font-sans" style={{ fontSize: "12px", fontFamily: "'Manrope', var(--font-sans)" }}>
+                    nebo nás kontaktujte přímo:
+                  </span>
+                  <a
+                    href="tel:+420732333550"
+                    className="inline-flex items-center gap-2 text-foreground font-[family-name:var(--font-display)] hover:text-accent transition-colors duration-300"
+                    style={{ fontSize: "17px", fontWeight: 700, fontFamily: "'Manrope', var(--font-sans)" }}
+                  >
+                    <PhoneIcon className="w-4 h-4 text-accent" />
+                    +420 732 333 550
+                  </a>
+                </motion.div>
+              </div>
             </div>
           </div>
         </motion.div>
