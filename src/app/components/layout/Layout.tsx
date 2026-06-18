@@ -11,9 +11,9 @@ import { SITE } from "../../seo/site";
 
 const navLinks = [
   { label: "Domů", href: "/" },
+  { label: "Kalkulačka", href: "/kalkulacka" },
   { label: "Služby", href: "/sluzby" },
   { label: "Realizace", href: "/realizace" },
-  { label: "Kalkulačka", href: "/kalkulacka" },
   { label: "O nás", href: "/o-nas" },
   { label: "Kontakt", href: "/kontakt" },
 ];

@@ -195,14 +195,6 @@ function HeroSection() {
                     Spočítat cenu online
                     <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                   </Link>
-                  <Link
-                    to="/realizace"
-                    className="group inline-flex items-center gap-3 rounded-full border border-slate-200 bg-white/88 px-7 py-4 text-slate-800 transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_32px_rgba(15,23,42,0.08)]"
-                    style={{ fontSize: "15px", fontWeight: 700 }}
-                  >
-                    Ukázky realizací
-                    <ArrowUpRightIcon className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                  </Link>
                 </motion.div>
 
                 <motion.div initial={isMobileViewport ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: isMobileViewport ? 0 : 0.8, delay: isMobileViewport ? 0 : 0.7 }} className="mt-10 flex items-center gap-2 flex-wrap">
