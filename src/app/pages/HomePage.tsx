@@ -364,14 +364,14 @@ function StatsSection() {
 /* ───────── HOW IT WORKS ───────── */
 const howItWorksSteps = [
   {
-    title: "Kalkulačka a objednávka",
-    desc: "Vyplníte pár údajů, získáte orientační cenu a pošlete poptávku. Ozveme se vám telefonicky nebo e-mailem, obvykle do 24 hodin.",
-    image: IMG.howStep1,
-  },
-  {
     title: "Příprava a realizace",
     desc: "Dorazíme v domluvený čas, zakryjeme nábytek, opravíme drobné nedostatky zdí a provedeme samotnou výmalbu bez chaosu kolem vás.",
     image: IMG.howStep2,
+  },
+  {
+    title: "Kalkulačka a objednávka",
+    desc: "Vyplníte pár údajů, získáte orientační cenu a pošlete poptávku. Ozveme se vám telefonicky nebo e-mailem, obvykle do 24 hodin.",
+    image: IMG.howStep1,
   },
   {
     title: "Kontrola a fakturace",
