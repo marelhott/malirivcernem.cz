@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Link } from "react-router";
-import { motion, useInView, AnimatePresence } from "motion/react";
+import { motion, useInView, AnimatePresence, useReducedMotion } from "motion/react";
 import {
   ArrowRightIcon, ArrowDownIcon, ArrowUpRightIcon, ChevronLeftIcon, ChevronRightIcon,
   CalendarIcon, CheckIcon, CheckCircleIcon, EyeIcon, ChatBubbleLeftIcon, PhoneIcon, PaintBrushIcon, ShieldCheckIcon, ClockIcon,
@@ -9,9 +9,9 @@ import {
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 
 const heroPhotos = [
-  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F663d1a1a85d24912819c4127e797b1b6?width=3200&quality=95",
-  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F0d209464affe4a17b77af276139011d8?width=3200&quality=95",
-  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2Feb80b64912104529ab782b19777c2656?width=3200&quality=95",
+  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F663d1a1a85d24912819c4127e797b1b6?width=1800&quality=82",
+  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F0d209464affe4a17b77af276139011d8?width=1800&quality=82",
+  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2Feb80b64912104529ab782b19777c2656?width=1800&quality=82",
 ];
 
 const IMG = {
@@ -32,9 +32,38 @@ const IMG = {
   decoArt5: "https://images.unsplash.com/photo-1748075823969-0f3b0870912a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcm5hbWVudGFsJTIwd2FsbCUyMHBhaW50aW5nJTIwY2xhc3NpY2FsJTIwYXJ0JTIwaW50ZXJpb3J8ZW58MXx8fHwxNzcxMzQwODk5fDA&ixlib=rb-4.1.0&q=80&w=1080",
 };
 
+function useMobileViewport() {
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1023px), (hover: none) and (pointer: coarse)");
+    const syncViewport = () => setIsMobileViewport(mediaQuery.matches);
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+    return () => mediaQuery.removeEventListener("change", syncViewport);
+  }, []);
+
+  return isMobileViewport;
+}
+
 function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1023px), (hover: none) and (pointer: coarse)");
+    const syncViewport = () => setIsMobileViewport(mediaQuery.matches);
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+    return () => mediaQuery.removeEventListener("change", syncViewport);
+  }, []);
+
+  if (prefersReducedMotion || isMobileViewport) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div ref={ref} initial={{ opacity: 0, y: 50 }} animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }} transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }} className={className}>
       {children}
@@ -44,7 +73,7 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
 
 function GradientMesh({ variant = "hero" }: { variant?: string }) {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block">
       {variant === "hero" && (
         <>
           <div className="absolute w-[700px] h-[700px] -top-[200px] -right-[200px] rounded-full blur-[200px] animate-float-slow" style={{ background: "var(--orb-navy)" }} />
@@ -66,13 +95,33 @@ function GradientMesh({ variant = "hero" }: { variant?: string }) {
 /* ───────── HERO (Light bg, text left, photo right – Paintly style) ───────── */
 function HeroSection() {
   const [photoIndex, setPhotoIndex] = useState(0);
+  const [isDesktopViewport, setIsDesktopViewport] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1024px)");
+    const mobileQuery = window.matchMedia("(max-width: 1023px), (hover: none) and (pointer: coarse)");
+    const syncViewport = () => {
+      setIsDesktopViewport(mediaQuery.matches);
+      setIsMobileViewport(mobileQuery.matches);
+    };
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+    mobileQuery.addEventListener("change", syncViewport);
+    return () => {
+      mediaQuery.removeEventListener("change", syncViewport);
+      mobileQuery.removeEventListener("change", syncViewport);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktopViewport || isMobileViewport || prefersReducedMotion) return;
     const interval = setInterval(() => {
       setPhotoIndex((prev) => (prev + 1) % heroPhotos.length);
     }, 12000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isDesktopViewport, isMobileViewport, prefersReducedMotion]);
 
   const reassurancePoints = [
     "Nezávazná kalkulace online",
@@ -81,40 +130,47 @@ function HeroSection() {
   ];
 
   return (
-    <section className="relative flex items-center overflow-hidden bg-background pb-0 md:pb-0" style={{ minHeight: "calc(100dvh - 180px)" }}>
-      <div className="absolute top-[18%] left-[6%] w-[360px] h-[360px] bg-[#2563eb]/[0.08] rounded-full blur-[170px] pointer-events-none" />
-      <div className="absolute bottom-[6%] left-[28%] w-[260px] h-[260px] bg-[#ec4899]/[0.06] rounded-full blur-[130px] pointer-events-none" />
-      <div className="absolute top-[14%] right-[20%] w-[240px] h-[240px] bg-[#14b8a6]/[0.05] rounded-full blur-[120px] pointer-events-none" />
+    <section
+      className="relative flex items-center overflow-hidden bg-background pb-0 md:pb-0"
+      style={{ minHeight: "max(640px, calc(100dvh - 180px))" }}
+    >
+      <div className="pointer-events-none absolute top-[18%] left-[6%] hidden h-[360px] w-[360px] rounded-full bg-[#2563eb]/[0.08] blur-[170px] md:block" />
+      <div className="pointer-events-none absolute bottom-[6%] left-[28%] hidden h-[260px] w-[260px] rounded-full bg-[#ec4899]/[0.06] blur-[130px] md:block" />
+      <div className="pointer-events-none absolute top-[14%] right-[20%] hidden h-[240px] w-[240px] rounded-full bg-[#14b8a6]/[0.05] blur-[120px] md:block" />
 
-      {/* Photo – full width, full height, centered */}
-      <div className="absolute right-0 bottom-0 left-[42%] top-[92px] hidden lg:block z-0">
-        <div className="relative w-full h-full overflow-hidden">
-          {heroPhotos.map((photo, index) => (
-            <motion.img
-              key={index}
-              src={photo}
-              alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
-              className="absolute top-0 right-0 h-[108%] w-auto max-w-none"
-              loading="eager"
-              decoding="async"
-              style={{ transformOrigin: "top right" }}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{
-                opacity: photoIndex === index ? 1 : 0,
-                x: photoIndex === index ? 0 : 100,
-              }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.8 }}
-            />
-          ))}
+      {/* Photo – aligned to the same content width as the landing page */}
+      {isDesktopViewport && (
+        <div className="absolute inset-x-0 bottom-0 top-[92px] hidden lg:block z-0">
+          <div className="mx-auto h-full max-w-[1400px] px-6 md:px-10">
+            <div className="relative ml-auto h-full w-[54%] overflow-hidden rounded-[32px] border border-white/55 shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
+              {heroPhotos.map((photo, index) => (
+                <motion.img
+                  key={index}
+                  src={photo}
+                  alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
+                  className="absolute inset-0 h-full w-full object-cover"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  fetchPriority={index === 0 ? "high" : "low"}
+                  initial={prefersReducedMotion ? false : { opacity: 0, x: 100 }}
+                  animate={{
+                    opacity: photoIndex === index ? 1 : 0,
+                    x: prefersReducedMotion ? 0 : photoIndex === index ? 0 : 100,
+                  }}
+                  exit={prefersReducedMotion ? undefined : { opacity: 0, x: -100 }}
+                  transition={{ duration: 0.8 }}
+                />
+              ))}
+              <div className="absolute inset-y-0 left-0 w-[38%] bg-gradient-to-r from-white via-white/86 to-transparent" />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.20)_0%,rgba(255,255,255,0)_18%,rgba(255,255,255,0.04)_100%)]" />
+            </div>
+          </div>
         </div>
-        <div className="absolute inset-y-0 left-0 w-[48%] bg-gradient-to-r from-white via-white/92 to-transparent" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.36)_0%,rgba(255,255,255,0)_18%,rgba(255,255,255,0.04)_100%)]" />
-      </div>
+      )}
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 w-full mt-[76px] md:mt-[76px] pt-0 md:pt-[20px] pb-0 md:pb-6">
         <div className="max-w-xl lg:max-w-[52%]">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div initial={isMobileViewport ? false : { opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: isMobileViewport ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/88 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600 shadow-[0_8px_28px_rgba(15,23,42,0.06)] backdrop-blur-sm">
               <span className="h-2 w-2 rounded-full bg-[#2563eb]" />
               Malování bytů, domů i společných prostor v Praze
@@ -129,7 +185,7 @@ function HeroSection() {
             </h1>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }} className="mt-12 flex flex-wrap items-center gap-4">
+          <motion.div initial={isMobileViewport ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: isMobileViewport ? 0 : 0.8, delay: isMobileViewport ? 0 : 0.3 }} className="mt-12 flex flex-wrap items-center gap-4">
             <Link
               to="/kalkulacka"
               className="group inline-flex items-center gap-3 px-9 py-4 rounded-full text-white transition-all duration-300 hover:shadow-xl hover:shadow-[#c9982d]/30 hover:scale-[1.02]"
@@ -148,7 +204,7 @@ function HeroSection() {
             </Link>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.7 }} className="mt-12 flex items-center gap-2 flex-wrap">
+          <motion.div initial={isMobileViewport ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: isMobileViewport ? 0 : 0.8, delay: isMobileViewport ? 0 : 0.7 }} className="mt-12 flex items-center gap-2 flex-wrap">
             <span className="text-foreground/55 font-sans" style={{ fontSize: "12px", fontFamily: "'Manrope', var(--font-sans)" }}>
               nebo nás kontaktujte přímo:
             </span>
@@ -162,35 +218,6 @@ function HeroSection() {
             </a>
           </motion.div>
         </div>
-
-        {/* Mobile hero image */}
-          <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="mt-12 lg:hidden rounded-[24px] overflow-hidden shadow-[0_28px_70px_rgba(15,23,42,0.16)] border border-white/70 relative"
-        >
-          <div className="relative w-full aspect-[5/4] overflow-hidden bg-[linear-gradient(180deg,rgba(248,250,252,0.95)_0%,rgba(241,245,249,0.9)_100%)]">
-            {heroPhotos.map((photo, index) => (
-              <motion.img
-                key={index}
-                src={photo}
-                alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
-                className="absolute inset-0 w-full h-full object-contain"
-                loading="eager"
-                decoding="async"
-                style={{ objectPosition: "50% 0%" }}
-                initial={{ opacity: 0, x: 100 }}
-                animate={{
-                  opacity: photoIndex === index ? 1 : 0,
-                  x: photoIndex === index ? 0 : 100,
-                }}
-                exit={{ opacity: 0, x: -100 }}
-                transition={{ duration: 0.8 }}
-              />
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
@@ -259,10 +286,24 @@ function TrustSection() {
 function useCounter(target: number, duration = 2000) {
   const [count, setCount] = useState(target);
   const ref = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1023px), (hover: none) and (pointer: coarse)");
+    const syncViewport = () => setIsMobileViewport(mediaQuery.matches);
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+    return () => mediaQuery.removeEventListener("change", syncViewport);
+  }, []);
+
+  useEffect(() => {
     if (!inView) return;
+    if (prefersReducedMotion || isMobileViewport) {
+      setCount(target);
+      return;
+    }
     let startTime: number;
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
@@ -275,7 +316,7 @@ function useCounter(target: number, duration = 2000) {
       }
     };
     requestAnimationFrame(animate);
-  }, [inView, target, duration]);
+  }, [duration, inView, isMobileViewport, prefersReducedMotion, target]);
 
   return { count, ref };
 }
@@ -302,7 +343,7 @@ function StatCounter({ stat }: { stat: typeof statsData[0] }) {
 function StatsSection() {
   return (
     <section className="relative py-8 md:py-12 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s2) 0%, var(--s1) 100%)" }}>
-      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] rounded-full blur-[200px] pointer-events-none" style={{ background: "var(--orb-accent)" }} />
+      <div className="absolute top-1/2 right-0 hidden md:block w-[400px] h-[400px] rounded-full blur-[200px] pointer-events-none" style={{ background: "var(--orb-accent)" }} />
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
           {statsData.map((stat, i) => (
@@ -336,6 +377,8 @@ const howItWorksSteps = [
 ];
 
 function HowItWorksSection() {
+  const isMobileViewport = useMobileViewport();
+
   return (
     <section className="relative py-16 md:py-22 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
       <div className="absolute top-0 left-1/4 w-[500px] h-[400px] rounded-full blur-[200px] pointer-events-none" style={{ background: "var(--orb-olive)" }} />
@@ -353,11 +396,32 @@ function HowItWorksSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {howItWorksSteps.map((step, i) => (
             <Reveal key={step.title} delay={i * 0.12}>
-              <div className="group overflow-hidden rounded-[16px] transition-all duration-500 hover:shadow-lg h-full flex flex-col" style={{ background: "rgba(10, 15, 25, 0.95)", backdropFilter: "blur(12px)", border: "none", boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}>
-                <div className="aspect-[4/3] overflow-hidden relative">
-                  <ImageWithFallback src={step.image} alt={step.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                </div>
+              <div className="group overflow-hidden rounded-[16px] transition-all duration-500 hover:shadow-lg h-full flex flex-col" style={{ background: "rgba(10, 15, 25, 0.95)", backdropFilter: isMobileViewport ? "none" : "blur(12px)", border: "none", boxShadow: isMobileViewport ? "0 4px 16px rgba(0,0,0,0.18)" : "0 8px 24px rgba(0,0,0,0.5)" }}>
+                {!isMobileViewport && (
+                  <div className="aspect-[4/3] overflow-hidden relative">
+                    <ImageWithFallback src={step.image} alt={step.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                  </div>
+                )}
                 <div className="p-6 md:p-7 flex flex-col flex-1 text-center">
+                  {isMobileViewport && (
+                    <div className="mb-5 flex justify-center">
+                      <span
+                        className="inline-flex items-center justify-center rounded-full border"
+                        style={{
+                          width: "52px",
+                          height: "52px",
+                          fontSize: "18px",
+                          fontWeight: 700,
+                          color: "#f8fafc",
+                          borderColor: "rgba(148, 163, 184, 0.24)",
+                          background: "linear-gradient(135deg, rgba(37, 99, 235, 0.22), rgba(15, 23, 42, 0.92))",
+                          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)",
+                        }}
+                      >
+                        0{i + 1}
+                      </span>
+                    </div>
+                  )}
                   <h3 className="mb-5 text-white" style={{ fontFamily: "Manrope, sans-serif", fontSize: "clamp(20px, 1.5vw, 28px)", fontWeight: 600, lineHeight: 1.2, letterSpacing: "-0.03em" }}>{step.title}</h3>
                   <p className="font-sans flex-1 text-slate-300" style={{ fontSize: "14px", lineHeight: 1.6, fontFamily: "Manrope, sans-serif", fontWeight: 500 }}>{step.desc}</p>
                 </div>
@@ -380,7 +444,18 @@ const services = [
   { title: "Dekorativní úprava zdí", desc: "Designové úpravy stěn – betonové stěrky, limewash i originální malby", image: "https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2Fef84eec608ae45b68efe710c13fa7d1a", slug: "dekorativni-sterky", tag: "Design" },
 ];
 
+const serviceIcons = {
+  "malovani-bytu": HomeIcon,
+  "malovani-pred-prodejem": BoltIcon,
+  "malovani-kancelari": BuildingLibraryIcon,
+  "komercni-objekty": ShieldCheckIcon,
+  "malovani-svj": PaintBrushIcon,
+  "dekorativni-sterky": SwatchIcon,
+} as const;
+
 function ServicePreview() {
+  const isMobileViewport = useMobileViewport();
+
   return (
     <section className="relative py-12 md:py-20 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
       <GradientMesh variant="dark" />
@@ -400,6 +475,10 @@ function ServicePreview() {
           {services.map((s, i) => (
             <Reveal key={s.title} delay={i * 0.08}>
               <Link to={`/sluzby/${s.slug}`} className="group block h-full no-underline">
+                {(() => {
+                  const ServiceIcon = serviceIcons[s.slug as keyof typeof serviceIcons] ?? PaintBrushIcon;
+
+                  return (
                 <div
                   className="relative overflow-hidden rounded-[10px] transition-all duration-500 hover:shadow-lg flex flex-col lg:flex-row lg:items-stretch gap-8 lg:gap-12 h-full"
                   style={{
@@ -409,36 +488,63 @@ function ServicePreview() {
                     textDecoration: "none",
                   }}
                 >
+                  {isMobileViewport && (
+                    <>
+                      <div
+                        className="absolute right-0 top-0 h-24 w-24 rounded-full pointer-events-none"
+                        style={{ background: "radial-gradient(circle at center, rgba(37, 99, 235, 0.18), rgba(37, 99, 235, 0))", transform: "translate(28%, -28%)" }}
+                      />
+                      <div
+                        className="absolute left-5 top-5 h-10 w-10 rounded-full pointer-events-none"
+                        style={{ border: "1px solid rgba(15, 23, 42, 0.08)" }}
+                      />
+                    </>
+                  )}
                   {/* Image */}
-                  <div className="w-full lg:w-auto flex-shrink-0">
-                    <ImageWithFallback
-                      src={s.image}
-                      alt={s.title}
-                      className="w-full lg:w-[300px] h-[250px] lg:h-[300px] object-cover rounded-[12px] transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                  </div>
+                  {!isMobileViewport && (
+                    <div className="w-full lg:w-auto flex-shrink-0">
+                      <ImageWithFallback
+                        src={s.image}
+                        alt={s.title}
+                        className="w-full lg:w-[300px] h-[250px] lg:h-[300px] object-cover rounded-[12px] transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
 
                   {/* Text content */}
                   <div className="flex flex-col gap-6 flex-1 min-w-0">
-                    {/* Tag */}
-                    <span
-                      className="w-fit px-3 py-1.5 rounded-full"
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: 600,
-                        color: "white",
-                        background: "#2563eb"
-                      }}
-                    >
-                      {s.tag}
-                    </span>
+                    <div className="flex items-start justify-between gap-3">
+                      <span
+                        className="w-fit px-3 py-1.5 rounded-full"
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 600,
+                          color: "white",
+                          background: "#2563eb"
+                        }}
+                      >
+                        {s.tag}
+                      </span>
+                      {isMobileViewport && (
+                        <span
+                          className="inline-flex h-11 w-11 items-center justify-center rounded-full"
+                          style={{
+                            background: "rgba(15, 23, 42, 0.06)",
+                            color: "#0f172a",
+                            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8)",
+                          }}
+                        >
+                          <ServiceIcon className="h-5 w-5" />
+                        </span>
+                      )}
+                    </div>
 
                     <div className="flex flex-col gap-4">
                       <h3
                         className="m-0"
                         style={{
-                          fontSize: "32px",
+                          fontSize: isMobileViewport ? "26px" : "32px",
                           fontWeight: 600,
                           letterSpacing: "-0.03em",
                           color: "#101014",
@@ -466,6 +572,8 @@ function ServicePreview() {
                     </div>
                   </div>
                 </div>
+                  );
+                })()}
               </Link>
             </Reveal>
           ))}
@@ -543,6 +651,8 @@ const faqItems: Array<{ title: string; desc: React.ReactNode }> = [
 
 function WhyUsSection() {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
+  const prefersReducedMotion = useReducedMotion();
+  const isMobileViewport = useMobileViewport();
 
   return (
     <section id="faq" className="relative py-16 md:py-22 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
@@ -559,14 +669,16 @@ function WhyUsSection() {
 
         <Reveal delay={0.1}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-[60px]" style={{ alignItems: "start", fontFamily: "Manrope, sans-serif", maxWidth: "1280px", margin: "0 auto" }}>
-            <div className="hidden md:block" style={{ width: "100%", height: "570px", overflow: "hidden", borderRadius: "10px" }}>
-              <ImageWithFallback
-                src="https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2F9c2ece810aa148b88d5fdc4f6340d995"
-                alt="Často se nás ptáte"
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </div>
+            {!isMobileViewport && (
+              <div style={{ width: "100%", height: "570px", overflow: "hidden", borderRadius: "10px" }}>
+                <ImageWithFallback
+                  src="https://cdn.builder.io/api/v1/image/assets%2Fac4f22b6755541c6871d8f6adda59355%2F9c2ece810aa148b88d5fdc4f6340d995"
+                  alt="Často se nás ptáte"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            )}
 
             <div style={{ width: "100%" }} className="md:col-span-1 col-span-1">
               {faqItems.map((item, index) => (
@@ -621,23 +733,37 @@ function WhyUsSection() {
                   </button>
 
                   {activeIndex === index && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      {typeof item.desc === "string" ? (
-                        <p style={{ width: "100%", margin: 0, paddingBottom: "30px", color: "#3d3d47", fontSize: "15px", lineHeight: 1.6, letterSpacing: "-0.02em" }}>
-                          {item.desc}
-                        </p>
-                      ) : (
-                        <div style={{ width: "100%", paddingBottom: "30px", color: "#526071", fontSize: "15px", lineHeight: 1.75, letterSpacing: "-0.02em", fontWeight: 500 }}>
-                          {item.desc}
-                        </div>
-                      )}
-                    </motion.div>
+                    prefersReducedMotion ? (
+                      <div className="overflow-hidden">
+                        {typeof item.desc === "string" ? (
+                          <p style={{ width: "100%", margin: 0, paddingBottom: "30px", color: "#3d3d47", fontSize: "15px", lineHeight: 1.6, letterSpacing: "-0.02em" }}>
+                            {item.desc}
+                          </p>
+                        ) : (
+                          <div style={{ width: "100%", paddingBottom: "30px", color: "#526071", fontSize: "15px", lineHeight: 1.75, letterSpacing: "-0.02em", fontWeight: 500 }}>
+                            {item.desc}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        {typeof item.desc === "string" ? (
+                          <p style={{ width: "100%", margin: 0, paddingBottom: "30px", color: "#3d3d47", fontSize: "15px", lineHeight: 1.6, letterSpacing: "-0.02em" }}>
+                            {item.desc}
+                          </p>
+                        ) : (
+                          <div style={{ width: "100%", paddingBottom: "30px", color: "#526071", fontSize: "15px", lineHeight: 1.75, letterSpacing: "-0.02em", fontWeight: 500 }}>
+                            {item.desc}
+                          </div>
+                        )}
+                      </motion.div>
+                    )
                   )}
                 </article>
               ))}
@@ -658,6 +784,8 @@ const priceItems = [
 ];
 
 function PricingSection() {
+  const isMobileViewport = useMobileViewport();
+
   const getPriceIcon = (iconType: string) => {
     return <HomeIcon className="w-10 h-10" />;
   };
@@ -677,14 +805,16 @@ function PricingSection() {
 
         <Reveal delay={0.1}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-[60px]" style={{ alignItems: "start", fontFamily: "Manrope, sans-serif", maxWidth: "1280px", margin: "0 auto" }}>
-            <div className="hidden md:block" style={{ width: "100%", height: "570px", overflow: "hidden", borderRadius: "10px" }}>
-              <ImageWithFallback
-                src="https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2Fcba28610f57a4490a2d26303bb9db6f6"
-                alt="Online kalkulačka ceny malování bytu a pokoje v Praze"
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </div>
+            {!isMobileViewport && (
+              <div style={{ width: "100%", height: "570px", overflow: "hidden", borderRadius: "10px" }}>
+                <ImageWithFallback
+                  src="https://cdn.builder.io/api/v1/image/assets%2Fcb820ce0540248488dff0352bdbc18eb%2Fcba28610f57a4490a2d26303bb9db6f6"
+                  alt="Online kalkulačka ceny malování bytu a pokoje v Praze"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            )}
 
             <div style={{ width: "100%", display: "flex", flexDirection: "column", minHeight: "auto", justifyContent: "space-between" }} className="md:h-[570px]">
               <div>
@@ -750,9 +880,15 @@ function PricingSection() {
 const decoImages = [IMG.decoArt1, IMG.decoArt2, IMG.decoArt3, IMG.decoArt4];
 
 function DecorativeArtSection() {
+  const isMobileViewport = useMobileViewport();
+
+  if (isMobileViewport) {
+    return null;
+  }
+
   return (
     <section className="relative py-12 md:py-16 noise-overlay" style={{ background: "linear-gradient(180deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)" }}>
-      <div className="absolute top-1/2 left-0 w-[500px] h-[400px] rounded-full blur-[200px] pointer-events-none" style={{ background: "var(--orb-navy)" }} />
+      <div className="absolute top-1/2 left-0 hidden md:block w-[500px] h-[400px] rounded-full blur-[200px] pointer-events-none" style={{ background: "var(--orb-navy)" }} />
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
         <Reveal>
           <div className="text-center mb-10 -mt-5 md:-mt-6">
@@ -771,7 +907,7 @@ function DecorativeArtSection() {
         </Reveal>
 
         <Reveal delay={0.15}>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-12">
+          <div className="hidden md:grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-12">
             {decoImages.map((img, i) => (
               <div key={i} className="overflow-hidden rounded-xl">
                 <ImageWithFallback
@@ -802,8 +938,8 @@ const testimonials = [
 function TestimonialsSection() {
   return (
     <section className="relative py-14 md:py-20 noise-overlay" style={{ background: "linear-gradient(180deg, #ffffff 0%, #f6f9ff 50%, #ffffff 100%)" }}>
-      <div className="absolute top-24 left-[12%] w-[360px] h-[240px] rounded-full blur-[140px] pointer-events-none" style={{ background: "rgba(37,99,235,0.10)" }} />
-      <div className="absolute bottom-12 right-[10%] w-[320px] h-[220px] rounded-full blur-[140px] pointer-events-none" style={{ background: "rgba(124,58,237,0.08)" }} />
+      <div className="absolute top-24 left-[12%] hidden md:block w-[360px] h-[240px] rounded-full blur-[140px] pointer-events-none" style={{ background: "rgba(37,99,235,0.10)" }} />
+      <div className="absolute bottom-12 right-[10%] hidden md:block w-[320px] h-[220px] rounded-full blur-[140px] pointer-events-none" style={{ background: "rgba(124,58,237,0.08)" }} />
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 relative z-10">
         <Reveal>
           <div className="text-center mb-10 -mt-6 md:-mt-8">
