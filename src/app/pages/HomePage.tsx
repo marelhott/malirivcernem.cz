@@ -138,38 +138,8 @@ function HeroSection() {
       <div className="pointer-events-none absolute bottom-[6%] left-[28%] hidden h-[260px] w-[260px] rounded-full bg-[#ec4899]/[0.06] blur-[130px] md:block" />
       <div className="pointer-events-none absolute top-[14%] right-[20%] hidden h-[240px] w-[240px] rounded-full bg-[#14b8a6]/[0.05] blur-[120px] md:block" />
 
-      {/* Photo – aligned to the same content width as the landing page */}
-      {isDesktopViewport && (
-        <div className="absolute inset-x-0 bottom-0 top-[92px] hidden lg:block z-0">
-          <div className="mx-auto h-full max-w-[1400px] px-6 md:px-10">
-            <div className="relative ml-auto h-full w-[54%] overflow-hidden rounded-[32px] border border-white/55 shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
-              {heroPhotos.map((photo, index) => (
-                <motion.img
-                  key={index}
-                  src={photo}
-                  alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
-                  className="absolute inset-0 h-full w-full object-cover"
-                  loading={index === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                  fetchPriority={index === 0 ? "high" : "low"}
-                  initial={prefersReducedMotion ? false : { opacity: 0, x: 100 }}
-                  animate={{
-                    opacity: photoIndex === index ? 1 : 0,
-                    x: prefersReducedMotion ? 0 : photoIndex === index ? 0 : 100,
-                  }}
-                  exit={prefersReducedMotion ? undefined : { opacity: 0, x: -100 }}
-                  transition={{ duration: 0.8 }}
-                />
-              ))}
-              <div className="absolute inset-y-0 left-0 w-[38%] bg-gradient-to-r from-white via-white/86 to-transparent" />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.20)_0%,rgba(255,255,255,0)_18%,rgba(255,255,255,0.04)_100%)]" />
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 w-full mt-[76px] md:mt-[76px] pt-0 md:pt-[20px] pb-0 md:pb-6">
-        <div className="max-w-xl lg:max-w-[52%]">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-10 w-full mt-[76px] md:mt-[76px] pt-0 md:pt-[20px] pb-10 md:pb-12">
+        <div className="max-w-[980px]">
           <motion.div initial={isMobileViewport ? false : { opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: isMobileViewport ? 0 : 0.9, ease: [0.16, 1, 0.3, 1] }}>
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/88 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600 shadow-[0_8px_28px_rgba(15,23,42,0.06)] backdrop-blur-sm">
               <span className="h-2 w-2 rounded-full bg-[#2563eb]" />
@@ -218,6 +188,37 @@ function HeroSection() {
             </a>
           </motion.div>
         </div>
+
+        <motion.div
+          initial={isMobileViewport ? false : { opacity: 0, y: 32 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: isMobileViewport ? 0 : 0.9, delay: isMobileViewport ? 0 : 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-10 md:mt-12"
+        >
+          <div className="relative overflow-hidden rounded-[26px] md:rounded-[32px] border border-white/55 shadow-[0_24px_70px_rgba(15,23,42,0.12)]">
+            <div className="relative aspect-[5/4] sm:aspect-[16/11] lg:aspect-[16/8]">
+              {heroPhotos.map((photo, index) => (
+                <motion.img
+                  key={index}
+                  src={photo}
+                  alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
+                  className="absolute inset-0 h-full w-full object-cover"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  fetchPriority={index === 0 ? "high" : "low"}
+                  initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.03 }}
+                  animate={{
+                    opacity: photoIndex === index ? 1 : 0,
+                    scale: prefersReducedMotion ? 1 : photoIndex === index ? 1 : 1.03,
+                  }}
+                  exit={prefersReducedMotion ? undefined : { opacity: 0 }}
+                  transition={{ duration: 0.8 }}
+                />
+              ))}
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,rgba(255,255,255,0)_18%,rgba(15,23,42,0.08)_100%)]" />
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
