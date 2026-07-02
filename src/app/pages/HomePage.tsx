@@ -9,9 +9,9 @@ import {
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 
 const heroPhotos = [
-  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F663d1a1a85d24912819c4127e797b1b6?width=1800&quality=82",
-  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2F0d209464affe4a17b77af276139011d8?width=1800&quality=82",
-  "https://cdn.builder.io/api/v1/image/assets%2F890738e57c844e2d95a121dad9883e9c%2Feb80b64912104529ab782b19777c2656?width=1800&quality=82",
+  "/hero/hero-man-window.png",
+  "/hero/hero-woman-window.png",
+  "/hero/hero-team.png",
 ];
 
 const IMG = {
@@ -119,7 +119,7 @@ function HeroSection() {
     if (!isDesktopViewport || isMobileViewport || prefersReducedMotion) return;
     const interval = setInterval(() => {
       setPhotoIndex((prev) => (prev + 1) % heroPhotos.length);
-    }, 12000);
+    }, 8000);
     return () => clearInterval(interval);
   }, [isDesktopViewport, isMobileViewport, prefersReducedMotion]);
 
