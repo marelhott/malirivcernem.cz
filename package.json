@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
-    "start": "next start"
+    "start": "next start",
+    "typecheck": "tsc --noEmit --incremental false",
+    "test": "node --test src/lib/*.test.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

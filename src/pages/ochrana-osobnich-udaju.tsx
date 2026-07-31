@@ -7,31 +7,34 @@ export default function PrivacyPolicyPage() {
         </h1>
         <div className="space-y-6 text-base leading-8 text-foreground/80">
           <p>
-            Při odeslání poptávky nebo kontaktního formuláře zpracováváme osobní údaje v
-            rozsahu, který nám sami poskytnete, zejména jméno, telefon, email, adresu
-            realizace a informace o zakázce.
+            Správcem osobních údajů získaných prostřednictvím tohoto webu je provozovatel
+            značky Malíři v černém. Ve věcech ochrany osobních údajů nás můžete kontaktovat
+            na <a className="underline underline-offset-4" href="mailto:info@malirivcernem.cz">info@malirivcernem.cz</a>
+            {" "}nebo na telefonu <a className="underline underline-offset-4" href="tel:+420732333550">+420 732 333 550</a>.
           </p>
           <p>
-            Údaje používáme výhradně za účelem vyřízení poptávky, přípravy nabídky,
-            komunikace k realizaci zakázky a plnění souvisejících zákonných povinností.
+            Při odeslání kontaktního formuláře nebo kalkulace zpracováváme údaje, které nám
+            sami poskytnete, zejména jméno, e-mail, telefon, adresu nebo oblast realizace,
+            požadovaný termín a informace o zakázce. Technické ochranné prvky mohou krátkodobě
+            pracovat také s IP adresou za účelem omezení zneužití.
           </p>
           <p>
-            Osobní údaje neposkytujeme třetím stranám, s výjimkou nezbytných technických
-            zpracovatelů (například nástrojů pro odeslání formuláře nebo provoz webu), a to
-            pouze v rozsahu nutném pro zajištění služby.
+            Údaje používáme k vyřízení poptávky, přípravě nabídky a případné realizaci zakázky.
+            Zpracování probíhá zejména proto, abychom mohli na vaši žádost učinit kroky před
+            uzavřením smlouvy; zabezpečení formulářů vychází z našeho oprávněného zájmu.
           </p>
           <p>
-            Máte právo požadovat přístup ke svým údajům, jejich opravu, výmaz nebo omezení
-            zpracování. V případě dotazů nás kontaktujte na emailu{" "}
-            <a className="underline underline-offset-4" href="mailto:info@malirivcernem.cz">
-              info@malirivcernem.cz
-            </a>
-            .
+            Údaje uchováváme pouze po dobu potřebnou k vyřízení poptávky a navazující komunikaci.
+            Pokud dojde k realizaci, mohou být potřebné údaje dále uchovány po dobu vyžadovanou
+            právními předpisy. Technické zpracování zajišťují hosting Vercel a e-mailová služba
+            Resend, a to jen v rozsahu nutném pro provoz webu a doručení zpráv.
           </p>
-          <p className="text-sm text-foreground/60">
-            Tento text je základní informační přehled. Pro finální právní znění doporučujeme
-            doplnění podle konkrétního způsobu fakturace, účetnictví a používaných služeb.
+          <p>
+            Můžete požadovat přístup ke svým údajům, jejich opravu, výmaz nebo omezení
+            zpracování a vznést námitku proti zpracování založenému na oprávněném zájmu.
+            Máte také právo podat stížnost u Úřadu pro ochranu osobních údajů.
           </p>
+          <p className="text-sm text-foreground/60">Poslední aktualizace: 31. července 2026.</p>
         </div>
       </section>
     </main>

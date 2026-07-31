@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { Link } from "react-router";
 import { motion, useInView, AnimatePresence, useReducedMotion } from "motion/react";
 import {
@@ -9,9 +10,9 @@ import {
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 
 const heroPhotos = [
-  "/hero/hero-man-window.png",
-  "/hero/hero-woman-window.png",
-  "/hero/hero-team.png",
+  "/optimized-safe/hero/hero-man-window.webp",
+  "/optimized-safe/hero/hero-woman-window.webp",
+  "/optimized-safe/hero/hero-team.webp",
 ];
 
 const IMG = {
@@ -125,7 +126,7 @@ function HeroSection() {
 
   const reassurancePoints = [
     "Nezávazná kalkulace online",
-    "Zakrytí i finální úklid v ceně",
+    "Zakrytí i finální úklid podle potřeby",
     "Praha a okolí, často hotovo za 1 den",
   ];
 
@@ -146,24 +147,25 @@ function HeroSection() {
           className="relative overflow-hidden rounded-[28px] md:rounded-[36px] border border-white/45 shadow-[0_28px_80px_rgba(15,23,42,0.14)]"
         >
           <div className="relative min-h-[620px] md:min-h-[720px]">
-            {heroPhotos.map((photo, index) => (
-              <motion.img
-                key={index}
-                src={photo}
-                alt="Profesionální malování bytu v Praze - malířka při práci v interiéru"
-                className="absolute inset-0 h-full w-full object-cover"
-                loading={index === 0 ? "eager" : "lazy"}
-                decoding="async"
-                fetchPriority={index === 0 ? "high" : "low"}
+            <AnimatePresence initial={false} mode="sync">
+              <motion.div
+                key={heroPhotos[photoIndex]}
+                className="absolute inset-0"
                 initial={prefersReducedMotion ? false : { opacity: 0, scale: 1.03 }}
-                animate={{
-                  opacity: photoIndex === index ? 1 : 0,
-                  scale: prefersReducedMotion ? 1 : photoIndex === index ? 1 : 1.03,
-                }}
+                animate={{ opacity: 1, scale: 1 }}
                 exit={prefersReducedMotion ? undefined : { opacity: 0 }}
                 transition={{ duration: 0.8 }}
-              />
-            ))}
+              >
+                <Image
+                  src={heroPhotos[photoIndex]}
+                  alt="Profesionální malování interiéru v Praze"
+                  fill
+                  priority={photoIndex === 0}
+                  sizes="(max-width: 1023px) 100vw, 1400px"
+                  className="object-cover"
+                />
+              </motion.div>
+            </AnimatePresence>
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.90)_0%,rgba(255,255,255,0.82)_28%,rgba(255,255,255,0.18)_58%,rgba(15,23,42,0.12)_100%)] md:bg-[linear-gradient(90deg,rgba(255,255,255,0.92)_0%,rgba(255,255,255,0.84)_34%,rgba(255,255,255,0.22)_62%,rgba(15,23,42,0.14)_100%)]" />
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.10)_0%,rgba(255,255,255,0)_18%,rgba(15,23,42,0.08)_100%)]" />
 
@@ -686,6 +688,8 @@ function WhyUsSection() {
                 >
                   <button
                     onClick={() => setActiveIndex((currentIndex) => (currentIndex === index ? null : index))}
+                    aria-expanded={activeIndex === index}
+                    aria-controls={`home-faq-answer-${index}`}
                     style={{
                       width: "100%",
                       minHeight: "80px",
@@ -730,7 +734,7 @@ function WhyUsSection() {
 
                   {activeIndex === index && (
                     prefersReducedMotion ? (
-                      <div className="overflow-hidden">
+                      <div id={`home-faq-answer-${index}`} className="overflow-hidden">
                         {typeof item.desc === "string" ? (
                           <p style={{ width: "100%", margin: 0, paddingBottom: "30px", color: "#3d3d47", fontSize: "15px", lineHeight: 1.6, letterSpacing: "-0.02em" }}>
                             {item.desc}
@@ -743,6 +747,7 @@ function WhyUsSection() {
                       </div>
                     ) : (
                       <motion.div
+                        id={`home-faq-answer-${index}`}
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}

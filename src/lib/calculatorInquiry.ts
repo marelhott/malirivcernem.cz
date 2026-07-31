@@ -32,6 +32,23 @@ export interface CalculatorInquiryPayload {
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const phoneRegex = /^(\+420\s?)?[0-9]{3}\s?[0-9]{3}\s?[0-9]{3}$/;
 
+const allowedValues = {
+  selectedWork: ["Půdorys", "Stěna"],
+  ceilingHeightForPrice: ["250", "350", "450"],
+  repairType: ["Malé", "Střední", "Velké", "Žádné"],
+  yesNo: ["Ano", "Ne"],
+  cleaning: ["Potřebuji", "Nepotřebuji"],
+  paintType: ["Bílá na bílou", "Tónovaná barva na bílou", "Bílá na tónovanou barvu"],
+} as const;
+
+function isAllowed(value: string, options: readonly string[]) {
+  return options.includes(value);
+}
+
+function exceeds(value: string, maxLength: number) {
+  return value.trim().length > maxLength;
+}
+
 export function isCalculatorInquiryPayload(value: unknown): value is CalculatorInquiryPayload {
   if (!value || typeof value !== "object") return false;
 
@@ -64,9 +81,27 @@ export function isCalculatorInquiryPayload(value: unknown): value is CalculatorI
 export function validateCalculatorInquiry(payload: CalculatorInquiryPayload): string | null {
   const area = Number(payload.totalArea) || 0;
   if (area <= 0) return "Plocha musí být větší než 0.";
-  if (!payload.email.trim() || !emailRegex.test(payload.email)) return "Email není ve správném formátu.";
-  if (!payload.phone.trim() || !phoneRegex.test(payload.phone)) return "Telefon není ve správném formátu.";
-  if (!Number.isFinite(payload.totalPrice) || payload.totalPrice <= 0) return "Cena není platná.";
+  if (area > 5000) return "Plocha je příliš vysoká. Pro velkou zakázku nás kontaktujte přímo.";
+  if (!isAllowed(payload.selectedWork, allowedValues.selectedWork)) return "Neplatný typ plochy.";
+  if (!isAllowed(payload.ceilingHeightForPrice, allowedValues.ceilingHeightForPrice)) return "Neplatná výška stropu.";
+  if (!isAllowed(payload.repairType, allowedValues.repairType)) return "Neplatný typ opravy.";
+  if (!isAllowed(payload.paintType, allowedValues.paintType)) return "Neplatný typ barvy.";
+  if (![payload.material, payload.furnitureMoving, payload.covering, payload.emptySpace, payload.carpets].every((value) => isAllowed(value, allowedValues.yesNo))) {
+    return "Neplatná hodnota některé z voleb.";
+  }
+  if (!isAllowed(payload.cleaning, allowedValues.cleaning)) return "Neplatná volba úklidu.";
+  if (!payload.name.trim()) return "Chybí jméno.";
+  if (!payload.email.trim() || !emailRegex.test(payload.email.trim())) return "Email není ve správném formátu.";
+  if (!payload.phone.trim() || !phoneRegex.test(payload.phone.trim())) return "Telefon není ve správném formátu.";
+  if (!payload.address.trim()) return "Chybí adresa realizace.";
+  if (!payload.realizationDate.trim()) return "Chybí požadovaný termín.";
+  if (exceeds(payload.name, 120)) return "Jméno je příliš dlouhé.";
+  if (exceeds(payload.email, 254)) return "Email je příliš dlouhý.";
+  if (exceeds(payload.address, 250)) return "Adresa je příliš dlouhá.";
+  if (exceeds(payload.spaceType, 80)) return "Typ prostoru je příliš dlouhý.";
+  if (exceeds(payload.roomCount, 20)) return "Počet místností je příliš dlouhý.";
+  if (exceeds(payload.additionalInfo, 2000)) return "Doplňující informace jsou příliš dlouhé.";
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(payload.realizationDate)) return "Termín nemá platný formát.";
   return null;
 }
 

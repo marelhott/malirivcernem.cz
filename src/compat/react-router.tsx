@@ -7,11 +7,12 @@ import { useRouter } from "next/router";
 type LinkProps = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
   to: string;
   replace?: boolean;
+  prefetch?: boolean;
 };
 
-export function Link({ to, replace, children, ...rest }: LinkProps) {
+export function Link({ to, replace, prefetch = false, children, ...rest }: LinkProps) {
   return (
-    <NextLink href={to} replace={replace} {...rest}>
+    <NextLink href={to} replace={replace} prefetch={prefetch} {...rest}>
       {children}
     </NextLink>
   );

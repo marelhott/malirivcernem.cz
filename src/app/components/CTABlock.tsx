@@ -1,6 +1,7 @@
 import { AnimatedSection } from "./AnimatedSection";
 import { ArrowRight } from "lucide-react";
 import { logoLightUrl as logoLight } from "./Logo";
+import { Link } from "react-router";
 
 export function CTABlock() {
   return (
@@ -42,23 +43,23 @@ export function CTABlock() {
                 Odpovíme do 2 hodin.
               </p>
               <div className="flex flex-wrap gap-4">
-                <a
-                  href="#kalkulacka"
+                <Link
+                  to="/kalkulacka"
                   data-cursor-hover
                   className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-background to-background/95 text-foreground rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-background/20 hover:gap-3"
                   style={{ fontSize: "15px", fontWeight: 500 }}
                 >
                   Spočítat cenu online
                   <ArrowRight size={16} />
-                </a>
-                <a
-                  href="#kontakt"
+                </Link>
+                <Link
+                  to="/kontakt"
                   data-cursor-hover
                   className="inline-flex items-center px-8 py-4 border border-background/20 rounded-full transition-all duration-300 hover:bg-background/10 hover:border-background/40"
                   style={{ fontSize: "15px", fontWeight: 500 }}
                 >
                   Kontaktovat nás
-                </a>
+                </Link>
               </div>
             </div>
           </div>

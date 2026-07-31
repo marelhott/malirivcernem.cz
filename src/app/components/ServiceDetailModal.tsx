@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { X, Check, ArrowRight, Phone } from "lucide-react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { useEffect } from "react";
+import { Link } from "react-router";
 
 export interface ServiceDetail {
   title: string;
@@ -336,8 +337,8 @@ export function ServiceDetailModal({ isOpen, onClose, serviceIndex }: Props) {
 
                 {/* CTA buttons */}
                 <div className="flex flex-wrap gap-4">
-                  <a
-                    href="#kalkulacka"
+                  <Link
+                    to="/kalkulacka"
                     onClick={onClose}
                     data-cursor-hover
                     className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-foreground to-foreground/90 text-background rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-foreground/10 hover:gap-3"
@@ -345,7 +346,7 @@ export function ServiceDetailModal({ isOpen, onClose, serviceIndex }: Props) {
                   >
                     {service.cta}
                     <ArrowRight size={16} />
-                  </a>
+                  </Link>
                   <a
                     href="tel:+420732333550"
                     data-cursor-hover

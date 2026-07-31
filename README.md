@@ -15,6 +15,8 @@ Aplikace poběží na `http://localhost:3000`.
 ## Produkční build
 
 ```bash
+npm test
+npm run typecheck
 npm run build
 npm run start
 ```
@@ -23,13 +25,14 @@ npm run start
 
 - Route-level metadata (`title`, `description`, `canonical`, Open Graph, Twitter)
 - JSON-LD schema (`LocalBusiness`, `WebPage`, `Service`, `BreadcrumbList`, `FAQPage`)
-- `robots.txt` a `sitemap.xml` v `public/`
+- `robots.txt` v `public/` a sitemap generovaná z dat aplikace
 - Statické generování stránek přes Next.js (`SSG`)
 
 ## Důležité soubory
 
-- `/Users/mulenmara/Documents/MVC WEB NEW/src/app/seo/site.ts` - SEO konfigurace, canonical URL, schema data
-- `/Users/mulenmara/Documents/MVC WEB NEW/src/pages/` - routy Next.js
-- `/Users/mulenmara/Documents/MVC WEB NEW/public/robots.txt`
-- `/Users/mulenmara/Documents/MVC WEB NEW/public/sitemap.xml`
+- `src/app/seo/site.ts` – SEO konfigurace, canonical URL a strukturovaná data
+- `src/app/data/portfolioProjects.ts` – zdroj dat realizací a jejich rout
+- `src/lib/pricing.ts` – sdílený výpočet orientační ceny pro klienta i server
+- `src/pages/` – routy Next.js a API formulářů
+- `src/pages/sitemap.xml.tsx` – sitemap generovaná ze skutečných rout
   

@@ -1,4 +1,5 @@
 import { CalculatorInquiryPayload, formatCalculatorInquiry } from "@/lib/calculatorInquiry";
+import { escapeHtml, escapeHtmlWithLineBreaks } from "@/lib/html";
 
 type EmailContent = {
   subject: string;
@@ -25,8 +26,8 @@ function createEmailShell(title: string, intro: string, body: string, variant: "
               </div>
               <div style="margin-top:28px;">
                 <div style="font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.74);">Kalkulačka poptávky</div>
-                <h1 style="margin:14px 0 0;font-size:42px;line-height:1.05;font-weight:600;letter-spacing:-0.04em;color:#ffffff;">${title}</h1>
-                <p style="margin:18px 0 0;font-size:18px;line-height:1.55;color:rgba(255,255,255,0.9);max-width:28ch;">${intro}</p>
+                <h1 style="margin:14px 0 0;font-size:42px;line-height:1.05;font-weight:600;letter-spacing:-0.04em;color:#ffffff;">${escapeHtml(title)}</h1>
+                <p style="margin:18px 0 0;font-size:18px;line-height:1.55;color:rgba(255,255,255,0.9);max-width:28ch;">${escapeHtml(intro)}</p>
               </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:18px;min-width:0;">
@@ -52,8 +53,8 @@ function renderInfoCard(label: string, value: string, options?: { large?: boolea
       box-sizing:border-box;
       width:100%;
     ">
-      <div style="font-size:12px;line-height:1;text-transform:uppercase;letter-spacing:0.08em;color:${dark ? "rgba(255,255,255,0.62)" : "#6d6d78"};">${label}</div>
-      <div style="margin-top:${large ? "10px" : "8px"};font-size:${large ? "36px" : "24px"};line-height:${large ? "1.02" : "1.15"};font-weight:${large ? "600" : "500"};letter-spacing:-0.04em;color:${dark ? "#ffffff" : "#101014"};word-break:break-word;overflow-wrap:anywhere;">${value}</div>
+      <div style="font-size:12px;line-height:1;text-transform:uppercase;letter-spacing:0.08em;color:${dark ? "rgba(255,255,255,0.62)" : "#6d6d78"};">${escapeHtml(label)}</div>
+      <div style="margin-top:${large ? "10px" : "8px"};font-size:${large ? "36px" : "24px"};line-height:${large ? "1.02" : "1.15"};font-weight:${large ? "600" : "500"};letter-spacing:-0.04em;color:${dark ? "#ffffff" : "#101014"};word-break:break-word;overflow-wrap:anywhere;">${escapeHtml(value)}</div>
     </div>
   `;
 }
@@ -61,15 +62,15 @@ function renderInfoCard(label: string, value: string, options?: { large?: boolea
 function renderGridCard(title: string, rows: Array<[string, string]>) {
   return `
     <div style="background:#ffffff;border-radius:16px;padding:22px 24px;">
-      <div style="font-size:14px;line-height:1;text-transform:uppercase;letter-spacing:0.08em;color:#6d6d78;margin-bottom:18px;">${title}</div>
+      <div style="font-size:14px;line-height:1;text-transform:uppercase;letter-spacing:0.08em;color:#6d6d78;margin-bottom:18px;">${escapeHtml(title)}</div>
       <table style="width:100%;border-collapse:collapse;">
         <tbody>
           ${rows
             .map(
               ([label, value], index) => `
                 <tr>
-                  <td style="padding:${index === 0 ? "0 0 12px" : "12px 0"};border-top:${index === 0 ? "0" : "1px solid #e7eaf0"};font-size:14px;line-height:1.45;color:#6d6d78;vertical-align:top;width:44%;">${label}</td>
-                  <td style="padding:${index === 0 ? "0 0 12px" : "12px 0"};border-top:${index === 0 ? "0" : "1px solid #e7eaf0"};font-size:15px;line-height:1.45;color:#101014;font-weight:600;vertical-align:top;">${value}</td>
+                  <td style="padding:${index === 0 ? "0 0 12px" : "12px 0"};border-top:${index === 0 ? "0" : "1px solid #e7eaf0"};font-size:14px;line-height:1.45;color:#6d6d78;vertical-align:top;width:44%;">${escapeHtml(label)}</td>
+                  <td style="padding:${index === 0 ? "0 0 12px" : "12px 0"};border-top:${index === 0 ? "0" : "1px solid #e7eaf0"};font-size:15px;line-height:1.45;color:#101014;font-weight:600;vertical-align:top;">${escapeHtml(value)}</td>
                 </tr>
               `
             )
@@ -83,8 +84,8 @@ function renderGridCard(title: string, rows: Array<[string, string]>) {
 function renderNoteCard(title: string, value: string) {
   return `
     <div style="background:#ffffff;border-radius:16px;padding:22px 24px;">
-      <div style="font-size:14px;line-height:1;text-transform:uppercase;letter-spacing:0.08em;color:#6d6d78;margin-bottom:14px;">${title}</div>
-      <div style="font-size:16px;line-height:1.65;color:#3d3d47;">${value}</div>
+      <div style="font-size:14px;line-height:1;text-transform:uppercase;letter-spacing:0.08em;color:#6d6d78;margin-bottom:14px;">${escapeHtml(title)}</div>
+      <div style="font-size:16px;line-height:1.65;color:#3d3d47;">${escapeHtmlWithLineBreaks(value)}</div>
     </div>
   `;
 }

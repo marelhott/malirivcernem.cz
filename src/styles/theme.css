@@ -162,7 +162,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
   --font-display: 'Sora', 'Space Grotesk', 'Manrope', system-ui, sans-serif;
   --color-navy: var(--navy);
   --color-olive: var(--olive);
@@ -179,11 +179,24 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
+    min-width: 320px;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   html {
     font-size: var(--font-size);
     scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  img,
+  video,
+  canvas {
+    max-width: 100%;
+    height: auto;
   }
 
   h1 {
@@ -297,6 +310,36 @@
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border: 1px solid var(--surface-glass-strong-border);
+}
+
+@media (max-width: 1023px), (hover: none) and (pointer: coarse) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .noise-overlay::before {
+    display: none;
+  }
+
+  .animate-float-slow,
+  .animate-float-reverse,
+  .animate-pulse-glow,
+  .animate-gradient-shift {
+    animation: none !important;
+  }
+
+  .glass,
+  .glass-strong {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .animate-float-slow,
+  .animate-float-reverse,
+  .animate-pulse-glow,
+  .animate-gradient-shift {
+    animation: none !important;
+  }
 }
 
 /* Gradient border utility */

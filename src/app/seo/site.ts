@@ -23,22 +23,22 @@ const featuredRealizations = [
   {
     name: "Byt 3+kk Vinohrady",
     description: "Kompletní výmalba bytu 3+kk v Praze 2 na Vinohradech včetně oprav omítek a zakrytí interiéru.",
-    path: "/realizace",
+    path: "/realizace/byt-3kk-vinohrady",
   },
   {
     name: "Kanceláře IT firmy Karlín",
     description: "Malování kanceláří v Praze 8 přes víkend s minimálním omezením provozu.",
-    path: "/realizace",
+    path: "/realizace/kancelare-it-firmy-karlin",
   },
   {
     name: "SVJ Biskupcova 18",
     description: "Etapové malování společných prostor domu a schodiště pro SVJ v Praze 3.",
-    path: "/realizace",
+    path: "/realizace/svj-biskupcova-18",
   },
   {
     name: "Microcement loft Holešovice",
     description: "Dekorativní stěrka a microcement v loftovém bytě v Praze 7.",
-    path: "/realizace",
+    path: "/realizace/microcement-loft-holesovice",
   },
 ] as const;
 

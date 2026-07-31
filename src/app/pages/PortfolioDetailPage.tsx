@@ -66,17 +66,12 @@ export default function PortfolioDetailPage({
                   ))}
                 </div>
 
-                <blockquote className="flex items-start gap-5 m-0">
-                  <span
-                    style={{ color: "#101014", fontSize: "56px", lineHeight: 0.8, fontWeight: 700, transform: "translateY(-4px)" }}
-                  >
-                    “
-                  </span>
+                <blockquote className="m-0 border-l-2 border-[#2563eb] pl-5">
                   <p
                     className="m-0 font-sans"
-                    style={{ fontSize: "20px", lineHeight: 1.45, color: "#3d3d47", maxWidth: "760px" }}
+                    style={{ fontSize: "18px", lineHeight: 1.5, color: "#3d3d47", maxWidth: "760px", fontWeight: 600 }}
                   >
-                    {project.longDesc}
+                    {project.desc}
                   </p>
                 </blockquote>
 

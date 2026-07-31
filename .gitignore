@@ -7,3 +7,6 @@ dist/
 !.env.example
 npm-debug.log*
 .vercel
+.claude/
+.codex-*.png
+*.tsbuildinfo

@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Instagram, Facebook, Linkedin } from "lucide-react";
 import { SITE } from "../../seo/site";
+import { trackConversion } from "@/lib/analytics";
 
 const navLinks = [
   { label: "Domů", href: "/" },
@@ -297,11 +298,11 @@ function Footer() {
               Kontakt
             </h4>
             <div className="flex flex-col gap-4">
-              <a href={`tel:${SITE.phoneE164}`} className="flex items-center gap-3 opacity-50 hover:opacity-100 transition-opacity duration-300">
+              <a href={`tel:${SITE.phoneE164}`} onClick={() => trackConversion("phone_clicked", { placement: "footer" })} className="flex items-center gap-3 opacity-50 hover:opacity-100 transition-opacity duration-300">
                 <PhoneIcon className="w-3.5 h-3.5" />
                 <span className="font-sans" style={{ fontSize: "14px" }}>{SITE.phoneDisplay}</span>
               </a>
-              <a href={`mailto:${SITE.email}`} className="flex items-center gap-3 opacity-50 hover:opacity-100 transition-opacity duration-300">
+              <a href={`mailto:${SITE.email}`} onClick={() => trackConversion("email_clicked", { placement: "footer" })} className="flex items-center gap-3 opacity-50 hover:opacity-100 transition-opacity duration-300">
                 <EnvelopeIcon className="w-3.5 h-3.5" />
                 <span className="font-sans" style={{ fontSize: "14px" }}>{SITE.email}</span>
               </a>

@@ -4,6 +4,7 @@ import { motion, useInView } from "motion/react";
 import { PhoneIcon, EnvelopeIcon, MapPinIcon, ClockIcon, PaperAirplaneIcon, CheckCircleIcon, ArrowRightIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { contactEmailRegex, contactPhoneRegex } from "@/lib/contactInquiry";
+import { trackConversion } from "@/lib/analytics";
 
 const getContactIcon = (iconName: string) => {
   const icons: Record<string, React.ComponentType<{className?: string}>> = {
@@ -27,14 +28,15 @@ function Reveal({ children, className = "", delay = 0 }: { children: React.React
 
 const contactInfo = [
   { iconName: "phone", label: "Telefon", value: "+420 732 333 550", href: "tel:+420732333550", desc: "Po–Ne 7:00–22:00" },
-  { iconName: "mail", label: "E-mail", value: "info@malirivcernem.cz", href: "mailto:info@malirivcernem.cz", desc: "Odpovíme do 2 hodin" },
-  { iconName: "mappin", label: "Adresa", value: "Praha, Česká republika", href: "#", desc: "Působíme dle velikosti zakázky v celé české republice" },
-  { iconName: "clock", label: "Pracovní doba", value: "Po–Ne: 7:00 – 22:00", href: "#", desc: "Víkendové termíny po domluvě" },
+  { iconName: "mail", label: "E-mail", value: "info@malirivcernem.cz", href: "mailto:info@malirivcernem.cz", desc: "Obvykle odpovíme do 24 hodin" },
+  { iconName: "mappin", label: "Oblast působení", value: "Praha a okolí", href: null, desc: "Praha, Praha-západ a Praha-východ" },
+  { iconName: "clock", label: "Pracovní doba", value: "Po–Ne: 7:00 – 22:00", href: null, desc: "Víkendové termíny po domluvě" },
 ];
 
 export default function ContactPage() {
+  const submissionIdRef = useRef<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", type: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", type: "", message: "", website: "" });
   const [submitting, setSubmitting] = useState(false);
   const [submitMsg, setSubmitMsg] = useState<{ text: string; type: "success" | "error" } | null>(null);
 
@@ -55,9 +57,14 @@ export default function ContactPage() {
     setSubmitMsg(null);
 
     try {
+      submissionIdRef.current ??=
+        globalThis.crypto?.randomUUID?.() ?? `contact-${Date.now()}-${Math.random().toString(36).slice(2)}`;
       const response = await fetch("/api/contact-inquiry", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "X-Idempotency-Key": submissionIdRef.current,
+        },
         body: JSON.stringify(formData),
       });
 
@@ -67,7 +74,9 @@ export default function ContactPage() {
       }
 
       setSubmitted(true);
-      setSubmitMsg({ text: "Zpráva byla úspěšně odeslána. Potvrzení jsme poslali i na váš email.", type: "success" });
+      setSubmitMsg({ text: data.message || "Zpráva byla úspěšně odeslána.", type: "success" });
+      trackConversion("contact_form_submitted", { inquiryType: formData.type || "neuvedeno" });
+      submissionIdRef.current = null;
     } catch {
       setSubmitMsg({ text: "Zprávu se nepodařilo odeslat. Napište nám prosím přímo na info@malirivcernem.cz.", type: "error" });
     } finally {
@@ -77,9 +86,9 @@ export default function ContactPage() {
 
   const inputClass = "w-full px-4 py-3 rounded-lg border font-sans transition-all duration-300 focus:outline-none focus:ring-1";
   const inputStyle = {
-    background: "#fafafa",
-    borderColor: "#e5e5e5",
-    color: "#1a1a1a",
+    background: "var(--card)",
+    borderColor: "rgba(15, 23, 42, 0.12)",
+    color: "var(--foreground)",
     fontSize: "14px",
     boxShadow: "none",
   } as const;
@@ -120,12 +129,17 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-20">
             {contactInfo.map((c, i) => (
               <Reveal key={c.label} delay={i * 0.08}>
-                <a href={c.href} className="group block p-6 rounded-[12px] transition-all duration-500 hover:-translate-y-1 flex flex-col" style={{ background: "#e9ecf2", border: "1px solid #d8dceb", minHeight: "180px" }}>
+                {c.href ? <a href={c.href} className="group block p-6 rounded-[12px] transition-all duration-500 hover:-translate-y-1 flex flex-col" style={{ background: "#e9ecf2", border: "1px solid #d8dceb", minHeight: "180px" }}>
                   <div className="mb-4">{getContactIcon(c.iconName) && React.createElement(getContactIcon(c.iconName)!, { className: "w-6 h-6 text-[#2563eb]" })}</div>
                   <span className="block mb-1" style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#7b8794", fontFamily: "'Manrope', var(--font-sans)" }}>{c.label}</span>
                   <span className="block mb-1" style={{ fontSize: "16px", fontWeight: 700, color: "#1a1a1a", fontFamily: "'Manrope', var(--font-sans)" }}>{c.value}</span>
                   <span className="font-sans mt-auto" style={{ fontSize: "12px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 600 }}>{c.desc}</span>
-                </a>
+                </a> : <div className="group block p-6 rounded-[12px] transition-all duration-500 hover:-translate-y-1 flex flex-col" style={{ background: "#e9ecf2", border: "1px solid #d8dceb", minHeight: "180px" }}>
+                  <div className="mb-4">{getContactIcon(c.iconName) && React.createElement(getContactIcon(c.iconName)!, { className: "w-6 h-6 text-[#2563eb]" })}</div>
+                  <span className="block mb-1" style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "#7b8794", fontFamily: "'Manrope', var(--font-sans)" }}>{c.label}</span>
+                  <span className="block mb-1" style={{ fontSize: "16px", fontWeight: 700, color: "#1a1a1a", fontFamily: "'Manrope', var(--font-sans)" }}>{c.value}</span>
+                  <span className="font-sans mt-auto" style={{ fontSize: "12px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 600 }}>{c.desc}</span>
+                </div>}
               </Reveal>
             ))}
           </div>
@@ -138,30 +152,41 @@ export default function ContactPage() {
                     <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16">
                       <CheckCircleIcon className="w-12 h-12 text-[#2563eb] mx-auto mb-6" />
                       <h3 className="font-[family-name:var(--font-display)] text-foreground mb-3" style={{ fontSize: "24px", fontWeight: 600 }}>Děkujeme za zprávu!</h3>
-                      <p className="font-sans max-w-md mx-auto" style={{ fontSize: "15px", lineHeight: 1.72, color: "#526071", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>Ozveme se vám do 2 hodin v pracovní dny. Potvrzení jsme poslali i na váš email.</p>
+                      <p className="font-sans max-w-md mx-auto" aria-live="polite" style={{ fontSize: "15px", lineHeight: 1.72, color: "#526071", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500 }}>{submitMsg?.text || "Ozveme se vám co nejdříve v pracovní dny."}</p>
                     </motion.div>
                   ) : (
                     <form onSubmit={handleSubmit}>
+                      <div className="hidden" aria-hidden="true">
+                        <label htmlFor="contact-website">Webová stránka</label>
+                        <input
+                          id="contact-website"
+                          type="text"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          value={formData.website}
+                          onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                        />
+                      </div>
                       <h3 style={{ fontSize: "20px", fontWeight: 700, color: "#1a1a1a", fontFamily: "'Manrope', var(--font-sans)", marginBottom: "6px" }}>Napište nám</h3>
-                      <p style={{ fontSize: "14px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500, marginBottom: "24px" }}>Odpovíme do 2 hodin v pracovní dny.</p>
+                      <p style={{ fontSize: "14px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 500, marginBottom: "24px" }}>Obvykle odpovíme do 24 hodin.</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                         <div>
-                          <label className="block text-foreground/50 font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>Jméno *</label>
-                          <input type="text" required placeholder="Vaše jméno" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className={inputClass} style={inputStyle} />
+                          <label htmlFor="contact-name" className="block text-foreground/50 font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>Jméno *</label>
+                          <input id="contact-name" name="name" type="text" required maxLength={120} autoComplete="name" placeholder="Vaše jméno" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className={inputClass} style={inputStyle} />
                         </div>
                         <div>
-                          <label className="block text-foreground/50 font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>E-mail *</label>
-                          <input type="email" required placeholder="vas@email.cz" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className={inputClass} style={inputStyle} />
+                          <label htmlFor="contact-email" className="block text-foreground/50 font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>E-mail *</label>
+                          <input id="contact-email" name="email" type="email" required maxLength={254} autoComplete="email" placeholder="vas@email.cz" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className={inputClass} style={inputStyle} />
                         </div>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                         <div>
-                          <label className="block text-foreground/50 font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>Telefon</label>
-                          <input type="tel" placeholder="+420 ..." value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className={inputClass} style={inputStyle} />
+                          <label htmlFor="contact-phone" className="block text-foreground/50 font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>Telefon</label>
+                          <input id="contact-phone" name="phone" type="tel" autoComplete="tel" placeholder="+420 ..." value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} className={inputClass} style={inputStyle} />
                         </div>
                         <div>
-                          <label className="block text-foreground/50 font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>Typ poptávky</label>
-                          <select value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className={`${inputClass} appearance-none cursor-pointer`} style={inputStyle}>
+                          <label htmlFor="contact-type" className="block text-foreground/50 font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>Typ poptávky</label>
+                          <select id="contact-type" name="type" value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className={`${inputClass} appearance-none cursor-pointer`} style={inputStyle}>
                             <option value="">Vyberte...</option>
                             <option value="byt">Malování bytu</option>
                             <option value="kancelar">Malování kanceláří</option>
@@ -172,11 +197,13 @@ export default function ContactPage() {
                         </div>
                       </div>
                       <div className="mb-8">
-                        <label className="block text-foreground/50 font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>Zpráva *</label>
-                        <textarea required rows={5} placeholder="Popište váš projekt..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className={`${inputClass} resize-none`} style={inputStyle} />
+                        <label htmlFor="contact-message" className="block text-foreground/50 font-[family-name:var(--font-display)] mb-2" style={{ fontSize: "12px", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>Zpráva *</label>
+                        <textarea id="contact-message" name="message" required maxLength={3000} rows={5} placeholder="Popište váš projekt..." value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className={`${inputClass} resize-none`} style={inputStyle} />
                       </div>
                       {submitMsg && (
                         <div
+                          role="status"
+                          aria-live="polite"
                           className="mb-6 flex items-start gap-3 rounded-xl border px-4 py-3"
                           style={{
                             borderColor: submitMsg.type === "success" ? "rgba(37,99,235,0.18)" : "rgba(239,68,68,0.2)",
@@ -225,7 +252,7 @@ export default function ContactPage() {
                   <div className="p-8 rounded-[12px] mb-5" style={{ background: "#e9ecf2", border: "1px solid #d8dceb" }}>
                     <h4 className="font-[family-name:var(--font-display)] text-foreground mb-4" style={{ fontFamily: "'Sora', sans-serif", fontSize: "20px", fontWeight: 700, color: "#0f172a", letterSpacing: "-0.03em" }}>Proč nás kontaktovat?</h4>
                     <div className="flex flex-col gap-3">
-                      {["Bezplatná konzultace a prohlídka", "Přesná kalkulace do 24 hodin", "Pojištění odpovědnosti do 5 mil. Kč", "Reference od 1 000+ klientů"].map((item) => (
+                      {["Bezplatná konzultace a prohlídka", "Přesná kalkulace do 24 hodin", "Pojištění odpovědnosti do 5 mil. Kč", "Více než 1 000 dokončených zakázek"].map((item) => (
                         <div key={item} className="flex items-center gap-3">
                           <div className="w-5 h-5 rounded-full bg-accent/15 flex items-center justify-center flex-shrink-0"><CheckCircleIcon className="w-2.5 h-2.5 text-accent" strokeWidth={3} /></div>
                           <span className="font-sans" style={{ fontSize: "13px", color: "#526071", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 600 }}>{item}</span>

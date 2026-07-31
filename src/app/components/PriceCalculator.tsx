@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AnimatedSection } from "./AnimatedSection";
 import { motion } from "motion/react";
 import { Calculator, ArrowRight } from "lucide-react";
+import { Link } from "react-router";
 
 const roomTypes = [
   { label: "Byt 1+kk", area: 35, basePrice: 8500 },
@@ -213,8 +214,8 @@ export function PriceCalculator() {
                         </span>
                       </motion.div>
                     </div>
-                    <a
-                      href="#kontakt"
+                    <Link
+                      to="/kontakt"
                       data-cursor-hover
                       className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-foreground to-foreground/90 text-background rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-foreground/10 hover:gap-3"
                       style={{ fontSize: "15px", fontWeight: 500 }}
@@ -222,7 +223,7 @@ export function PriceCalculator() {
                       <Calculator size={16} />
                       Nezávazná poptávka
                       <ArrowRight size={16} />
-                    </a>
+                    </Link>
                   </div>
                   <p
                     className="text-muted-foreground font-sans mt-4"

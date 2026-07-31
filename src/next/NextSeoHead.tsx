@@ -17,6 +17,11 @@ export default function NextSeoHead() {
 
   return (
     <Head>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+        key="viewport"
+      />
       <title>{seo.title}</title>
       <meta name="description" content={seo.description} />
       {seo.keywords?.length ? <meta name="keywords" content={seo.keywords.join(", ")} /> : null}

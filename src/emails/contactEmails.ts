@@ -1,4 +1,5 @@
 import { ContactInquiryPayload } from "@/lib/contactInquiry";
+import { escapeHtml, escapeHtmlWithLineBreaks } from "@/lib/html";
 
 type EmailContent = {
   subject: string;
@@ -12,8 +13,8 @@ function wrapEmail(title: string, intro: string, sections: string[]) {
       <div style="max-width:680px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:20px;overflow:hidden;">
         <div style="padding:28px 32px;background:linear-gradient(135deg,#eff6ff,#eef2ff);border-bottom:1px solid #dbeafe;">
           <div style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#2563eb;font-weight:700;">Malíři v černém</div>
-          <h1 style="margin:10px 0 0;font-size:28px;line-height:1.2;color:#0f172a;">${title}</h1>
-          <p style="margin:12px 0 0;font-size:15px;line-height:1.7;color:#475569;">${intro}</p>
+          <h1 style="margin:10px 0 0;font-size:28px;line-height:1.2;color:#0f172a;">${escapeHtml(title)}</h1>
+          <p style="margin:12px 0 0;font-size:15px;line-height:1.7;color:#475569;">${escapeHtml(intro)}</p>
         </div>
         <div style="padding:28px 32px;">
           ${sections.join("")}
@@ -33,8 +34,8 @@ function renderSection(title: string, rows: Array<[string, string]>) {
             .map(
               ([label, value]) => `
                 <tr>
-                  <td style="padding:10px 0;border-top:1px solid #e2e8f0;color:#64748b;font-size:14px;vertical-align:top;width:42%;">${label}</td>
-                  <td style="padding:10px 0;border-top:1px solid #e2e8f0;color:#0f172a;font-size:14px;font-weight:600;">${value}</td>
+                  <td style="padding:10px 0;border-top:1px solid #e2e8f0;color:#64748b;font-size:14px;vertical-align:top;width:42%;">${escapeHtml(label)}</td>
+                  <td style="padding:10px 0;border-top:1px solid #e2e8f0;color:#0f172a;font-size:14px;font-weight:600;">${escapeHtmlWithLineBreaks(value)}</td>
                 </tr>
               `
             )
@@ -70,7 +71,7 @@ export function createBusinessContactEmail(payload: ContactInquiryPayload): Emai
         ["Telefon", phone],
         ["Typ poptávky", type],
       ]),
-      renderSection("Zpráva", [["Obsah", payload.message.replace(/\n/g, "<br />")]]),
+      renderSection("Zpráva", [["Obsah", payload.message]]),
     ]
   );
   const text = `Nová zpráva z kontaktní stránky
@@ -91,13 +92,13 @@ export function createCustomerContactConfirmationEmail(payload: ContactInquiryPa
   const subject = "Potvrzení přijetí zprávy";
   const html = wrapEmail(
     "Děkujeme za zprávu",
-    `Dobrý den ${payload.name}, vaši zprávu jsme přijali a ozveme se vám co nejdříve, obvykle do 2 hodin v pracovní dny.`,
+    `Dobrý den ${payload.name}, vaši zprávu jsme přijali a ozveme se vám co nejdříve, obvykle do 24 hodin.`,
     [
       renderSection("Shrnutí", [
         ["Typ poptávky", type],
         ["Email", payload.email],
         ["Telefon", payload.phone.trim() || "Neuvedeno"],
-        ["Zpráva", payload.message.replace(/\n/g, "<br />")],
+        ["Zpráva", payload.message],
       ]),
       renderSection("Kontakt", [
         ["Email", "info@malirivcernem.cz"],
@@ -107,7 +108,7 @@ export function createCustomerContactConfirmationEmail(payload: ContactInquiryPa
   );
   const text = `Dobrý den ${payload.name},
 
-děkujeme za vaši zprávu. Přijali jsme ji a ozveme se vám co nejdříve, obvykle do 2 hodin v pracovní dny.
+děkujeme za vaši zprávu. Přijali jsme ji a ozveme se vám co nejdříve, obvykle do 24 hodin.
 
 Typ poptávky: ${type}
 Email: ${payload.email}

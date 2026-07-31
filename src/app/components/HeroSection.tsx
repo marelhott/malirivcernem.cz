@@ -1,17 +1,23 @@
 import { motion } from "motion/react";
 import { ArrowDown } from "lucide-react";
+import { Link } from "react-router";
 
 const heroPhoto = "https://images.unsplash.com/photo-1761476329283-4e457422306e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3b21hbiUyMHBhaW50aW5nJTIwd2FsbCUyMG9yYW5nZSUyMHBhaW50JTIwcm9sbGVyJTIwaW50ZXJpb3J8ZW58MXx8fHwxNzcxNDA1ODU3fDA&ixlib=rb-4.1.0&q=80&w=1080";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden">
       {/* Full-width background photo */}
       <div className="absolute inset-0 z-0">
         <img
           src={heroPhoto}
           alt="Malířka s válečkem"
           className="absolute inset-0 w-full h-full object-cover"
+          width={1080}
+          height={1440}
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
         />
         {/* Dark overlay gradient for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/30" />
@@ -50,6 +56,7 @@ export function HeroSection() {
             <span
               className="italic"
               style={{
+                color: "#ffffff",
                 background: "linear-gradient(135deg, #ffffff 0%, #c08050 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -78,22 +85,22 @@ export function HeroSection() {
             transition={{ duration: 1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
             className="flex flex-wrap gap-4"
           >
-            <a
-              href="#kalkulacka"
+            <Link
+              to="/kalkulacka"
               data-cursor-hover
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-gray-900 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:scale-[1.02]"
               style={{ fontSize: "15px", fontWeight: 500 }}
             >
               Nezávazná kalkulace
-            </a>
-            <a
-              href="#realizace"
+            </Link>
+            <Link
+              to="/realizace"
               data-cursor-hover
               className="inline-flex items-center justify-center px-8 py-4 border border-white/30 text-white rounded-full transition-all duration-300 hover:bg-white/10 hover:border-white/50 backdrop-blur-sm"
               style={{ fontSize: "15px", fontWeight: 500 }}
             >
               Naše realizace
-            </a>
+            </Link>
           </motion.div>
         </div>
 

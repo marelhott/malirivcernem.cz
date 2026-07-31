@@ -22,3 +22,12 @@ export function getMailerFromAddress() {
 export function getLeadNotificationEmail() {
   return process.env.LEAD_NOTIFICATION_EMAIL || "info@malirivcernem.cz";
 }
+
+export function assertEmailSent(
+  result: { error?: { message?: string; name?: string } | null },
+  context: string,
+) {
+  if (result.error) {
+    throw new Error(`${context}: ${result.error.message || result.error.name || "Neznámá chyba odeslání"}`);
+  }
+}

@@ -7,6 +7,8 @@ import {
   Square3Stack3DIcon, PaintBrushIcon, ShieldCheckIcon, TrashIcon, ArrowPathIcon, ArrowsPointingOutIcon
 } from "@heroicons/react/24/outline";
 import { emailRegex, phoneRegex, type AreaType, type CeilingHeight, type RepairType, type YesNo, type CleaningType, type PaintType } from "@/lib/calculatorInquiry";
+import { calculatePaintingPrice } from "@/lib/pricing";
+import { trackConversion } from "@/lib/analytics";
 
 interface FormState {
   selectedWork: AreaType;
@@ -100,6 +102,7 @@ function RadioCard({
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={selected}
       className={`relative w-full flex items-center gap-4 p-5 rounded-xl border text-left transition-all duration-300 ${
         selected
           ? "border-accent/30 bg-accent/8 shadow-lg shadow-accent/8"
@@ -150,6 +153,7 @@ function ServiceToggle({
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={selected}
       className={`relative w-full flex items-center gap-3 px-4 py-3.5 rounded-xl border text-left transition-all duration-300 ${
         selected
           ? "border-accent/30 bg-accent/8 shadow-lg shadow-accent/8"
@@ -210,48 +214,9 @@ function SectionCard({
   );
 }
 
-/* ─── PRICING LOGIC (exactly matching the HTML version) ─── */
-function calculatePrice(form: FormState): number {
-  const area = Number(form.totalArea) || 0;
-  if (area <= 0) return 0;
-
-  const FLOOR_AREA_RATE = 10000 / 55;
-  const WALL_AREA_RATE = FLOOR_AREA_RATE / 3.5;
-  const MIN_PRICE = 3000;
-
-  const basePrice = Math.max(
-    form.selectedWork === "Půdorys" ? area * FLOOR_AREA_RATE : area * WALL_AREA_RATE,
-    MIN_PRICE
-  );
-
-  let total = basePrice;
-
-  // Ceiling height (only for floor area)
-  if (form.selectedWork === "Půdorys") {
-    if (form.ceilingHeightForPrice === "350") total += basePrice * 0.1;
-    else if (form.ceilingHeightForPrice === "450") total += basePrice * 0.2;
-  }
-
-  // Paint type
-  if (form.paintType === "Tónovaná barva na bílou") total += basePrice * 0.3;
-  else if (form.paintType === "Bílá na tónovanou barvu") total += basePrice * 0.3;
-
-  // Services
-  if (form.material === "Ano") total += basePrice * 0.2;
-  if (form.furnitureMoving === "Ano") total += basePrice * 0.12;
-  if (form.covering === "Ano") total += basePrice * 0.05;
-  if (form.cleaning === "Potřebuji") total += basePrice * 0.1;
-
-  // Repair type
-  if (form.repairType === "Malé") total += basePrice * 0.17;
-  else if (form.repairType === "Střední") total += basePrice * 0.35;
-  else if (form.repairType === "Velké") total += basePrice * 0.6;
-
-  return Math.round(total);
-}
-
 /* ─── MAIN COMPONENT ─── */
 export default function CalculatorPage() {
+  const submissionIdRef = useRef<string | null>(null);
   const [form, setForm] = useState<FormState>({
     selectedWork: "Půdorys",
     totalArea: "",
@@ -289,15 +254,24 @@ export default function CalculatorPage() {
     []
   );
 
-  const totalPrice = useMemo(() => calculatePrice(form), [form]);
+  const totalPrice = useMemo(() => calculatePaintingPrice(form), [form]);
 
   const hasAreaValid = useMemo(() => (Number(form.totalArea) || 0) > 0, [form.totalArea]);
 
   const hasContactDetailsValid = useMemo(() => {
     const e = form.email.trim();
     const p = form.phone.trim();
-    return e !== "" && p !== "" && p !== "+420" && emailRegex.test(e) && phoneRegex.test(p);
-  }, [form.email, form.phone]);
+    return (
+      form.name.trim() !== "" &&
+      form.address.trim() !== "" &&
+      form.realizationDate.trim() !== "" &&
+      e !== "" &&
+      p !== "" &&
+      p !== "+420" &&
+      emailRegex.test(e) &&
+      phoneRegex.test(p)
+    );
+  }, [form.address, form.email, form.name, form.phone, form.realizationDate]);
 
   useEffect(() => {
     if (hasAreaValid && areaErr) {
@@ -375,9 +349,14 @@ export default function CalculatorPage() {
     setShowFallback(false);
 
     try {
+      submissionIdRef.current ??=
+        globalThis.crypto?.randomUUID?.() ?? `calculator-${Date.now()}-${Math.random().toString(36).slice(2)}`;
       const response = await fetch("/api/calculator-inquiry", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "X-Idempotency-Key": submissionIdRef.current,
+        },
         body: JSON.stringify({
           ...form,
           totalPrice,
@@ -391,7 +370,13 @@ export default function CalculatorPage() {
 
       setSubmitProgress(100);
       setSubmitted(true);
-      setSubmitMsg({ text: "Poptávka odeslána. Potvrzení jsme poslali vám i nám do systému.", type: "success" });
+      setSubmitMsg({ text: data.message || "Poptávka byla odeslána.", type: "success" });
+      trackConversion("calculator_inquiry_submitted", {
+        areaType: form.selectedWork,
+        area: Number(form.totalArea) || 0,
+        quotedPrice: totalPrice,
+      });
+      submissionIdRef.current = null;
     } catch {
       setSubmitMsg({ text: "Automatické odesílání není momentálně dostupné. Použijte prosím přímý kontakt:", type: "error" });
       setShowFallback(true);
@@ -759,9 +744,13 @@ export default function CalculatorPage() {
                     </div>
                     {/* Name */}
                     <div>
-                      <label className="block font-sans mb-2" style={{ fontSize: "13px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 700 }}>Jméno</label>
+                      <label htmlFor="calculator-name" className="block font-sans mb-2" style={{ fontSize: "13px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 700 }}>Jméno</label>
                       <input
+                        id="calculator-name"
+                        name="name"
                         type="text"
+                        maxLength={120}
+                        autoComplete="name"
                         placeholder="Vaše jméno"
                         value={form.name}
                         onChange={(e) => set("name", e.target.value)}
@@ -773,11 +762,14 @@ export default function CalculatorPage() {
 
                     {/* Phone */}
                     <div>
-                      <label className="block font-sans mb-2" style={{ fontSize: "13px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 700 }}>
+                      <label htmlFor="calculator-phone" className="block font-sans mb-2" style={{ fontSize: "13px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 700 }}>
                         Telefon {!form.phone.trim() || !phoneRegex.test(form.phone) ? <span className="text-red-400 italic" style={{ fontSize: "11px" }}>nutné vyplnit</span> : null}
                       </label>
                       <input
+                        id="calculator-phone"
+                        name="phone"
                         type="tel"
+                        autoComplete="tel"
                         placeholder="+420 123 456 789"
                         value={form.phone}
                         onChange={(e) => validatePhone(e.target.value)}
@@ -795,11 +787,15 @@ export default function CalculatorPage() {
 
                     {/* Email */}
                     <div>
-                      <label className="block font-sans mb-2" style={{ fontSize: "13px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 700 }}>
+                      <label htmlFor="calculator-email" className="block font-sans mb-2" style={{ fontSize: "13px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 700 }}>
                         E-mail {!form.email.trim() || !emailRegex.test(form.email) ? <span className="text-red-400 italic" style={{ fontSize: "11px" }}>nutné vyplnit</span> : null}
                       </label>
                       <input
+                        id="calculator-email"
+                        name="email"
                         type="email"
+                        maxLength={254}
+                        autoComplete="email"
                         placeholder="vas@email.cz"
                         value={form.email}
                         onChange={(e) => validateEmail(e.target.value)}
@@ -817,9 +813,13 @@ export default function CalculatorPage() {
 
                     {/* Address */}
                     <div>
-                      <label className="block font-sans mb-2" style={{ fontSize: "13px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 700 }}>Adresa výmalby</label>
+                      <label htmlFor="calculator-address" className="block font-sans mb-2" style={{ fontSize: "13px", color: "#6b7785", fontFamily: "'Manrope', var(--font-sans)", fontWeight: 700 }}>Adresa výmalby</label>
                       <input
+                        id="calculator-address"
+                        name="address"
                         type="text"
+                        maxLength={250}
+                        autoComplete="street-address"
                         placeholder="Ulice, město"
                         value={form.address}
                         onChange={(e) => set("address", e.target.value)}
@@ -935,6 +935,8 @@ export default function CalculatorPage() {
               <AnimatePresence>
                 {submitMsg && (
                   <motion.div
+                    role="status"
+                    aria-live="polite"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
