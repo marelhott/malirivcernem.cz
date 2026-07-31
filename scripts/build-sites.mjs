@@ -1,0 +1,13 @@
+import { copyFile, mkdir, rm } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const dist = path.join(root, "dist");
+
+await rm(dist, { recursive: true, force: true });
+await mkdir(path.join(dist, "server"), { recursive: true });
+await copyFile(
+  path.join(root, "sites", "worker.js"),
+  path.join(dist, "server", "index.js"),
+);
